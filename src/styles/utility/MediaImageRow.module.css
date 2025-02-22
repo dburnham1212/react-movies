@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin: 1em;
+}
+
+.title {
+  color: lightgrey;
+  margin: 1em 1.5em;
+}
+
+.slider_image {
+  margin: 0 0.25em;
+  max-height: 200px;
+}
+
+.no_image_found {
+  margin: 0 0.25em;
+  height: 200px;
+  width: 125px;
+  background-color: grey;
+  border: 2px dotted white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.link {
+  text-decoration: none;
+  color: lightgrey;
+  text-align: center;
+}

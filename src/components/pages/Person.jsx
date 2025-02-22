@@ -1,0 +1,30 @@
+import { useEffect, useState } from "react";
+import { makeApiCall } from "../../helper/helperFunctions";
+import { useParams } from "react-router-dom";
+import { API_KEY, BASE_IMAGE_URL, BASE_URL } from "../../constants/constants";
+
+import styles from "../../styles/pages/Person.module.css";
+
+const Person = () => {
+  const [personData, setPersonData] = useState({});
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    makeApiCall(`${BASE_URL}/person/${id}?api_key=${API_KEY}`).then(
+      (response) => {
+        console.log(response);
+        setPersonData(response);
+      }
+    );
+  }, []);
+
+  return (
+    <>
+      <h1 className={styles.title}>{personData.name}</h1>
+      <img src={`${BASE_IMAGE_URL}${personData.profile_path}`} />
+    </>
+  );
+};
+
+export default Person;
