@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 // normally we would use a .env file to secure these values, for now i have put them into a file called constants
 import {
     BASE_URL,
-    API_KEY,
     ACTION_MOVIE_VAL,
     COMEDY_MOVIE_VAL,
     ADVENTURE_MOVIE_VAL,
@@ -43,46 +42,45 @@ const Browse = () => {
         // use effect will happen after the page renders for the first time
 
         // lets start by making a few API calls to TMDB
-
-        makeApiCall(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}`).then((response) => {
+        makeApiCall(`${BASE_URL}/genre/movie/list?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
             console.log("===== Movie Genre List =====");
             console.log(response.genres);
         });
 
-        makeApiCall(`${BASE_URL}/genre/tv/list?api_key=${API_KEY}`).then((response) => {
+        makeApiCall(`${BASE_URL}/genre/tv/list?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
             console.log(response);
             console.log("===== TV Genre List =====");
             console.log(response.genres);
         });
 
         // Movie API Calls
-        makeApiCall(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${ACTION_MOVIE_VAL}`).then((response) =>
-            setActionMovies(refineMovies(response.results))
-        );
+        makeApiCall(
+            `${BASE_URL}/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&with_genres=${ACTION_MOVIE_VAL}`
+        ).then((response) => setActionMovies(refineMovies(response.results)));
 
-        makeApiCall(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${COMEDY_MOVIE_VAL}`).then((response) =>
-            setComedyMovies(refineMovies(response.results))
-        );
+        makeApiCall(
+            `${BASE_URL}/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&with_genres=${COMEDY_MOVIE_VAL}`
+        ).then((response) => setComedyMovies(refineMovies(response.results)));
 
-        makeApiCall(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${ADVENTURE_MOVIE_VAL}`).then(
-            (response) => setAdventureMovies(refineMovies(response.results))
-        );
+        makeApiCall(
+            `${BASE_URL}/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&with_genres=${ADVENTURE_MOVIE_VAL}`
+        ).then((response) => setAdventureMovies(refineMovies(response.results)));
 
         // TV API Calls
-        makeApiCall(`${BASE_URL}/discover/tv?api_key=${API_KEY}&with_genres=${ANIMATION_TV_VAL}`).then((response) =>
-            setAnimationTVShows(refineTVShows(response.results))
-        );
+        makeApiCall(
+            `${BASE_URL}/discover/tv?api_key=${process.env.REACT_APP_API_KEY}&with_genres=${ANIMATION_TV_VAL}`
+        ).then((response) => setAnimationTVShows(refineTVShows(response.results)));
 
-        makeApiCall(`${BASE_URL}/discover/tv?api_key=${API_KEY}&with_genres=${COMEDY_TV_VAL}`).then((response) =>
-            setComedyTVShows(refineTVShows(response.results))
-        );
+        makeApiCall(
+            `${BASE_URL}/discover/tv?api_key=${process.env.REACT_APP_API_KEY}&with_genres=${COMEDY_TV_VAL}`
+        ).then((response) => setComedyTVShows(refineTVShows(response.results)));
 
-        makeApiCall(`${BASE_URL}/discover/tv?api_key=${API_KEY}&with_genres=${SCI_FI_FANTASY_VAL}`).then((response) =>
-            setSciFiFantasyTVShows(refineTVShows(response.results))
-        );
+        makeApiCall(
+            `${BASE_URL}/discover/tv?api_key=${process.env.REACT_APP_API_KEY}&with_genres=${SCI_FI_FANTASY_VAL}`
+        ).then((response) => setSciFiFantasyTVShows(refineTVShows(response.results)));
 
         // People API Calls
-        makeApiCall(`${BASE_URL}/trending/person/day?api_key=${API_KEY}`).then((response) => {
+        makeApiCall(`${BASE_URL}/trending/person/day?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
             console.log(response);
             setTrendingPeople(refinePeople(response.results));
         });

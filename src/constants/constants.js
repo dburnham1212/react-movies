@@ -1,5 +1,4 @@
 const BASE_URL = "https://api.themoviedb.org/3";
-const API_KEY = "c6734eed6383a44e67677db3d4802fee";
 const BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w500";
 
 // MOVIE GENRE ID'S
@@ -14,7 +13,6 @@ const SCI_FI_FANTASY_VAL = 10765;
 
 module.exports = {
     BASE_URL,
-    API_KEY,
     BASE_IMAGE_URL,
     ACTION_MOVIE_VAL,
     COMEDY_MOVIE_VAL,

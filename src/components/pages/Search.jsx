@@ -2,17 +2,19 @@ import { TextField } from "@mui/material";
 import styles from "../../styles/pages/Search.module.css";
 import { useEffect, useState } from "react";
 import { makeApiCall } from "../../helper/helperFunctions";
-import { API_KEY, BASE_URL } from "../../constants/constants";
+import { BASE_URL } from "../../constants/constants";
 
 const Search = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [searchData, setSearchData] = useState([]);
 
     useEffect(() => {
-        makeApiCall(`${BASE_URL}/search/multi?api_key=${API_KEY}&query=${searchTerm}`).then((response) => {
-            setSearchData(response.results);
-            console.log(response.results);
-        });
+        makeApiCall(`${BASE_URL}/search/multi?api_key=${process.env.REACT_APP_API_KEY}&query=${searchTerm}`).then(
+            (response) => {
+                setSearchData(response.results);
+                console.log(response.results);
+            }
+        );
     }, [searchTerm]);
 
     const handleSeachTermChange = (e) => {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 // normally we would use a .env file to secure these values, for now i have put them into a file called constants
-import { BASE_URL, API_KEY } from "../../constants/constants";
+import { BASE_URL } from "../../constants/constants";
 // import functions from the helper files
 import { makeApiCall, refineMovies } from "../../helper/helperFunctions";
 
@@ -12,7 +12,7 @@ const Home = () => {
     const [trendingMovies, setTrendingMovies] = useState([]);
 
     useEffect(() => {
-        makeApiCall(`${BASE_URL}/trending/all/week?api_key=${API_KEY}`).then((response) =>
+        makeApiCall(`${BASE_URL}/trending/all/week?api_key=${process.env.REACT_APP_API_KEY}`).then((response) =>
             setTrendingMovies(refineMovies(response.results))
         );
     }, []);
