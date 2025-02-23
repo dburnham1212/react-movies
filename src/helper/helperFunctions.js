@@ -35,4 +35,16 @@ const refinePeople = (people) => {
     });
 };
 
-module.exports = { makeApiCall, refineMovies, refineTVShows, refinePeople };
+const refineSeasons = (seasons) => {
+    console.log(seasons);
+    return seasons.map((season) => {
+        console.log(season);
+        return {
+            title: season.name,
+            poster: season.poster_path,
+            id: season.season_number,
+        };
+    });
+};
+
+module.exports = { makeApiCall, refineMovies, refineTVShows, refinePeople, refineSeasons };

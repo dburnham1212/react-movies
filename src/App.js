@@ -8,6 +8,7 @@ import Search from "./components/pages/Search";
 import Movie from "./components/pages/Movie";
 import TVShow from "./components/pages/TVShow";
 import Person from "./components/pages/Person";
+import Season from "./components/pages/Season";
 
 const darkTheme = createTheme({
     palette: {
@@ -27,7 +28,8 @@ function App() {
                         <Route path="/search" element={<Search />} />
                         <Route path="/movie/:id" element={<Movie />} />
                         <Route path="/tv/:id" element={<TVShow />} />
-                        <Route path="person/:id" element={<Person />} />
+                        <Route path="/person/:id" element={<Person />} />
+                        <Route path="/season/:id" element={<Season />} />
                     </Routes>
                 </BrowserRouter>
             </ThemeProvider>

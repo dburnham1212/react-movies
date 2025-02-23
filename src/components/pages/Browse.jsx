@@ -10,7 +10,7 @@ import {
     SCI_FI_FANTASY_VAL,
 } from "../../constants/constants";
 // import functions from the helper files
-import { makeApiCall, refineMovies, refinePeople, refineTVShows } from "../../helper/helperFunctions";
+import { makeApiCall, refineMovies, refinePeople, refineTVShows, refineSeasons } from "../../helper/helperFunctions";
 
 // import stuff from MUI (Material UI)
 import { FormControl, Select, MenuItem, InputLabel } from "@mui/material";
@@ -33,6 +33,8 @@ const Browse = () => {
     const [animationTvShows, setAnimationTVShows] = useState([]);
     const [comedyTVShows, setComedyTVShows] = useState([]);
     const [sciFiFantasyTvShows, setSciFiFantasyTVShows] = useState([]);
+
+    const [strangerThingsSeasons, setStrangerThingsSeasons] = useState([]);
 
     const [trendingPeople, setTrendingPeople] = useState([]);
 
@@ -84,6 +86,11 @@ const Browse = () => {
             console.log(response);
             setTrendingPeople(refinePeople(response.results));
         });
+
+        makeApiCall(`${BASE_URL}/tv/${66732}?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
+            console.log(response.seasons);
+            setStrangerThingsSeasons(refineSeasons(response.seasons));
+        });
     }, []);
 
     const handleMediaTypeChange = (e) => {
@@ -106,6 +113,7 @@ const Browse = () => {
                     <MenuItem value={"Movies"}>Movies</MenuItem>
                     <MenuItem value={"TV"}>TV</MenuItem>
                     <MenuItem value={"People"}>People</MenuItem>
+                    <MenuItem value={"Seasons"}>Seasons</MenuItem>
                 </Select>
             </FormControl>
 
@@ -141,6 +149,13 @@ const Browse = () => {
                 <>
                     {trendingPeople.length > 0 && (
                         <MediaImageRow title={"Trending People"} media={trendingPeople} basePath={"/person"} />
+                    )}
+                </>
+            )}
+            {mediaType === "Seasons" && (
+                <>
+                    {strangerThingsSeasons.length > 0 && (
+                        <MediaImageRow title={"Stranger Things"} media={strangerThingsSeasons} basePath={"/season"} />
                     )}
                 </>
             )}
