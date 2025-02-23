@@ -1,21 +1,21 @@
 .navbar {
-  display: flex;
-  align-items: center;
-  background-color: black;
-  height: 50px;
-  border-bottom: 1px solid white;
+    display: flex;
+    align-items: center;
+    background-color: black;
+    height: 50px;
+    border-bottom: 1px solid white;
 }
 
 .nav_link {
-  text-decoration: none;
-  color: white;
-  padding: 0 1em;
+    text-decoration: none;
+    color: white;
+    padding: 0 1em;
 }
 
 .nav_link:hover {
-  color: grey;
+    color: grey;
 }
 
 .nav_link:active {
-  color: lightgrey;
+    color: lightgrey;
 }

@@ -5,25 +5,23 @@ import { useParams } from "react-router-dom";
 import styles from "../../styles/pages/Movie.module.css";
 
 const Movie = () => {
-  const [movieData, setMovieData] = useState({});
+    const [movieData, setMovieData] = useState({});
 
-  const { id } = useParams();
+    const { id } = useParams();
 
-  useEffect(() => {
-    makeApiCall(`${BASE_URL}/movie/${id}?api_key=${API_KEY}`).then(
-      (response) => {
-        console.log(response);
-        setMovieData(response);
-      }
+    useEffect(() => {
+        makeApiCall(`${BASE_URL}/movie/${id}?api_key=${API_KEY}`).then((response) => {
+            console.log(response);
+            setMovieData(response);
+        });
+    }, []);
+
+    return (
+        <>
+            <h1 className={styles.title}>{movieData.title}</h1>
+            <img src={`${BASE_IMAGE_URL}${movieData.poster_path}`} />
+        </>
     );
-  }, []);
-
-  return (
-    <>
-      <h1 className={styles.title}>{movieData.title}</h1>
-      <img src={`${BASE_IMAGE_URL}${movieData.poster_path}`} />
-    </>
-  );
 };
 
 export default Movie;

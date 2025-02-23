@@ -10,29 +10,29 @@ import TVShow from "./components/pages/TVShow";
 import Person from "./components/pages/Person";
 
 const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-  },
+    palette: {
+        mode: "dark",
+    },
 });
 
 function App() {
-  return (
-    <div>
-      <ThemeProvider theme={darkTheme}>
-        <BrowserRouter>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/browse" element={<Browse />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="/movie/:id" element={<Movie />} />
-            <Route path="/tv/:id" element={<TVShow />} />
-            <Route path="person/:id" element={<Person />} />
-          </Routes>
-        </BrowserRouter>
-      </ThemeProvider>
-    </div>
-  );
+    return (
+        <div>
+            <ThemeProvider theme={darkTheme}>
+                <BrowserRouter>
+                    <Navbar />
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/browse" element={<Browse />} />
+                        <Route path="/search" element={<Search />} />
+                        <Route path="/movie/:id" element={<Movie />} />
+                        <Route path="/tv/:id" element={<TVShow />} />
+                        <Route path="person/:id" element={<Person />} />
+                    </Routes>
+                </BrowserRouter>
+            </ThemeProvider>
+        </div>
+    );
 }
 
 export default App;

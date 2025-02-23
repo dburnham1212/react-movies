@@ -5,23 +5,23 @@ import { useParams } from "react-router-dom";
 import styles from "../../styles/pages/TVShow.module.css";
 
 const TVShow = () => {
-  const [tvShowData, setTvShowData] = useState({});
+    const [tvShowData, setTvShowData] = useState({});
 
-  const { id } = useParams();
+    const { id } = useParams();
 
-  useEffect(() => {
-    makeApiCall(`${BASE_URL}/tv/${id}?api_key=${API_KEY}`).then((response) => {
-      console.log(response);
-      setTvShowData(response);
-    });
-  }, []);
+    useEffect(() => {
+        makeApiCall(`${BASE_URL}/tv/${id}?api_key=${API_KEY}`).then((response) => {
+            console.log(response);
+            setTvShowData(response);
+        });
+    }, []);
 
-  return (
-    <>
-      <h1 className={styles.title}>{tvShowData.name}</h1>
-      <img src={`${BASE_IMAGE_URL}${tvShowData.poster_path}`} />
-    </>
-  );
+    return (
+        <>
+            <h1 className={styles.title}>{tvShowData.name}</h1>
+            <img src={`${BASE_IMAGE_URL}${tvShowData.poster_path}`} />
+        </>
+    );
 };
 
 export default TVShow;
