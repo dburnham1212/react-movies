@@ -11,6 +11,7 @@ const Person = () => {
     const { id } = useParams();
 
     useEffect(() => {
+        // Dylan Burnham
         makeApiCall(`${BASE_URL}/person/${id}?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
             console.log(response);
             setPersonData(response);
