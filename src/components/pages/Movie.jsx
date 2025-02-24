@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import styles from "../../styles/pages/Movie.module.css";
 
 const Movie = () => {
-    // Jason's Page
+    // Jason Pilla the lady killa, with the power of ten gorillas
     const [movieData, setMovieData] = useState({});
 
     const { id } = useParams();
