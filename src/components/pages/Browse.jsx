@@ -82,7 +82,7 @@ const Browse = () => {
         ).then((response) => setSciFiFantasyTVShows(refineTVShows(response.results)));
 
         // People API Calls
-        makeApiCall(`${BASE_URL}/trending/person/day?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
+        makeApiCall(`${BASE_URL}/trending/person/week?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
             console.log(response);
             setTrendingPeople(refinePeople(response.results));
         });
