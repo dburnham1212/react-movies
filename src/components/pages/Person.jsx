@@ -22,6 +22,7 @@ const Person = () => {
         <>
             <h1 className={styles.title}>{personData.name}</h1>
             <img src={`${BASE_IMAGE_URL}${personData.profile_path}`} />
+            <h2>Stuff</h2>
         </>
     );
 };
