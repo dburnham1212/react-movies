@@ -91,8 +91,6 @@ const Browse = () => {
             console.log(response.seasons);
             setStrangerThingsSeasons(refineSeasons(response.seasons));
         });
-
-        // comment
     }, []);
 
     const handleMediaTypeChange = (e) => {
