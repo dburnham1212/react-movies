@@ -120,42 +120,42 @@ const Browse = () => {
 
             {mediaType === "Movies" && (
                 <>
-                    {actionMovies.length > 0 && (
+                    {actionMovies.length && (
                         <MediaImageRow title={"Action Movies"} media={actionMovies} basePath={"/movie"} />
                     )}
 
-                    {comedyMovies.length > 0 && (
+                    {comedyMovies.length && (
                         <MediaImageRow title={"Comedy Movies"} media={comedyMovies} basePath={"/movie"} />
                     )}
 
-                    {adventureMovies.length > 0 && (
+                    {adventureMovies.length && (
                         <MediaImageRow title={"Adventure Movies"} media={adventureMovies} basePath={"/movie"} />
                     )}
                 </>
             )}
             {mediaType === "TV" && (
                 <>
-                    {animationTvShows.length > 0 && (
+                    {animationTvShows.length && (
                         <MediaImageRow title={"Animated TV"} media={animationTvShows} basePath={"/tv"} />
                     )}
-                    {animationTvShows.length > 0 && (
+                    {animationTvShows.length && (
                         <MediaImageRow title={"Comedy TV"} media={comedyTVShows} basePath={"/tv"} />
                     )}
-                    {sciFiFantasyTvShows.length > 0 && (
+                    {sciFiFantasyTvShows.length && (
                         <MediaImageRow title={"Sci-Fi and Fantasy TV"} media={sciFiFantasyTvShows} basePath={"/tv"} />
                     )}
                 </>
             )}
             {mediaType === "People" && (
                 <>
-                    {trendingPeople.length > 0 && (
+                    {trendingPeople.length && (
                         <MediaImageRow title={"Trending People"} media={trendingPeople} basePath={"/person"} />
                     )}
                 </>
             )}
             {mediaType === "Seasons" && (
                 <>
-                    {strangerThingsSeasons.length > 0 && (
+                    {strangerThingsSeasons.length && (
                         <MediaImageRow title={"Stranger Things"} media={strangerThingsSeasons} basePath={"/season"} />
                     )}
                 </>
