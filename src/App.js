@@ -10,6 +10,7 @@ import TVShow from "./components/pages/TVShow";
 import Person from "./components/pages/Person";
 import Season from "./components/pages/Season";
 import Verification from "./components/login/Verification";
+import Episode from "./components/pages/Episode";
 
 const darkTheme = createTheme({
     palette: {
@@ -32,6 +33,7 @@ function App() {
                         <Route path="/tv/:id" element={<TVShow />} />
                         <Route path="/person/:id" element={<Person />} />
                         <Route path="/season/:id" element={<Season />} />
+                        <Route path="/episode/:id" element={<Episode />} />
                     </Routes>
                 </BrowserRouter>
             </ThemeProvider>
