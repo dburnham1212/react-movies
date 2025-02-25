@@ -25,14 +25,12 @@ const Verification = () => {
         fetch(url, options)
             .then((res) => res.json())
             .then((json) => {
-                console.log(json);
                 setSessionId(json.session_id);
                 window.sessionStorage.setItem("sesson_id", json.session_id);
 
                 fetch(`${BASE_URL}/account?api_key=${process.env.REACT_APP_API_KEY}&session_id=${json.session_id}`)
                     .then((res) => res.json())
                     .then((json) => {
-                        console.log(json);
                         setUserName(json.username);
                         window.sessionStorage.setItem("username", json.username);
                         window.location = "/";
