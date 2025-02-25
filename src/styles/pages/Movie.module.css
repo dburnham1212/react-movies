@@ -1,3 +1,22 @@
-.title {
+h1, h2, h3, h4, h5, h6, p, img {
     color: lightgrey;
+}
+
+a {
+    color: gold
+}
+
+.background {
+    background-size: contain;
+    opacity: .5
+}
+
+.genre_container {
+    margin-top: -36px;
+    display: flex;
+}
+
+.rating_container {
+    margin-top: -18px;
+    display: flex;
 }
