@@ -9,6 +9,7 @@ import Movie from "./components/pages/Movie";
 import TVShow from "./components/pages/TVShow";
 import Person from "./components/pages/Person";
 import Season from "./components/pages/Season";
+import Verification from "./components/login/Verification";
 
 const darkTheme = createTheme({
     palette: {
@@ -24,6 +25,7 @@ function App() {
                     <Navbar />
                     <Routes>
                         <Route path="/" element={<Home />} />
+                        <Route path="/verification" element={<Verification />} />
                         <Route path="/browse" element={<Browse />} />
                         <Route path="/search" element={<Search />} />
                         <Route path="/movie/:id" element={<Movie />} />
