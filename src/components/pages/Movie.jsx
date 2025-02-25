@@ -3,6 +3,8 @@ import { makeApiCall } from "../../helper/helperFunctions";
 import { BASE_IMAGE_URL, BASE_URL } from "../../constants/constants";
 import { useParams } from "react-router-dom";
 import styles from "../../styles/pages/Movie.module.css";
+import StarIcon from "@mui/icons-material/Star";
+import { yellow } from "@mui/material/colors";
 
 const Movie = () => {
     // Jason Pilla the lady killa, with the power of ten gorillas
@@ -62,7 +64,7 @@ const Movie = () => {
                         </div>
                         <div className={styles.rating_container}>
                             {ratingIndex.map((value) => {
-                                return <h3 key={value}>&#x2605;</h3>;
+                                return <StarIcon sx={{ color: yellow[50] }} />;
                             })}
                         </div>
                         {movieData.homepage && (

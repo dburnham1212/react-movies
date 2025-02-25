@@ -9,18 +9,19 @@ import styles from "../../styles/pages/Home.module.css";
 import Carousel from "../utility/Carousel";
 
 const Home = () => {
-    const [trendingMovies, setTrendingMovies] = useState([]);
+    const [trending, setTrending] = useState([]);
 
     useEffect(() => {
         makeApiCall(`${BASE_URL}/trending/all/week?api_key=${process.env.REACT_APP_API_KEY}`).then((response) =>
-            setTrendingMovies(refineMovies(response.results))
+            setTrending(response.results)
         );
     }, []);
 
     return (
         <>
-            <h1 className={styles.title}>This is the homepage</h1>
-            {trendingMovies.length > 0 && <Carousel trendingMovies={trendingMovies} />}
+            <div style={{ maxHeight: "650px", width: "100%", height: "650px" }}>
+                {trending.length && <Carousel trending={trending} />}
+            </div>
         </>
     );
 };
