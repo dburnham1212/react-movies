@@ -52,6 +52,7 @@ const UserProvider = (props) => {
                 console.log(json);
                 setSessionId("");
                 setUserName("");
+                sessionStorage.clear();
             })
             .catch((err) => console.error(err));
     };
