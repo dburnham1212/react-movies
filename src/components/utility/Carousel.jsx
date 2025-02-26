@@ -6,29 +6,29 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CircleIcon from "@mui/icons-material/Circle";
 import CircleOutlinedIcon from "@mui/icons-material/CircleOutlined";
 
-import { yellow } from "@mui/material/colors";
+import { grey } from "@mui/material/colors";
 import { Button } from "@mui/material";
 
 const Carousel = (props) => {
-    const { trending } = props;
+    const { mediaData } = props;
 
     const [imageIndex, setImageIndex] = useState(0);
 
     useEffect(() => {
         console.log("===== Trending Movies =====");
-        console.log(trending);
+        console.log(mediaData);
     }, []);
 
     const showNextImage = () => {
         setImageIndex((index) => {
-            if (index === trending.length - 1) return 0;
+            if (index === mediaData.length - 1) return 0;
             return index + 1;
         });
     };
 
     const showPrevImage = () => {
         setImageIndex((index) => {
-            if (index === 0) return trending.length - 1;
+            if (index === 0) return mediaData.length - 1;
             return index - 1;
         });
     };
@@ -40,7 +40,7 @@ const Carousel = (props) => {
     return (
         <div style={{ width: "100%", height: "100%", position: "relative" }}>
             <div style={{ width: "100%", height: "100%", display: "flex", overflow: "hidden" }}>
-                {trending.map((media, index) => {
+                {mediaData.map((media, index) => {
                     return (
                         <div
                             key={index}
@@ -49,15 +49,13 @@ const Carousel = (props) => {
                         >
                             <img
                                 src={`${HD_IMAGE_URL}${media.backdrop_path}`}
-                                alt={index}
+                                alt={(media.name || media.title) + " backdrop"}
                                 className={styles.img_slider_img}
                             />
-                            <div
-                                className={styles.img_slider_details}
-                                style={{ position: "absolute", left: "5rem", bottom: "5rem" }}
-                            >
+                            <div className={styles.img_slider_details}>
                                 <h1 className={styles.img_slider_title}>{media.name || media.title}</h1>
-                                <h4>Type: {media.media_type}</h4>
+                                <p className={styles.img_slider_details_text}>{media.overview}</p>
+                                <h4>Type: {media.media_type.toUpperCase()}</h4>
                                 <Button
                                     onClick={() => goToCorrectPage(media.media_type, media.id)}
                                     variant="contained"
@@ -71,31 +69,19 @@ const Carousel = (props) => {
                 })}
             </div>
             <button onClick={showPrevImage} className={styles.img_slider_btn} style={{ left: 0 }}>
-                <ArrowBackIosIcon sx={{ color: yellow[50] }} />
+                <ArrowBackIosIcon sx={{ color: grey[50] }} />
             </button>
             <button onClick={showNextImage} className={styles.img_slider_btn} style={{ right: 0 }}>
-                <ArrowForwardIosIcon sx={{ color: yellow[50] }} />
+                <ArrowForwardIosIcon sx={{ color: grey[50] }} />
             </button>
-            <div
-                style={{
-                    position: "absolute",
-                    bottom: ".5rem",
-                    left: "50%",
-                    translate: "-50%",
-                    display: "flex",
-                    gap: ".25rem",
-                    backgroundColor: "rgb(0, 0, 0, .20",
-                    padding: ".5 rem",
-                    borderRadius: "10px",
-                }}
-            >
-                {trending.map((_, index) => {
+            <div className={styles.img_slider_dot_btn_container}>
+                {mediaData.map((_, index) => {
                     return (
                         <button key={index} className={styles.img_slider_dot_btn} onClick={() => setImageIndex(index)}>
                             {index === imageIndex ? (
-                                <CircleIcon sx={{ color: yellow[50], height: "1rem", width: "1rem" }} />
+                                <CircleIcon sx={{ color: grey[50], height: "1rem", width: "1rem" }} />
                             ) : (
-                                <CircleOutlinedIcon sx={{ color: yellow[50], height: "1rem", width: "1rem" }} />
+                                <CircleOutlinedIcon sx={{ color: grey[50], height: "1rem", width: "1rem" }} />
                             )}
                         </button>
                     );
