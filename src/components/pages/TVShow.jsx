@@ -3,6 +3,7 @@ import { makeApiCall } from "../../helper/helperFunctions";
 import { BASE_IMAGE_URL, BASE_URL } from "../../constants/constants";
 import { useParams } from "react-router-dom";
 import styles from "../../styles/pages/TVShow.module.css";
+import { Rating } from "@mui/material";
 
 const TVShow = () => {
     const [tvShowData, setTvShowData] = useState({});
@@ -35,13 +36,11 @@ const TVShow = () => {
 
                     {/*if show has a tagline, display tagline*/}
                     {tvShowData.tagline && (
-                        <p>
                             <p id = {styles.tagline}>{tvShowData.tagline}</p>
-                        </p>
                     )}
                     <p id = {styles.overview}>{tvShowData.overview}</p>     {/*info paragraph */}
                     {tvShowData.adult && <p id = {styles.adult_warning}>Adults Only 18+</p>}    {/*R warning */}
-                    <h3>Ganres:</h3>    {/*genre display */}
+                    <h3>Genres:</h3>    {/*genre display */}
                     <div className = {styles.genre_container}>
                         {tvShowData?.genres?.map((genre, index) => {
                             let comma = "";
@@ -54,6 +53,11 @@ const TVShow = () => {
                         })}
                     </div>
                     {/*Ratings mui here*/}
+                    <div className = {styles.rating_container}>
+                        <Rating value = {tvShowData.vote_average / 2} precision = {0.1} readOnly/>
+                        <p>Average Score: {(Number(tvShowData.vote_average / 2).toFixed(1))}/5</p>
+                        <p id = {styles.num_votes}>Votes: {tvShowData.vote_count}</p>
+                    </div>
                     {/*show homepage link if available */}
                     {tvShowData.homepage && (
                         <p id = {styles.homepage_link}>
