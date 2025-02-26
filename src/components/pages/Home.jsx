@@ -20,7 +20,7 @@ const Home = () => {
     return (
         <>
             <div style={{ maxHeight: "650px", width: "100%", height: "650px" }}>
-                {trending.length && <Carousel trending={trending} />}
+                {trending.length && <Carousel mediaData={trending} />}
             </div>
         </>
     );
