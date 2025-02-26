@@ -15,6 +15,12 @@
     max-height: 200px;
 }
 
+.slider_image_small_clickable {
+    margin: 0 0.25em;
+    max-height: 125px;
+    cursor: pointer;
+}
+
 .no_image_found {
     margin: 0 0.25em;
     height: 200px;

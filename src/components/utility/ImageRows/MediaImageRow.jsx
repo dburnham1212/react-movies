@@ -1,6 +1,6 @@
-import { BASE_IMAGE_URL } from "../../constants/constants";
+import { BASE_IMAGE_URL } from "../../../constants/constants";
 
-import styles from "../../styles/utility/MediaImageRow.module.css";
+import styles from "../../../styles/utility/ImageRow/ImageRow.module.css";
 
 const MediaImageRow = (props) => {
     const { title, media, basePath } = props;

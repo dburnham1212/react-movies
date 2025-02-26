@@ -24,7 +24,7 @@ import { FormControl, Select, MenuItem, InputLabel } from "@mui/material";
 
 import styles from "../../styles/pages/Browse.module.css";
 
-import MediaImageRow from "../utility/MediaImageRow";
+import MediaImageRow from "../utility/ImageRows/MediaImageRow";
 
 const Browse = () => {
     // This is an example of the useState hook, think of it like a declaration and a setter function

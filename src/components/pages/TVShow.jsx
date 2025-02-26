@@ -5,6 +5,9 @@ import { useParams } from "react-router-dom";
 import styles from "../../styles/pages/TVShow.module.css";
 import { Rating } from "@mui/material";
 import Credits from "../utility/Credits/Credits";
+import BasicModal from "../utility/Modals/BasicModal";
+import ImageCarousel from "../utility/Carousels/ImageCarousel";
+import IndexedImageRow from "../utility/ImageRows/IndexedImageRow";
 
 const TVShow = () => {
     const [tvShowData, setTvShowData] = useState({});
@@ -12,6 +15,9 @@ const TVShow = () => {
     const [tvShowAggCredits, setTvShowAggCredits] = useState({});
     const [tvShowImages, setTvShowImages] = useState({});
     const [tvShowVideos, setTvShowVideos] = useState([]);
+
+    const [openArtworkModal, setOpenArtworkModal] = useState(false);
+    const [artworkModalIndex, setArtworkModalIndex] = useState(0);
 
     const { id } = useParams();
 
@@ -38,7 +44,6 @@ const TVShow = () => {
             }
         );
 
-        //api.themoviedb.org/3/tv/{series_id}/images
         // Videos
         makeApiCall(`${BASE_URL}/tv/${id}/images?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
             console.log("==== Images ====");
@@ -53,6 +58,15 @@ const TVShow = () => {
             setTvShowVideos(response.results);
         });
     }, []);
+
+    const openArtworkModalWithIndex = (index) => {
+        setOpenArtworkModal(true);
+        setArtworkModalIndex(index);
+    };
+
+    const closeArworkModal = () => {
+        setOpenArtworkModal(false);
+    };
 
     //Code html here
     return (
@@ -97,9 +111,24 @@ const TVShow = () => {
                     )}
                 </div>
             </div>
-            {Object.keys(tvShowImages).length && <img src={`${BASE_IMAGE_URL}${tvShowImages.posters[2].file_path}`} />}
-            {Object.keys(tvShowCredits).length && <Credits credits={tvShowCredits} />}
             {/*carousel(s) go here */}
+            {tvShowImages.backdrops && (
+                <IndexedImageRow title={"Artwork"} media={tvShowImages.backdrops} setOpen={openArtworkModalWithIndex} />
+            )}
+            {tvShowImages.backdrops && (
+                <BasicModal
+                    open={openArtworkModal}
+                    handleClose={closeArworkModal}
+                    children={
+                        <ImageCarousel
+                            imageIndex={artworkModalIndex}
+                            setImageIndex={setArtworkModalIndex}
+                            images={tvShowImages.backdrops}
+                        />
+                    }
+                />
+            )}
+            {Object.keys(tvShowCredits).length && <Credits credits={tvShowCredits} />}
         </>
     );
 };
