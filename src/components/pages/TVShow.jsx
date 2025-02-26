@@ -81,16 +81,7 @@ const TVShow = () => {
                     {tvShowData.adult && <p id={styles.adult_warning}>Adults Only 18+</p>} {/*R warning */}
                     <h3>Genres:</h3> {/*genre display */}
                     <div className={styles.genre_container}>
-                        {tvShowData?.genres?.map((genre, index) => {
-                            let comma = "";
-                            if (index) comma = ", ";
-                            return (
-                                <p key={index}>
-                                    {comma}
-                                    {genre.name}
-                                </p>
-                            );
-                        })}
+                        <p>{tvShowData?.genres?.map((genre) => genre.name).join(", ")}</p>
                     </div>
                     {/*Ratings mui here*/}
                     <div className={styles.rating_container}>
