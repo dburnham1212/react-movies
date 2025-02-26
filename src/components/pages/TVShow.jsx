@@ -20,15 +20,15 @@ const TVShow = () => {
     //Code html here
     return (
         <>
-            <div class = {styles.flex_info_container}>            {/*Flexbox info container*/}
-                <div class = {styles.info_left}>        {/*Flexbox info left*/}
+            <div className = {styles.flex_info_container}>            {/*Flexbox info container*/}
+                <div className = {styles.info_left}>        {/*Flexbox info left*/}
                         <img
                         src={`${BASE_IMAGE_URL}${tvShowData.poster_path}`}
                         alt={`${tvShowData.title} poster`}
                         width={"360"}
                         />
                 </div>
-                <div class = {styles.info_right}>       {/*Flexbox info right*/}
+                <div className = {styles.info_right}>       {/*Flexbox info right*/}
                     <h1>{tvShowData.name}</h1>         {/*Title*/}
                     {/*if show doesn't have a title in local language, display original title*/}
                     {!tvShowData.name && <h1>{tvShowData.original_name}</h1>}
