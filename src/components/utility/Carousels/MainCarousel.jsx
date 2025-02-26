@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { HD_IMAGE_URL } from "../../constants/constants";
-import styles from "../../styles/utility/Carousel.module.css";
+import { HD_IMAGE_URL } from "../../../constants/constants";
+import styles from "../../../styles/utility/Carousels/Carousel.module.css";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CircleIcon from "@mui/icons-material/Circle";
@@ -9,7 +9,7 @@ import CircleOutlinedIcon from "@mui/icons-material/CircleOutlined";
 import { grey } from "@mui/material/colors";
 import { Button } from "@mui/material";
 
-const Carousel = (props) => {
+const MainCarousel = (props) => {
     const { mediaData } = props;
 
     const [imageIndex, setImageIndex] = useState(0);
@@ -91,4 +91,4 @@ const Carousel = (props) => {
     );
 };
 
-export default Carousel;
+export default MainCarousel;

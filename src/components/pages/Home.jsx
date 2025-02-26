@@ -6,7 +6,7 @@ import { makeApiCall, refineMovies } from "../../helper/helperFunctions";
 
 import styles from "../../styles/pages/Home.module.css";
 
-import Carousel from "../utility/Carousel";
+import MainCarousel from "../utility/Carousels/MainCarousel";
 
 const Home = () => {
     const [trending, setTrending] = useState([]);
@@ -20,7 +20,7 @@ const Home = () => {
     return (
         <>
             <div style={{ maxHeight: "650px", width: "100%", height: "650px" }}>
-                {trending.length && <Carousel mediaData={trending} />}
+                {trending.length && <MainCarousel mediaData={trending} />}
             </div>
         </>
     );
