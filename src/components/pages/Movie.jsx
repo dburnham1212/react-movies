@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import styles from "../../styles/pages/Movie.module.css";
 import StarIcon from "@mui/icons-material/Star";
 import { yellow } from "@mui/material/colors";
+import Credits from "../utility/Credits/Credits";
 
 const Movie = () => {
     // Jason Pilla the lady killa, with the power of ten gorillas
@@ -77,6 +78,7 @@ const Movie = () => {
                     </div>
                 </div>
             )}
+            <Credits />
         </>
     );
 };
