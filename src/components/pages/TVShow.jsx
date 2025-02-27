@@ -99,15 +99,17 @@ const TVShow = () => {
                         <p>Average Score: {Number(tvShowData.vote_average / 2).toFixed(1)}/5</p>
                         <p id={styles.num_votes}>Votes: {tvShowData.vote_count}</p>
                     </div>
+                    {/*Misc info */}
+                    <h3>Details:</h3>
                     {/*seasons&episodes info */}
                     <div className={styles.s_e_info}>
                         <p>
                             Seasons: {tvShowData?.number_of_seasons}, Episodes: {tvShowData?.number_of_episodes}
                         </p>
-                    </div>
-                    <h3>Genres:</h3> {/*genre display */}
-                    <div className={styles.genre_container}>
-                        <p>{tvShowData?.genres?.map((genre) => genre.name).join(", ")}</p>
+                        <p>
+                            Aired: {tvShowData?.first_air_date} to {tvShowData?.last_air_date}
+                        </p>
+                        <p>Status: {tvShowData?.status}</p>
                     </div>
                     {/*show homepage link if available */}
                     {tvShowData.homepage && (
@@ -115,6 +117,10 @@ const TVShow = () => {
                             Website: <a href={tvShowData.homepage}>{tvShowData.homepage}</a>
                         </p>
                     )}
+                    <h3>Genres:</h3> {/*genre display */}
+                    <div className={styles.genre_container}>
+                        <p>{tvShowData?.genres?.map((genre) => genre.name).join(", ")}</p>
+                    </div>
                     {/*Display country(s) of origin */}
                     {tvShowData?.production_countries?.map((country) => (
                         <img
@@ -126,11 +132,23 @@ const TVShow = () => {
                     {/*Display available languages */}
                     <h4>
                         Available languages:
-                        <span style={{ fontWeight: "normal" }}>
+                        <span id={styles.lang_font}>
                             {" "}
                             {tvShowData?.spoken_languages
-                                ?.map((language) => language.name + "/" + language.english_name)
+                                ?.map((lang) =>
+                                    lang.name !== lang.english_name
+                                        ? lang.name + "/" + lang.english_name
+                                        : lang.english_name
+                                )
                                 .join(", ")}
+                        </span>
+                    </h4>
+                    {/*Produced by */}
+                    <h4>
+                        Produced by:
+                        <span id={styles.prod_font}>
+                            {" "}
+                            {tvShowData?.production_companies?.map((prod) => prod.name).join(", ")}
                         </span>
                     </h4>
                 </div>
