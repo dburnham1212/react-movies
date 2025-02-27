@@ -3,8 +3,6 @@ import { makeApiCall } from "../../helper/helperFunctions";
 import { BASE_IMAGE_URL, BASE_URL } from "../../constants/constants";
 import { useParams } from "react-router-dom";
 import styles from "../../styles/pages/Movie.module.css";
-import StarIcon from "@mui/icons-material/Star";
-import { yellow } from "@mui/material/colors";
 import Credits from "../utility/Credits/Credits";
 import IndexedImageRow from "../utility/ImageRows/IndexedImageRow";
 import BasicModal from "../utility/Modals/BasicModal";
@@ -12,7 +10,6 @@ import ImageCarousel from "../utility/Carousels/ImageCarousel";
 import { Rating } from "@mui/material";
 
 const Movie = () => {
-    // Jason Pilla the lady killa, with the power of ten gorillas
     const [movieData, setMovieData] = useState({});
     const [movieImages, setMovieImages] = useState({});
 
@@ -33,11 +30,13 @@ const Movie = () => {
         });
     }, [id]);
 
+    // Open the gallery modal and set the index to the specified index
     const openArtworkModalWithIndex = (index) => {
         setOpenArtworkModal(true);
         setArtworkModalIndex(index);
     };
 
+    // Close the gallery modal
     const closeArworkModal = () => {
         setOpenArtworkModal(false);
     };
@@ -73,7 +72,7 @@ const Movie = () => {
                     </div>
                     {/*Misc info */}
                     <h3>Details:</h3>
-                    {/*seasons&episodes info */}
+                    {/*Movie info */}
                     <div className={styles.s_e_info}>
                         <p>Release Date: {movieData?.release_date}</p>
                     </div>
@@ -97,19 +96,21 @@ const Movie = () => {
                         />
                     ))}
                     {/*Display available languages */}
-                    <h4>
-                        Available languages:
-                        <span id={styles.lang_font}>
-                            {" "}
-                            {movieData?.spoken_languages
-                                ?.map((lang) =>
-                                    lang.name !== lang.english_name
-                                        ? lang.name + "/" + lang.english_name
-                                        : lang.english_name
-                                )
-                                .join(", ")}
-                        </span>
-                    </h4>
+                    {movieData?.spoken_languages?.length && (
+                        <h4>
+                            Available languages:
+                            <span id={styles.lang_font}>
+                                {" "}
+                                {movieData?.spoken_languages
+                                    ?.map((lang) =>
+                                        lang.name !== lang.english_name
+                                            ? lang.name + "/" + lang.english_name
+                                            : lang.english_name
+                                    )
+                                    .join(", ")}
+                            </span>
+                        </h4>
+                    )}
                     {/*Produced by */}
                     <h4>
                         Produced by:
