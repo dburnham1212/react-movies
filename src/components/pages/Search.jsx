@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { makeApiCall } from "../../helper/helperFunctions";
 import { BASE_URL } from "../../constants/constants";
 import MediaCard from "../utility/Cards/MediaCard";
-import CreditCard from "../utility/Cards/CreditCard";
+import CreditCard from "../utility/Cards/MediaCreditCard";
 
 const Search = () => {
     const [searchTerm, setSearchTerm] = useState("");
