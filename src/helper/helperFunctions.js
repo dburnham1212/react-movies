@@ -36,9 +36,7 @@ const refinePeople = (people) => {
 };
 
 const refineSeasons = (seasons) => {
-    console.log(seasons);
     return seasons.map((season) => {
-        console.log(season);
         return {
             title: season.name,
             poster: season.poster_path,
@@ -47,4 +45,14 @@ const refineSeasons = (seasons) => {
     });
 };
 
-module.exports = { makeApiCall, refineMovies, refineTVShows, refinePeople, refineSeasons };
+const refineEpisodes = (episodes) => {
+    return episodes.map((episode) => {
+        return {
+            title: episode.name,
+            poster: episode.still_path,
+            id: episode.episode_number,
+        };
+    });
+};
+
+module.exports = { makeApiCall, refineMovies, refineTVShows, refinePeople, refineSeasons, refineEpisodes };

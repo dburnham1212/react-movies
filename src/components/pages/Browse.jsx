@@ -10,14 +10,21 @@ import {
     SCI_FI_FANTASY_VAL,
 } from "../../constants/constants";
 // import functions from the helper files
-import { makeApiCall, refineMovies, refinePeople, refineTVShows, refineSeasons } from "../../helper/helperFunctions";
+import {
+    makeApiCall,
+    refineMovies,
+    refinePeople,
+    refineTVShows,
+    refineSeasons,
+    refineEpisodes,
+} from "../../helper/helperFunctions";
 
 // import stuff from MUI (Material UI)
 import { FormControl, Select, MenuItem, InputLabel } from "@mui/material";
 
 import styles from "../../styles/pages/Browse.module.css";
 
-import MediaImageRow from "../utility/MediaImageRow";
+import MediaImageRow from "../utility/ImageRows/MediaImageRow";
 
 const Browse = () => {
     // This is an example of the useState hook, think of it like a declaration and a setter function
@@ -34,9 +41,11 @@ const Browse = () => {
     const [comedyTVShows, setComedyTVShows] = useState([]);
     const [sciFiFantasyTvShows, setSciFiFantasyTVShows] = useState([]);
 
+    const [trendingPeople, setTrendingPeople] = useState([]);
+
     const [strangerThingsSeasons, setStrangerThingsSeasons] = useState([]);
 
-    const [trendingPeople, setTrendingPeople] = useState([]);
+    const [strangerThingsOneEpisodes, setStrangerThingsOneEpisodes] = useState([]);
 
     useEffect(() => {
         // This is an example of the use effect hook!
@@ -83,15 +92,19 @@ const Browse = () => {
 
         // People API Calls
         makeApiCall(`${BASE_URL}/trending/person/week?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
-            console.log(response);
             setTrendingPeople(refinePeople(response.results));
         });
 
+        // Season API Calls
         makeApiCall(`${BASE_URL}/tv/${66732}?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
-            console.log(response.seasons);
             setStrangerThingsSeasons(refineSeasons(response.seasons));
         });
-        ///
+        //https://api.themoviedb.org/3/tv/{series_id}
+        // Episode API Calls
+        makeApiCall(`${BASE_URL}/tv/${66732}/season/${1}?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
+            console.log(response.episodes);
+            setStrangerThingsOneEpisodes(refineEpisodes(response.episodes));
+        });
     }, []);
 
     const handleMediaTypeChange = (e) => {
@@ -115,48 +128,60 @@ const Browse = () => {
                     <MenuItem value={"TV"}>TV</MenuItem>
                     <MenuItem value={"People"}>People</MenuItem>
                     <MenuItem value={"Seasons"}>Seasons</MenuItem>
+                    <MenuItem value={"Episodes"}>Episodes</MenuItem>
                 </Select>
             </FormControl>
 
             {mediaType === "Movies" && (
                 <>
-                    {actionMovies.length > 0 && (
+                    {actionMovies.length && (
                         <MediaImageRow title={"Action Movies"} media={actionMovies} basePath={"/movie"} />
                     )}
 
-                    {comedyMovies.length > 0 && (
+                    {comedyMovies.length && (
                         <MediaImageRow title={"Comedy Movies"} media={comedyMovies} basePath={"/movie"} />
                     )}
 
-                    {adventureMovies.length > 0 && (
+                    {adventureMovies.length && (
                         <MediaImageRow title={"Adventure Movies"} media={adventureMovies} basePath={"/movie"} />
                     )}
                 </>
             )}
             {mediaType === "TV" && (
                 <>
-                    {animationTvShows.length > 0 && (
+                    {animationTvShows.length && (
                         <MediaImageRow title={"Animated TV"} media={animationTvShows} basePath={"/tv"} />
                     )}
-                    {animationTvShows.length > 0 && (
+                    {animationTvShows.length && (
                         <MediaImageRow title={"Comedy TV"} media={comedyTVShows} basePath={"/tv"} />
                     )}
-                    {sciFiFantasyTvShows.length > 0 && (
+                    {sciFiFantasyTvShows.length && (
                         <MediaImageRow title={"Sci-Fi and Fantasy TV"} media={sciFiFantasyTvShows} basePath={"/tv"} />
                     )}
                 </>
             )}
             {mediaType === "People" && (
                 <>
-                    {trendingPeople.length > 0 && (
+                    {trendingPeople.length && (
                         <MediaImageRow title={"Trending People"} media={trendingPeople} basePath={"/person"} />
                     )}
                 </>
             )}
             {mediaType === "Seasons" && (
                 <>
-                    {strangerThingsSeasons.length > 0 && (
+                    {strangerThingsSeasons.length && (
                         <MediaImageRow title={"Stranger Things"} media={strangerThingsSeasons} basePath={"/season"} />
+                    )}
+                </>
+            )}
+            {mediaType === "Episodes" && (
+                <>
+                    {strangerThingsOneEpisodes.length && (
+                        <MediaImageRow
+                            title={"Stranger Things One Episodes"}
+                            media={strangerThingsOneEpisodes}
+                            basePath={"/episode"}
+                        />
                     )}
                 </>
             )}

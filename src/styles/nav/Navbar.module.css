@@ -1,12 +1,26 @@
 .navbar {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     background-color: black;
-    height: 50px;
+    height: 55px;
     border-bottom: 1px solid white;
 }
 
+.left {
+    display: flex;
+    align-items: center;
+    background-color: black;
+}
+
+.right {
+    display: flex;
+    align-items: center;
+    background-color: black;
+}
+
 .nav_link {
+    cursor: pointer;
     text-decoration: none;
     color: white;
     padding: 0 1em;

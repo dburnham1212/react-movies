@@ -1,3 +1,41 @@
-.title {
-    color: lightgrey;
+.container {
+    display: flex;
+}
+
+.content_left {
+    padding: 2rem 1rem;
+}
+
+.content_right {
+    padding: 2rem 1rem;
+}
+
+.background {
+    background-size: contain;
+    opacity: 0.5;
+}
+
+.genre_container {
+    margin-top: -36px;
+    display: flex;
+}
+
+.rating_container p {
+    margin-top: -0.3rem;
+}
+
+#num_votes {
+    margin-top: -1rem;
+}
+
+#flag {
+    width: 1.5rem;
+}
+
+#lang_font {
+    font-weight: normal;
+}
+
+#prod_font {
+    font-weight: normal;
 }
