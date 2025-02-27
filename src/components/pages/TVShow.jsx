@@ -89,9 +89,14 @@ const TVShow = () => {
                     <h1>{tvShowData.name}</h1> {/*Title*/}
                     {/*if show doesn't have a title in local language, display original title*/}
                     {!tvShowData.name && <h1>{tvShowData.original_name}</h1>}
-                    {/*Display country(s) of origin */} 
-                    {tvShowData?.production_countries?.map((country) => 
-                    <img id = {styles.flag} src = {`https://flagsapi.com/${country.iso_3166_1}/flat/64.png`} alt = {country.name}/>)} 
+                    {/*Display country(s) of origin */}
+                    {tvShowData?.production_countries?.map((country) => (
+                        <img
+                            id={styles.flag}
+                            src={`https://flagsapi.com/${country.iso_3166_1}/flat/64.png`}
+                            alt={country.name}
+                        />
+                    ))}
                     <p>{tvShowData?.production_countries?.map((country) => country.iso_3166_1).join(", ")} </p>
                     {/*if show has a tagline, display tagline*/}
                     {tvShowData.tagline && <p id={styles.tagline}>{tvShowData.tagline}</p>}
@@ -109,7 +114,11 @@ const TVShow = () => {
                     </div>
                     <h4>Available languages:</h4>
                     <div className={styles.language_container}>
-                        <p>{tvShowData?.spoken_languages?.map((language) => language.name + "/" + language.english_name).join(", ")}</p>
+                        <p>
+                            {tvShowData?.spoken_languages
+                                ?.map((language) => language.name + "/" + language.english_name)
+                                .join(", ")}
+                        </p>
                     </div>
                     {/*show homepage link if available */}
                     {tvShowData.homepage && (
@@ -132,6 +141,7 @@ const TVShow = () => {
                             imageIndex={artworkModalIndex}
                             setImageIndex={setArtworkModalIndex}
                             images={tvShowImages.backdrops}
+                            mediaTitle={tvShowData.name || tvShowData.original_name}
                         />
                     }
                 />

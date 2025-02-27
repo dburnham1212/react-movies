@@ -45,49 +45,45 @@ const Movie = () => {
 
     for (let index = 0; index < Math.round(movieData.vote_average / 2); index++) ratingIndex.push(1 + index);
 
-    // how to backhroundImages using paths from objects
-    // <div className={styles.background} style={{backgroundImage: `url(${BASE_IMAGE_URL}${movieData.backdrop_path})`}}>
-
     return (
         <>
-            {Object.keys(movieData).length > 0 && (
-                <div className={styles.container}>
-                    <div className={styles.content_left}>
-                        <img
-                            src={`${BASE_IMAGE_URL}${movieData.poster_path}`}
-                            alt={`${movieData.title} poster`}
-                            width={"360"}
-                        />
-                    </div>
-                    <div className={styles.content_right}>
-                        <h1>{movieData.title}</h1>
-                        {movieData.original_title !== movieData.title && <h3>{movieData.original_title}</h3>}
-                        {movieData.tagline && (
-                            <p>
-                                <i>{movieData.tagline}</i>
-                            </p>
-                        )}
-                        <p>{movieData.overview}</p>
-                        {movieData.adult && <p>Adults Only</p>}
-                        {movieData.genres.length === 1 ? <h4>Genre:</h4> : <h4>Genres:</h4>}
-                        <div className={styles.genre_container}>
-                            <p>{movieData.genres.map((genre) => genre.name).join(", ")}</p>
-                        </div>
-                        <div className={styles.rating_container}>
-                            {ratingIndex.map((value) => {
-                                return <StarIcon sx={{ color: yellow[50] }} />;
-                            })}
-                        </div>
-                        {movieData.homepage && (
-                            <p>
-                                <i>
-                                    Website: <a href={movieData.homepage}>{movieData.homepage}</a>
-                                </i>
-                            </p>
-                        )}
-                    </div>
+            <div className={styles.container}>
+                <div className={styles.content_left}>
+                    <img
+                        src={`${BASE_IMAGE_URL}${movieData.poster_path}`}
+                        alt={`${movieData.title} poster`}
+                        width={"360"}
+                    />
                 </div>
-            )}
+                <div className={styles.content_right}>
+                    <h1>{movieData.title}</h1>
+                    {movieData.original_title !== movieData.title && <h3>{movieData.original_title}</h3>}
+                    {movieData.tagline && (
+                        <p>
+                            <i>{movieData.tagline}</i>
+                        </p>
+                    )}
+                    <p>{movieData.overview}</p>
+                    {movieData.adult && <p>Adults Only</p>}
+                    {movieData?.genres?.length === 1 ? <h4>Genre:</h4> : <h4>Genres:</h4>}
+                    <div className={styles.genre_container}>
+                        <p>{movieData?.genres?.map((genre) => genre.name).join(", ")}</p>
+                    </div>
+                    <div className={styles.rating_container}>
+                        {ratingIndex.map((value) => {
+                            return <StarIcon sx={{ color: yellow[50] }} />;
+                        })}
+                    </div>
+                    {movieData.homepage && (
+                        <p>
+                            <i>
+                                Website: <a href={movieData.homepage}>{movieData.homepage}</a>
+                            </i>
+                        </p>
+                    )}
+                </div>
+            </div>
+
             {movieImages.backdrops && (
                 <IndexedImageRow title={"Gallery"} media={movieImages.backdrops} setOpen={openArtworkModalWithIndex} />
             )}
@@ -100,6 +96,7 @@ const Movie = () => {
                             imageIndex={artworkModalIndex}
                             setImageIndex={setArtworkModalIndex}
                             images={movieImages.backdrops}
+                            mediaTitle={movieData.title || movieData.original_title}
                         />
                     }
                 />
