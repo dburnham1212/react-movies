@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { HD_IMAGE_URL } from "../../../constants/constants";
 import styles from "../../../styles/utility/Carousels/Carousel.module.css";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -13,11 +13,6 @@ const MainCarousel = (props) => {
     const { mediaData } = props;
 
     const [imageIndex, setImageIndex] = useState(0);
-
-    useEffect(() => {
-        console.log("===== Trending Movies =====");
-        console.log(mediaData);
-    }, []);
 
     const showNextImage = () => {
         setImageIndex((index) => {

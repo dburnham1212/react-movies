@@ -122,8 +122,9 @@ const TVShow = () => {
                         <p>{tvShowData?.genres?.map((genre) => genre.name).join(", ")}</p>
                     </div>
                     {/*Display country(s) of origin */}
-                    {tvShowData?.production_countries?.map((country) => (
+                    {tvShowData?.production_countries?.map((country, index) => (
                         <img
+                            key={index}
                             id={styles.flag}
                             src={`https://flagsapi.com/${country.iso_3166_1}/flat/64.png`}
                             alt={country.name}
