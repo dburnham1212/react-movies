@@ -89,19 +89,27 @@ const TVShow = () => {
                     <h1>{tvShowData.name}</h1> {/*Title*/}
                     {/*if show doesn't have a title in local language, display original title*/}
                     {!tvShowData.name && <h1>{tvShowData.original_name}</h1>}
+                    {/*Display country(s) of origin */} 
+                    {tvShowData?.production_countries?.map((country) => 
+                    <img id = {styles.flag} src = {`https://flagsapi.com/${country.iso_3166_1}/flat/64.png`} alt = {country.name}/>)} 
+                    <p>{tvShowData?.production_countries?.map((country) => country.iso_3166_1).join(", ")} </p>
                     {/*if show has a tagline, display tagline*/}
                     {tvShowData.tagline && <p id={styles.tagline}>{tvShowData.tagline}</p>}
                     <p id={styles.overview}>{tvShowData.overview}</p> {/*info paragraph */}
                     {tvShowData.adult && <p id={styles.adult_warning}>Adults Only 18+</p>} {/*R warning */}
-                    <h3>Genres:</h3> {/*genre display */}
-                    <div className={styles.genre_container}>
-                        <p>{tvShowData?.genres?.map((genre) => genre.name).join(", ")}</p>
-                    </div>
                     {/*Ratings mui here*/}
                     <div className={styles.rating_container}>
                         <Rating value={tvShowData.vote_average / 2} precision={0.1} readOnly />
                         <p>Average Score: {Number(tvShowData.vote_average / 2).toFixed(1)}/5</p>
                         <p id={styles.num_votes}>Votes: {tvShowData.vote_count}</p>
+                    </div>
+                    <h3>Genres:</h3> {/*genre display */}
+                    <div className={styles.genre_container}>
+                        <p>{tvShowData?.genres?.map((genre) => genre.name).join(", ")}</p>
+                    </div>
+                    <h4>Available languages:</h4>
+                    <div className={styles.language_container}>
+                        <p>{tvShowData?.spoken_languages?.map((language) => language.name + "/" + language.english_name).join(", ")}</p>
                     </div>
                     {/*show homepage link if available */}
                     {tvShowData.homepage && (
@@ -113,7 +121,7 @@ const TVShow = () => {
             </div>
             {/*carousel(s) go here */}
             {tvShowImages.backdrops && (
-                <IndexedImageRow title={"Artwork"} media={tvShowImages.backdrops} setOpen={openArtworkModalWithIndex} />
+                <IndexedImageRow title={"Gallery"} media={tvShowImages.backdrops} setOpen={openArtworkModalWithIndex} />
             )}
             {tvShowImages.backdrops && (
                 <BasicModal
