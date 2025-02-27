@@ -1,8 +1,9 @@
-import { TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import styles from "../../styles/pages/Search.module.css";
 import { useEffect, useState } from "react";
 import { makeApiCall } from "../../helper/helperFunctions";
 import { BASE_URL } from "../../constants/constants";
+import MediaCard from "../utility/Cards/MediaCard";
 
 const Search = () => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -23,8 +24,7 @@ const Search = () => {
     };
 
     return (
-        <>
-            <h1 className={styles.title}>This is the search page</h1>
+        <div className={styles.page_container}>
             <TextField
                 id="outlined-basic"
                 label="Search"
@@ -32,7 +32,15 @@ const Search = () => {
                 value={searchTerm}
                 onChange={handleSeachTermChange}
             />
-        </>
+            <Button variant="contained" color="warning">
+                Search
+            </Button>
+            <div className={styles.card_container}>
+                {searchData?.map((searchItem) => {
+                    return <MediaCard media={searchItem} />;
+                })}
+            </div>
+        </div>
     );
 };
 
