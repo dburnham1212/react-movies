@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { BASE_IMAGE_URL, HD_IMAGE_URL } from "../../../constants/constants";
 import styles from "../../../styles/utility/Carousels/ImageCarousel.module.css";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";

@@ -6,7 +6,7 @@ const IndexedImageRow = (props) => {
 
     return (
         <>
-            <h4 className={styles.title}>{title}</h4>
+            <h4 className={`${styles.title} ${styles.underlined}`}>{title}</h4>
             <div className={styles.container}>
                 {media.map((mediaInfo, index) => (
                     <img
