@@ -10,7 +10,11 @@ const MediaCard = (props) => {
             <Card sx={{ padding: ".5rem" }}>
                 <img
                     className={styles.main_image}
-                    src={`${BASE_IMAGE_URL}${media.poster_path || media.profile_path}`}
+                    src={`${
+                        media.poster_path || media.profile_path
+                            ? BASE_IMAGE_URL + (media.poster_path || media.profile_path)
+                            : "../../../images/NO_IMAGE_FOUND.jpg"
+                    }`}
                     alt={media.title || media.name}
                 />
                 <h4>{media.title || media.name}</h4>

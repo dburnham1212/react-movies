@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { makeApiCall } from "../../helper/helperFunctions";
 import { BASE_URL } from "../../constants/constants";
 import MediaCard from "../utility/Cards/MediaCard";
+import CreditCard from "../utility/Cards/CreditCard";
 
 const Search = () => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -37,7 +38,7 @@ const Search = () => {
             </Button>
             <div className={styles.card_container}>
                 {searchData?.map((searchItem) => {
-                    return <MediaCard media={searchItem} />;
+                    return <CreditCard media={searchItem} />;
                 })}
             </div>
         </div>
