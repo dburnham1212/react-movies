@@ -1,5 +1,6 @@
 const BASE_URL = "https://api.themoviedb.org/3";
 const BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w500";
+const HD_IMAGE_URL = "https://image.tmdb.org/t/p/original";
 
 // MOVIE GENRE ID'S
 const ACTION_MOVIE_VAL = 28;
@@ -14,6 +15,7 @@ const SCI_FI_FANTASY_VAL = 10765;
 module.exports = {
     BASE_URL,
     BASE_IMAGE_URL,
+    HD_IMAGE_URL,
     ACTION_MOVIE_VAL,
     COMEDY_MOVIE_VAL,
     ADVENTURE_MOVIE_VAL,
