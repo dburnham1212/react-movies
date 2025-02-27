@@ -103,8 +103,12 @@ const TVShow = () => {
                     <h3>Details:</h3>
                     {/*seasons&episodes info */}
                     <div className={styles.s_e_info}>
-                        <p>Seasons: {tvShowData?.number_of_seasons}, Episodes: {tvShowData?.number_of_episodes}</p>
-                        <p>Aired: {tvShowData?.first_air_date} to {tvShowData?.last_air_date}</p>
+                        <p>
+                            Seasons: {tvShowData?.number_of_seasons}, Episodes: {tvShowData?.number_of_episodes}
+                        </p>
+                        <p>
+                            Aired: {tvShowData?.first_air_date} to {tvShowData?.last_air_date}
+                        </p>
                         <p>Status: {tvShowData?.status}</p>
                     </div>
                     {/*show homepage link if available */}
@@ -117,29 +121,34 @@ const TVShow = () => {
                     <div className={styles.genre_container}>
                         <p>{tvShowData?.genres?.map((genre) => genre.name).join(", ")}</p>
                     </div>
-                    {/*Display country(s) of origin */} 
-                    {tvShowData?.production_countries?.map((country) => 
-                    <img id = {styles.flag} src = {`https://flagsapi.com/${country.iso_3166_1}/flat/64.png`} alt = {country.name}/>)} 
+                    {/*Display country(s) of origin */}
+                    {tvShowData?.production_countries?.map((country) => (
+                        <img
+                            id={styles.flag}
+                            src={`https://flagsapi.com/${country.iso_3166_1}/flat/64.png`}
+                            alt={country.name}
+                        />
+                    ))}
                     {/*Display available languages */}
                     <h4>
                         Available languages:
-                        <span id = {styles.lang_font}>
+                        <span id={styles.lang_font}>
                             {" "}
-                            {tvShowData?.spoken_languages?.map((lang) => (
-                            lang.name !== lang.english_name ? 
-                                (lang.name + "/" + lang.english_name) : 
-                                (lang.english_name)
-                            )).join(", ")}
+                            {tvShowData?.spoken_languages
+                                ?.map((lang) =>
+                                    lang.name !== lang.english_name
+                                        ? lang.name + "/" + lang.english_name
+                                        : lang.english_name
+                                )
+                                .join(", ")}
                         </span>
                     </h4>
                     {/*Produced by */}
                     <h4>
-                        Produced by: 
-                        <span id = {styles.prod_font}>
+                        Produced by:
+                        <span id={styles.prod_font}>
                             {" "}
-                            {tvShowData?.production_companies?.map((prod) => 
-                                prod.name
-                            ).join(", ")}
+                            {tvShowData?.production_companies?.map((prod) => prod.name).join(", ")}
                         </span>
                     </h4>
                 </div>
@@ -157,6 +166,7 @@ const TVShow = () => {
                             imageIndex={artworkModalIndex}
                             setImageIndex={setArtworkModalIndex}
                             images={tvShowImages.backdrops}
+                            mediaTitle={tvShowData.name || tvShowData.original_name}
                         />
                     }
                 />
