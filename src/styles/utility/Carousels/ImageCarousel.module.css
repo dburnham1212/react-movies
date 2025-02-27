@@ -81,6 +81,6 @@
 }
 
 .img_slider_img_btn_active {
-    background-color: lightgrey;
+    background-color: #fea423;
     transition: background-color 100ms ease-in-out;
 }

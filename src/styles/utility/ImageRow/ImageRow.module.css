@@ -7,7 +7,12 @@
 
 .title {
     color: lightgrey;
-    margin: 1em 1.5em;
+    padding: 0.25rem;
+    margin: 1em 1em;
+}
+
+.underlined {
+    border-bottom: 1px solid lightgrey;
 }
 
 .slider_image {
