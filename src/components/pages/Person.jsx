@@ -50,6 +50,7 @@ const Person = () => {
           {personData.biography && (
             <p id={styles.biography}>{personData.biography}</p>
           )}
+
           {/*Birthday*/}
           <div className={styles.details}>
             <p>Born On: {personData.birthday}</p>
