@@ -1,8 +1,8 @@
 import { Card } from "@mui/material";
 import { BASE_IMAGE_URL } from "../../../constants/constants";
-import styles from "../../../styles/utility/Cards/CreditCard.module.css";
+import styles from "../../../styles/utility/Cards/MediaCreditCard.module.css";
 
-const CreditCard = (props) => {
+const MediaCreditCard = (props) => {
     const { media } = props;
 
     return (
@@ -14,4 +14,4 @@ const CreditCard = (props) => {
     );
 };
 
-export default CreditCard;
+export default MediaCreditCard;

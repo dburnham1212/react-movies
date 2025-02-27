@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { BASE_IMAGE_URL, BASE_URL } from "../../constants/constants";
 
 import styles from "../../styles/pages/Person.module.css";
-import CreditCard from "../utility/Cards/CreditCard";
+import MediaCreditCard from "../utility/Cards/MediaCreditCard";
 
 const Person = () => {
     const [personData, setPersonData] = useState({});
@@ -83,7 +83,7 @@ const Person = () => {
             <div>
                 <h1>This is movie credits</h1>
                 {movieCredits?.cast?.map((credit) => {
-                    return <CreditCard media={credit} />;
+                    return <MediaCreditCard media={credit} />;
                 })}
             </div>
         </>
