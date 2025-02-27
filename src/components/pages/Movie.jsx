@@ -9,6 +9,7 @@ import Credits from "../utility/Credits/Credits";
 import IndexedImageRow from "../utility/ImageRows/IndexedImageRow";
 import BasicModal from "../utility/Modals/BasicModal";
 import ImageCarousel from "../utility/Carousels/ImageCarousel";
+import { Rating } from "@mui/material";
 
 const Movie = () => {
     // Jason Pilla the lady killa, with the power of ten gorillas
@@ -70,17 +71,23 @@ const Movie = () => {
                         <p>{movieData?.genres?.map((genre) => genre.name).join(", ")}</p>
                     </div>
                     <div className={styles.rating_container}>
-                        {ratingIndex.map((value) => {
-                            return <StarIcon sx={{ color: yellow[50] }} />;
-                        })}
+                        <Rating value={movieData.vote_average / 2} precision={0.1} readOnly />
+                        <p>Average Score: {Number(movieData.vote_average / 2).toFixed(1)}/5</p>
+                        <p id={styles.num_votes}>Votes: {movieData.vote_count}</p>
                     </div>
                     {movieData.homepage && (
                         <p>
-                            <i>
-                                Website: <a href={movieData.homepage}>{movieData.homepage}</a>
-                            </i>
+                            Website: <a href={movieData.homepage}>{movieData.homepage}</a>
                         </p>
                     )}
+                    {/*Display country(s) of origin */}
+                    {movieData?.production_countries?.map((country) => (
+                        <img
+                            id={styles.flag}
+                            src={`https://flagsapi.com/${country.iso_3166_1}/flat/64.png`}
+                            alt={country.name}
+                        />
+                    ))}
                 </div>
             </div>
 
