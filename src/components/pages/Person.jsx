@@ -4,17 +4,35 @@ import { useParams } from "react-router-dom";
 import { BASE_IMAGE_URL, BASE_URL } from "../../constants/constants";
 
 import styles from "../../styles/pages/Person.module.css";
+import CreditCard from "../utility/Cards/CreditCard";
 
 const Person = () => {
     const [personData, setPersonData] = useState({});
+    const [movieCredits, setMovieCredits] = useState({});
+    const [tvShowCredits, setTvShowCredits] = useState({});
 
     const { id } = useParams();
 
     useEffect(() => {
         // Tania H
         makeApiCall(`${BASE_URL}/person/${id}?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
+            console.log("===== PERSON DATA =====");
             console.log(response);
             setPersonData(response);
+        });
+
+        makeApiCall(`${BASE_URL}/person/${id}/movie_credits?api_key=${process.env.REACT_APP_API_KEY}`).then(
+            (response) => {
+                console.log("===== MOVIE CREDITS =====");
+                console.log(response);
+                setMovieCredits(response);
+            }
+        );
+
+        makeApiCall(`${BASE_URL}/person/${id}/tv_credits?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
+            console.log("===== TV CREDITS =====");
+            console.log(response);
+            setTvShowCredits(response);
         });
     }, [id]);
 
@@ -61,6 +79,12 @@ const Person = () => {
                         </div>
                     )}
                 </div>
+            </div>
+            <div>
+                <h1>This is movie credits</h1>
+                {movieCredits?.cast?.map((credit) => {
+                    return <CreditCard media={credit} />;
+                })}
             </div>
         </>
     );
