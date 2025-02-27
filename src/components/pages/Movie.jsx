@@ -22,7 +22,7 @@ const Movie = () => {
     for (let index = 0; index < Math.round(movieData.vote_average / 2); index++)
         ratingIndex.push(1 + index);
 
-    // how to backhroundImages using paths from objects
+    // how to backgroundImages using paths from objects
     // <div className={styles.background} style={{backgroundImage: `url(${BASE_IMAGE_URL}${movieData.backdrop_path})`}}>
 
     return (

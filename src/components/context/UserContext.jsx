@@ -32,7 +32,7 @@ const UserProvider = (props) => {
             })
             .catch((err) => console.error(err));
     };
-
+ 
     const logout = () => {
         const url = "https://api.themoviedb.org/3/authentication/session";
         const options = {
