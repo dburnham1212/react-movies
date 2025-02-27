@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BASE_IMAGE_URL, HD_IMAGE_URL } from "../../../constants/constants";
 import styles from "../../../styles/utility/Carousels/ImageCarousel.module.css";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -7,7 +7,9 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { grey } from "@mui/material/colors";
 
 const ImageCarousel = (props) => {
-    const { images, imageIndex, setImageIndex } = props;
+    const { images, imageIndex, setImageIndex, mediaTitle } = props;
+
+    const boxRef = useRef(null);
 
     useEffect(() => {
         console.log("===== Trending Movies =====");
@@ -41,7 +43,7 @@ const ImageCarousel = (props) => {
                             >
                                 <img
                                     src={`${HD_IMAGE_URL}${image.file_path}`}
-                                    alt={(image.name || image.title) + " backdrop"}
+                                    alt={`${mediaTitle} backdrop ${index}`}
                                     className={styles.img_slider_img}
                                 />
                             </div>
@@ -55,7 +57,7 @@ const ImageCarousel = (props) => {
                     <ArrowForwardIosIcon sx={{ color: grey[50] }} />
                 </button>
             </div>
-            <div className={styles.img_slider_img_btn_container}>
+            <div className={styles.img_slider_img_btn_container} ref={boxRef}>
                 {images.map((image, index) => {
                     return (
                         <button
@@ -68,7 +70,7 @@ const ImageCarousel = (props) => {
                             <img
                                 className={styles.img_slider_img_btn_img}
                                 src={`${BASE_IMAGE_URL}${image.file_path}`}
-                                alt={(image.name || image.title) + " mini backdrop"}
+                                alt={`${mediaTitle} mini backdrop ${index}`}
                             />
                         </button>
                     );

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 // normally we would use a .env file to secure these values, for now i have put them into a file called constants
 import { BASE_URL } from "../../constants/constants";
 // import functions from the helper files
-import { makeApiCall, refineMovies } from "../../helper/helperFunctions";
+import { makeApiCall } from "../../helper/helperFunctions";
 
 import styles from "../../styles/pages/Home.module.css";
 
