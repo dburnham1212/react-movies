@@ -68,7 +68,7 @@ const ImageCarousel = (props) => {
                             <img
                                 className={styles.img_slider_img_btn_img}
                                 src={`${BASE_IMAGE_URL}${image.file_path}`}
-                                alt={(image.name || image.title) + " backdrop"}
+                                alt={(image.name || image.title) + " mini backdrop"}
                             />
                         </button>
                     );

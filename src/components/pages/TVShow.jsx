@@ -101,26 +101,37 @@ const TVShow = () => {
                     </div>
                     {/*seasons&episodes info */}
                     <div className={styles.s_e_info}>
-                        <p>Seasons: {tvShowData?.number_of_seasons}, Episodes: {tvShowData?.number_of_episodes}</p>
+                        <p>
+                            Seasons: {tvShowData?.number_of_seasons}, Episodes: {tvShowData?.number_of_episodes}
+                        </p>
                     </div>
                     <h3>Genres:</h3> {/*genre display */}
                     <div className={styles.genre_container}>
                         <p>{tvShowData?.genres?.map((genre) => genre.name).join(", ")}</p>
                     </div>
-                    
                     {/*show homepage link if available */}
                     {tvShowData.homepage && (
                         <p id={styles.homepage_link}>
                             Website: <a href={tvShowData.homepage}>{tvShowData.homepage}</a>
                         </p>
                     )}
-                    {/*Display country(s) of origin */} 
-                    {tvShowData?.production_countries?.map((country) => 
-                    <img id = {styles.flag} src = {`https://flagsapi.com/${country.iso_3166_1}/flat/64.png`} alt = {country.name}/>)} 
+                    {/*Display country(s) of origin */}
+                    {tvShowData?.production_countries?.map((country) => (
+                        <img
+                            id={styles.flag}
+                            src={`https://flagsapi.com/${country.iso_3166_1}/flat/64.png`}
+                            alt={country.name}
+                        />
+                    ))}
                     {/*Display available languages */}
                     <h4>
                         Available languages:
-                        <span style={{fontWeight: "normal"}}> {tvShowData?.spoken_languages?.map((language) => language.name + "/" + language.english_name).join(", ")}</span>
+                        <span style={{ fontWeight: "normal" }}>
+                            {" "}
+                            {tvShowData?.spoken_languages
+                                ?.map((language) => language.name + "/" + language.english_name)
+                                .join(", ")}
+                        </span>
                     </h4>
                 </div>
             </div>
@@ -137,6 +148,7 @@ const TVShow = () => {
                             imageIndex={artworkModalIndex}
                             setImageIndex={setArtworkModalIndex}
                             images={tvShowImages.backdrops}
+                            mediaTitle={tvShowData.name || tvShowData.original_name}
                         />
                     }
                 />
