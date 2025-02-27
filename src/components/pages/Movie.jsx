@@ -66,28 +66,58 @@ const Movie = () => {
                     )}
                     <p>{movieData.overview}</p>
                     {movieData.adult && <p>Adults Only</p>}
-                    {movieData?.genres?.length === 1 ? <h4>Genre:</h4> : <h4>Genres:</h4>}
-                    <div className={styles.genre_container}>
-                        <p>{movieData?.genres?.map((genre) => genre.name).join(", ")}</p>
-                    </div>
                     <div className={styles.rating_container}>
                         <Rating value={movieData.vote_average / 2} precision={0.1} readOnly />
                         <p>Average Score: {Number(movieData.vote_average / 2).toFixed(1)}/5</p>
                         <p id={styles.num_votes}>Votes: {movieData.vote_count}</p>
+                    </div>
+                    {/*Misc info */}
+                    <h3>Details:</h3>
+                    {/*seasons&episodes info */}
+                    <div className={styles.s_e_info}>
+                        <p>Release Date: {movieData?.release_date}</p>
                     </div>
                     {movieData.homepage && (
                         <p>
                             Website: <a href={movieData.homepage}>{movieData.homepage}</a>
                         </p>
                     )}
+                    {movieData?.genres?.length === 1 ? <h4>Genre:</h4> : <h4>Genres:</h4>}
+                    <div className={styles.genre_container}>
+                        <p>{movieData?.genres?.map((genre) => genre.name).join(", ")}</p>
+                    </div>
+
                     {/*Display country(s) of origin */}
-                    {movieData?.production_countries?.map((country) => (
+                    {movieData?.production_countries?.map((country, index) => (
                         <img
+                            key={index}
                             id={styles.flag}
                             src={`https://flagsapi.com/${country.iso_3166_1}/flat/64.png`}
                             alt={country.name}
                         />
                     ))}
+                    {/*Display available languages */}
+                    <h4>
+                        Available languages:
+                        <span id={styles.lang_font}>
+                            {" "}
+                            {movieData?.spoken_languages
+                                ?.map((lang) =>
+                                    lang.name !== lang.english_name
+                                        ? lang.name + "/" + lang.english_name
+                                        : lang.english_name
+                                )
+                                .join(", ")}
+                        </span>
+                    </h4>
+                    {/*Produced by */}
+                    <h4>
+                        Produced by:
+                        <span id={styles.prod_font}>
+                            {" "}
+                            {movieData?.production_companies?.map((prod) => prod.name).join(", ")}
+                        </span>
+                    </h4>
                 </div>
             </div>
 
