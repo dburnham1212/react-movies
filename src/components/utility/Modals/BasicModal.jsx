@@ -8,7 +8,7 @@ const modalStyle = {
     width: "70%",
     height: "80%",
     bgcolor: "background.paper",
-    border: "2px solid #fea423;",
+    border: "2px solid #fea423",
     borderRadius: "10px",
     boxShadow: 24,
     p: 4,
