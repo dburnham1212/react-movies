@@ -172,7 +172,7 @@ const TVShow = () => {
                     }
                 />
             )}
-            {Object.keys(tvShowCredits).length && <Credits credits={tvShowCredits} />}
+            {Object.keys(tvShowAggCredits).length && <Credits credits={tvShowAggCredits} />}
         </>
     );
 };
