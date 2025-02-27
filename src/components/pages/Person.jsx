@@ -18,12 +18,51 @@ const Person = () => {
       console.log(response);
       setPersonData(response);
     });
-  }, []);
+  }, [id]);
 
   return (
     <>
-      <h1 className={styles.title}>{personData.name}</h1>
-      <img src={`${BASE_IMAGE_URL}${personData.profile_path}`} />
+      <div className={styles.flex_info_container}>
+        <div className={styles.info_left}>
+          <img
+            src={`${BASE_IMAGE_URL}${personData.profile_path}`}
+            alt={`${personData.name} profile`}
+            width={"360"}
+          />
+        </div>
+        <div className={styles.info_right}>
+          <h1>{personData.name}</h1>
+          {!personData.name && <h1>{personData.original_name}</h1>}
+
+          {/* Known Aliases */}
+          {personData.also_known_as && personData.also_known_as.length > 0 && (
+            <div className={styles.aliases}>
+              <h3>Also Known As:</h3>
+              <ul>
+                {personData.also_known_as.map((alias, index) => (
+                  <li key={index}>{alias}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/*Biography */}
+          {personData.biography && (
+            <p id={styles.biography}>{personData.biography}</p>
+          )}
+          {/*Birthday*/}
+          <div className={styles.details}>
+            <p>Born On: {personData.birthday}</p>
+            <p>Place of Birth: {personData.place_of_birth}</p>
+          </div>
+          {/* Death */}
+          {personData.deathday && (
+            <div className={styles.death_info}>
+              <p>Died on: {personData.deathday}</p>
+            </div>
+          )}
+        </div>
+      </div>
     </>
   );
 };
