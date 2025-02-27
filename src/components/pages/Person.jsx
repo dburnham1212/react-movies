@@ -25,6 +25,7 @@ const Person = () => {
       <div className={styles.flex_info_container}>
         <div className={styles.info_left}>
           <img
+            className={styles.img}
             src={`${BASE_IMAGE_URL}${personData.profile_path}`}
             alt={`${personData.name} profile`}
             width={"360"}
@@ -38,28 +39,29 @@ const Person = () => {
           {personData.also_known_as && personData.also_known_as.length > 0 && (
             <div className={styles.aliases}>
               <h3>Also Known As:</h3>
-              <ul>
-                {personData.also_known_as.map((alias, index) => (
-                  <li key={index}>{alias}</li>
-                ))}
-              </ul>
+              <p>{personData.also_known_as.join(", ")}</p>
             </div>
           )}
 
+          {/*Birth Details*/}
+          <div className={styles.details}>
+            <h3>Details:</h3>
+            <p>Born On: {personData.birthday}</p>
+            {personData.deathday && <p>Died On: {personData.deathday}</p>}
+            <p>Place of Birth: {personData.place_of_birth}</p>
+          </div>
+
           {/*Biography */}
+          <h3>Biography:</h3>
           {personData.biography && (
             <p id={styles.biography}>{personData.biography}</p>
           )}
 
-          {/*Birthday*/}
-          <div className={styles.details}>
-            <p>Born On: {personData.birthday}</p>
-            <p>Place of Birth: {personData.place_of_birth}</p>
-          </div>
-          {/* Death */}
-          {personData.deathday && (
-            <div className={styles.death_info}>
-              <p>Died on: {personData.deathday}</p>
+          {/* Known For*/}
+          {personData.known_for_department && (
+            <div className={styles.known_for_container}>
+              <h3>Known For:</h3>
+              <p>{personData.known_for_department}</p>
             </div>
           )}
         </div>
