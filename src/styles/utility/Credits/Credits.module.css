@@ -8,54 +8,108 @@
     border-bottom: 1px solid lightgrey;
 }
 
-#cast_profile {
-    height: 10rem;
+#card_profile {
+    border-radius: 0.5rem;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    height: 15rem;
     width: 100%;
 }
 
-#cast_card {
-    margin-right: 0.5rem;
-    margin-top: 0.5rem;
+#card {
+    border-radius: 0.5rem;
+    width:10rem;
+    height:20rem;
+    margin:0.5rem;
+    position:relative;
 }
 
-#cast_role {
+#small_text {
     font-weight: normal;
 }
 
-.cast_container {
+.card_container_O {
+    margin-bottom:2rem;
+}
+
+.card_container_I{
     width: 95%;
+    max-height:21rem;
     margin: auto;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-}
-
-.cast_container ul ListSubheader {
-    display: flex;
-    flex-direction: row;
-}
-
-.cast_container ul li {
-    max-height: 23rem;
-    display: flex;
-    flex-direction: row;
+    display:flex;
     flex-wrap: wrap;
-    overflow: auto;
+    overflow-y: hidden;
 }
 
-@media (min-width: 500px) {
-    .cast_container {
-        grid-template-columns: repeat(4, 1fr);
+.card_container_I_B{
+    width: 95%;
+    max-height:63rem;
+    margin: auto;
+    display:flex;
+    flex-wrap: wrap;
+    overflow-y: auto;
+}
+
+#card_name {
+    margin:auto;
+    padding:1rem;
+}
+
+#card_link {
+    text-align: left;
+    margin-left:2.5rem;
+}
+
+#card_content {
+    height:15.5rem;
+    overflow:hidden;
+}
+
+#card_content h4 {
+    margin-bottom:0.2rem;
+    margin-top:0.2rem;
+    text-overflow: ellipsis;
+    overflow:hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+}
+
+
+#card_button {
+    margin: 0.25rem;
+}
+
+#card_button_hidden {
+    margin:auto;
+    display:none;
+}
+
+.card_hidden {
+    border-radius: 0.5rem;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    width:10rem;
+    height:20rem;
+    display:none;
+    overflow-y:auto;
+}
+
+#card:hover {
+    #card_profile {
+        border-radius: 0.5rem;
+        height:20rem;
+    }
+
+    .card_hidden {
+        display:flex;
+        flex-direction: column;
+        position:absolute;
+        background-color: #353535c9;
     }
 }
 
-@media (min-width: 800px) {
-    .cast_container {
-        grid-template-columns: repeat(6, 1fr);
-    }
-}
 
-@media (min-width: 1000px) {
-    .cast_container {
-        grid-template-columns: repeat(8, 1fr);
-    }
-}
+
+
+
