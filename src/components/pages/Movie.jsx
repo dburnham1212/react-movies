@@ -122,10 +122,10 @@ const Movie = () => {
                 </div>
             </div>
 
-            {movieImages.backdrops && (
+            {movieImages?.backdrops?.length && (
                 <IndexedImageRow title={"Gallery"} media={movieImages.backdrops} setOpen={openArtworkModalWithIndex} />
             )}
-            {movieImages.backdrops && (
+            {movieImages?.backdrops?.length && (
                 <BasicModal
                     open={openArtworkModal}
                     handleClose={closeArworkModal}
