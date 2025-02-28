@@ -1,0 +1,38 @@
+.title {
+    color: lightgrey;
+    padding: 0.25rem;
+    margin: 1em 1em;
+}
+
+.underlined {
+    border-bottom: 1px solid lightgrey;
+}
+
+#cast_profile {
+    height:10rem;
+    width:100%;
+}
+
+#cast_card {
+    width:10rem;
+    margin-right:0.5rem;
+    margin-top:0.5rem;
+}
+
+.cast_container {
+    width:95%;
+    margin:auto;
+}
+
+.cast_container ul ListSubheader {
+    display:flex;
+    flex-direction: row;
+}
+
+.cast_container ul li {
+    max-height: 23rem;
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow:auto;
+}

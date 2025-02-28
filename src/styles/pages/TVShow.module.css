@@ -2,6 +2,10 @@
     color: lightgrey;
 }
 
+.body_container {
+    margin:auto;
+    max-width: 83.75rem;
+}
 .flex_info_container {
     display: flex;
 }
@@ -30,7 +34,7 @@
 #num_votes {
     margin-top: -1rem;
 }
-A #flag {
+#flag {
     width: 1.5rem;
 }
 
