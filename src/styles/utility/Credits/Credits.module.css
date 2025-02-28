@@ -2,14 +2,22 @@
     color: lightgrey;
     padding: 0.25rem;
     margin: 1em 1em;
+    display:flex;
+    flex-direction: row;
 }
 
 .underlined {
     border-bottom: 1px solid lightgrey;
 }
 
+#drop_down {
+    min-width: 7.5rem;
+    display:flex;
+    flex-direction: row-reverse;
+}
+
 #card_profile {
-    border-radius: 0.5rem;
+    border-radius: 0.25rem;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
     height: 15rem;
@@ -17,7 +25,7 @@
 }
 
 #card {
-    border-radius: 0.5rem;
+    border-radius: 0.25rem;
     width:10rem;
     height:20rem;
     margin:0.5rem;
@@ -30,6 +38,13 @@
 
 .card_container_O {
     margin-bottom:2rem;
+}
+
+.card_interact {
+    width:95;
+    display:flex;
+    flex-direction:row-reverse;
+    padding:1rem;
 }
 
 .card_container_I{
@@ -75,20 +90,21 @@
     -webkit-box-orient: vertical;
 }
 
-
 #card_button {
+    border-radius: 0.25rem;
     margin: 0.25rem;
+    width:6rem;
+    text-align: center;
 }
 
 #card_button_hidden {
-    margin:auto;
-    display:none;
+    margin:0.25rem;
+    width:6rem;
+    visibility:hidden;
 }
 
 .card_hidden {
-    border-radius: 0.5rem;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
+    border-radius: 0.25rem;
     width:10rem;
     height:20rem;
     display:none;
@@ -97,7 +113,7 @@
 
 #card:hover {
     #card_profile {
-        border-radius: 0.5rem;
+        border-radius: 0.25rem;
         height:20rem;
     }
 
