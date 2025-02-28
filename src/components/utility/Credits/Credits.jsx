@@ -34,6 +34,10 @@ const Credits = (props) => {
                                 title = {cast?.name}/>    {/*Cast image import */}
                                 <CardContent>
                                     <h4>{cast?.name}</h4>   {/*Cast name import */}
+                                    <h5>
+                                        Roles:
+                                        <span id = {styles.cast_role}> {cast?.roles[0].character}</span>
+                                    </h5>
                                     <p>{cast?.known_for_department}</p>
                                 </CardContent>
                                 <CardActions>
