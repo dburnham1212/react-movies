@@ -71,7 +71,7 @@ const TVShow = () => {
     //Code html here
     return (
         <>
-            <div className={styles.body_container}>
+            <div className={styles.wrapper}>
                 <div className={styles.flex_info_container}>
                     {" "}
                     {/*Flexbox info container*/}
@@ -177,7 +177,7 @@ const TVShow = () => {
                         }
                     />
                 )}
-                {Object.keys(tvShowAggCredits).length && <Credits title={"Credits"} credits={tvShowAggCredits} />}
+                {Object.keys(tvShowAggCredits).length && <Credits title={"Credits"} credits={tvShowAggCredits} />} {/*Credit Component */}
             </div>
         </>
     );
