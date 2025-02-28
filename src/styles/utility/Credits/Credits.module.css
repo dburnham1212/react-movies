@@ -19,6 +19,10 @@
     margin-top:0.5rem;
 }
 
+#cast_role {
+    font-weight: normal;
+}
+
 .cast_container {
     width:95%;
     margin:auto;
