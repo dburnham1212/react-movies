@@ -9,30 +9,53 @@
 }
 
 #cast_profile {
-    height:10rem;
-    width:100%;
+    height: 10rem;
+    width: 100%;
 }
 
 #cast_card {
-    width:10rem;
-    margin-right:0.5rem;
-    margin-top:0.5rem;
+    margin-right: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+#cast_role {
+    font-weight: normal;
 }
 
 .cast_container {
-    width:95%;
-    margin:auto;
+    width: 95%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
 }
 
 .cast_container ul ListSubheader {
-    display:flex;
+    display: flex;
     flex-direction: row;
 }
 
 .cast_container ul li {
     max-height: 23rem;
-    display:flex;
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    overflow:auto;
+    overflow: auto;
+}
+
+@media (min-width: 500px) {
+    .cast_container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (min-width: 800px) {
+    .cast_container {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+@media (min-width: 1000px) {
+    .cast_container {
+        grid-template-columns: repeat(8, 1fr);
+    }
 }
