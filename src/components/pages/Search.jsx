@@ -79,6 +79,12 @@ const Search = () => {
         }
     };
 
+    const handleKeypress = (e) => {
+        if (e.keyCode === 13) {
+            searchUsingTerm();
+        }
+    };
+
     const handleSearchTermChange = (e) => {
         setSearchTerm(e.target.value);
         console.log(e.target.value);
@@ -121,6 +127,7 @@ const Search = () => {
                         value={searchTerm}
                         inputProps={{ "aria-label": "search google maps" }}
                         onChange={handleSearchTermChange}
+                        onKeyDown={handleKeypress}
                     />
                     <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
                     <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
