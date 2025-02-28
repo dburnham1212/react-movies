@@ -1,6 +1,18 @@
-import { Divider, FormControl, IconButton, InputBase, InputLabel, MenuItem, Paper, Select } from "@mui/material";
+import {
+    Autocomplete,
+    Box,
+    Divider,
+    FormControl,
+    IconButton,
+    InputBase,
+    InputLabel,
+    MenuItem,
+    Paper,
+    Select,
+    TextField,
+} from "@mui/material";
 import styles from "../../styles/pages/Search.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { makeApiCall } from "../../helper/helperFunctions";
 import { BASE_URL } from "../../constants/constants";
 import MediaCard from "../utility/Cards/MediaCard";
@@ -11,6 +23,16 @@ const Search = () => {
     const [searchFilter, setSearchFilter] = useState("All");
     const [searchData, setSearchData] = useState([]);
     const [hasSearched, setHasSearched] = useState(false);
+    const [availableLanguages, setAvailableLanguages] = useState({});
+
+    useEffect(() => {
+        makeApiCall(
+            `${BASE_URL}/configuration/languages?api_key=${process.env.REACT_APP_API_KEY}&query=${searchTerm}`
+        ).then((response) => {
+            console.log(response);
+            setAvailableLanguages(response.sort((a, b) => a.english_name.localeCompare(b.english_name)));
+        });
+    }, []);
 
     const searchUsingTerm = () => {
         setHasSearched(true);
@@ -68,43 +90,44 @@ const Search = () => {
 
     return (
         <div className={styles.page_container}>
-            <FormControl sx={{ marginBottom: 2.5, minWidth: "25%" }}>
-                <InputLabel id="select-media-label">Type</InputLabel>
-                <Select
-                    labelId="select-media-label"
-                    id="select-media"
-                    value={searchFilter}
-                    label="Type"
-                    onChange={handleSearchFilterChange}
+            <div className={styles.input_options}>
+                <FormControl sx={{ minWidth: "25%" }}>
+                    <InputLabel id="select-media-label">Type</InputLabel>
+                    <Select
+                        labelId="select-media-label"
+                        id="select-media"
+                        value={searchFilter}
+                        label="Type"
+                        onChange={handleSearchFilterChange}
+                    >
+                        <MenuItem value={"All"}>All</MenuItem>
+                        <MenuItem value={"Movies"}>Movies</MenuItem>
+                        <MenuItem value={"TV"}>TV</MenuItem>
+                        <MenuItem value={"People"}>People</MenuItem>
+                    </Select>
+                </FormControl>
+                <Paper
+                    sx={{
+                        p: "2px 4px",
+                        display: "flex",
+                        alignItems: "center",
+                        width: "100%",
+                        border: "1px solid grey",
+                    }}
                 >
-                    <MenuItem value={"All"}>All</MenuItem>
-                    <MenuItem value={"Movies"}>Movies</MenuItem>
-                    <MenuItem value={"TV"}>TV</MenuItem>
-                    <MenuItem value={"People"}>People</MenuItem>
-                </Select>
-            </FormControl>
-            <Paper
-                component="form"
-                sx={{
-                    p: "2px 4px",
-                    display: "flex",
-                    alignItems: "center",
-                    width: "100%",
-                    border: "1px solid grey",
-                }}
-            >
-                <InputBase
-                    sx={{ ml: 1, flex: 1 }}
-                    placeholder="Search"
-                    value={searchTerm}
-                    inputProps={{ "aria-label": "search google maps" }}
-                    onChange={handleSearchTermChange}
-                />
-                <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-                <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
-                    <SearchIcon onClick={() => searchUsingTerm()} />
-                </IconButton>
-            </Paper>
+                    <InputBase
+                        sx={{ ml: 1, flex: 1 }}
+                        placeholder="Search"
+                        value={searchTerm}
+                        inputProps={{ "aria-label": "search google maps" }}
+                        onChange={handleSearchTermChange}
+                    />
+                    <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+                    <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+                        <SearchIcon onClick={() => searchUsingTerm()} />
+                    </IconButton>
+                </Paper>
+            </div>
 
             {hasSearched && !searchData?.length && (
                 <div className={styles.empty_search_box}>
@@ -113,15 +136,15 @@ const Search = () => {
             )}
             {!hasSearched && !searchData?.length && (
                 <div className={styles.empty_search_box}>
-                    <h2>Please enter a search term</h2>
+                    <h2>Please enter a search term and press search</h2>
                 </div>
             )}
             <div className={styles.card_container}>
                 {/* If there is a search term and data is found */}
                 {hasSearched &&
                     searchData?.length &&
-                    searchData?.map((searchItem) => {
-                        return <MediaCard media={searchItem} />;
+                    searchData?.map((searchItem, index) => {
+                        return <MediaCard key={index} media={searchItem} />;
                     })}
             </div>
         </div>

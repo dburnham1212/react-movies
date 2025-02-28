@@ -28,3 +28,9 @@
     border: 3px dashed lightgrey;
     height: 500px;
 }
+
+.input_options {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
