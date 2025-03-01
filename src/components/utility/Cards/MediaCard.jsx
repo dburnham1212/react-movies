@@ -7,8 +7,8 @@ const MediaCard = (props) => {
     const { media } = props;
     return (
         <>
-            <a href={`/${media.media_type}/${media.id}`}>
-                <Card sx={{ padding: ".5rem" }}>
+            <Card sx={{ padding: ".5rem", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                <a href={`/${media.media_type}/${media.id}`}>
                     <img
                         className={styles.main_image}
                         src={`${
@@ -18,7 +18,8 @@ const MediaCard = (props) => {
                         }`}
                         alt={media.title || media.name}
                     />
-
+                </a>
+                <div className={styles.lower_container}>
                     {media.media_type === "person" ? (
                         <>
                             <h4 className={styles.title_text}>{`(${
@@ -39,8 +40,8 @@ const MediaCard = (props) => {
                         </>
                     )}
                     <h4 className={styles.title_text}>{`${media.title || media.name}`}</h4>
-                </Card>
-            </a>
+                </div>
+            </Card>
         </>
     );
 };

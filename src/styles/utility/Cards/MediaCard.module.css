@@ -13,3 +13,10 @@
     display: flex;
     justify-content: space-between;
 }
+
+.lower_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1 0 auto;
+}

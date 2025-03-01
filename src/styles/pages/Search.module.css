@@ -34,3 +34,9 @@
     gap: 1rem;
     margin-bottom: 1rem;
 }
+
+.pagination_box {
+    display: flex;
+    justify-content: center;
+    margin: 2rem;
+}
