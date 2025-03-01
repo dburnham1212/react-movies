@@ -8,6 +8,8 @@ import Credits from "../utility/Credits/Credits";
 import BasicModal from "../utility/Modals/BasicModal";
 import ImageCarousel from "../utility/Carousels/ImageCarousel";
 import IndexedImageRow from "../utility/ImageRows/IndexedImageRow";
+import YouTube from "react-youtube";
+import VideoTrailerRow from "../utility/ImageRows/VideoTrailerRow";
 
 const TVShow = () => {
     const [tvShowData, setTvShowData] = useState({});
@@ -18,6 +20,9 @@ const TVShow = () => {
 
     const [openArtworkModal, setOpenArtworkModal] = useState(false);
     const [artworkModalIndex, setArtworkModalIndex] = useState(0);
+
+    const [openVideoModal, setOpenVideoModal] = useState(false);
+    const [videoModalIndex, setVideoModalIndex] = useState(0);
 
     const { id } = useParams();
 
@@ -66,6 +71,15 @@ const TVShow = () => {
 
     const closeArtworkModal = () => {
         setOpenArtworkModal(false);
+    };
+
+    const openVideoModalWithIndex = (index) => {
+        setOpenVideoModal(true);
+        setVideoModalIndex(index);
+    };
+
+    const closeVideoModal = () => {
+        setOpenVideoModal(false);
     };
 
     //Code html here
@@ -173,6 +187,25 @@ const TVShow = () => {
                                 setImageIndex={setArtworkModalIndex}
                                 images={tvShowImages.backdrops}
                                 mediaTitle={tvShowData.name || tvShowData.original_name}
+                            />
+                        }
+                    />
+                )}
+                {tvShowVideos?.length && <VideoTrailerRow videos={tvShowVideos} setOpen={openVideoModalWithIndex} />}
+                {tvShowVideos?.length && (
+                    <BasicModal
+                        open={openVideoModal}
+                        handleClose={closeVideoModal}
+                        children={
+                            <YouTube
+                                videoId={tvShowVideos[videoModalIndex].key}
+                                opts={{
+                                    height: "550px",
+                                    width: "100%",
+                                    playerVars: {
+                                        autoplay: 1,
+                                    },
+                                }}
                             />
                         }
                     />
