@@ -8,13 +8,19 @@ import IndexedImageRow from "../utility/ImageRows/IndexedImageRow";
 import BasicModal from "../utility/Modals/BasicModal";
 import ImageCarousel from "../utility/Carousels/ImageCarousel";
 import { Rating } from "@mui/material";
+import VideoTrailerRow from "../utility/ImageRows/VideoTrailerRow";
+import YouTube from "react-youtube";
 
 const Movie = () => {
     const [movieData, setMovieData] = useState({});
     const [movieImages, setMovieImages] = useState({});
+    const [movieVideos, setMovieVideos] = useState([]);
 
     const [openArtworkModal, setOpenArtworkModal] = useState(false);
     const [artworkModalIndex, setArtworkModalIndex] = useState(0);
+
+    const [openVideoModal, setOpenVideoModal] = useState(false);
+    const [videoModalIndex, setVideoModalIndex] = useState(0);
 
     const { id } = useParams();
 
@@ -28,6 +34,11 @@ const Movie = () => {
             console.log(response);
             setMovieImages(response);
         });
+
+        makeApiCall(`${BASE_URL}/movie/${id}/videos?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
+            console.log(response.results);
+            setMovieVideos(response.results.filter((video) => video.site === "YouTube"));
+        });
     }, [id]);
 
     // Open the gallery modal and set the index to the specified index
@@ -37,13 +48,18 @@ const Movie = () => {
     };
 
     // Close the gallery modal
-    const closeArworkModal = () => {
+    const closeArtworkModal = () => {
         setOpenArtworkModal(false);
     };
 
-    let ratingIndex = [];
+    const openVideoModalWithIndex = (index) => {
+        setOpenVideoModal(true);
+        setVideoModalIndex(index);
+    };
 
-    for (let index = 0; index < Math.round(movieData.vote_average / 2); index++) ratingIndex.push(1 + index);
+    const closeVideoModal = () => {
+        setOpenVideoModal(false);
+    };
 
     return (
         <>
@@ -128,7 +144,7 @@ const Movie = () => {
             {movieImages?.backdrops?.length && (
                 <BasicModal
                     open={openArtworkModal}
-                    handleClose={closeArworkModal}
+                    handleClose={closeArtworkModal}
                     children={
                         <ImageCarousel
                             imageIndex={artworkModalIndex}
@@ -139,6 +155,25 @@ const Movie = () => {
                     }
                 />
             )}
+            {movieVideos?.length && (
+                <BasicModal
+                    open={openVideoModal}
+                    handleClose={closeVideoModal}
+                    children={
+                        <YouTube
+                            videoId={movieVideos[videoModalIndex].key}
+                            opts={{
+                                height: "550px",
+                                width: "100%",
+                                playerVars: {
+                                    autoplay: 1,
+                                },
+                            }}
+                        />
+                    }
+                />
+            )}
+            {movieVideos?.length && <VideoTrailerRow videos={movieVideos} setOpen={openVideoModalWithIndex} />}
             <Credits />
         </>
     );

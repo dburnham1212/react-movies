@@ -64,7 +64,7 @@ const TVShow = () => {
         setArtworkModalIndex(index);
     };
 
-    const closeArworkModal = () => {
+    const closeArtworkModal = () => {
         setOpenArtworkModal(false);
     };
 
@@ -166,7 +166,7 @@ const TVShow = () => {
                 {tvShowImages.backdrops && (
                     <BasicModal
                         open={openArtworkModal}
-                        handleClose={closeArworkModal}
+                        handleClose={closeArtworkModal}
                         children={
                             <ImageCarousel
                                 imageIndex={artworkModalIndex}
@@ -177,7 +177,8 @@ const TVShow = () => {
                         }
                     />
                 )}
-                {Object.keys(tvShowAggCredits).length && <Credits title={"Credits"} credits={tvShowAggCredits} />} {/*Credit Component */}
+                {Object.keys(tvShowAggCredits).length && <Credits title={"Credits"} credits={tvShowAggCredits} />}{" "}
+                {/*Credit Component */}
             </div>
         </>
     );
