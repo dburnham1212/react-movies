@@ -15,6 +15,7 @@ const Movie = () => {
     const [movieData, setMovieData] = useState({});
     const [movieImages, setMovieImages] = useState({});
     const [movieVideos, setMovieVideos] = useState([]);
+    const [movieAggCredits, setMovieAggCredits] = useState({});
 
     const [openArtworkModal, setOpenArtworkModal] = useState(false);
     const [artworkModalIndex, setArtworkModalIndex] = useState(0);
@@ -39,6 +40,13 @@ const Movie = () => {
             console.log(response.results);
             setMovieVideos(response.results.filter((video) => video.site === "YouTube"));
         });
+
+        // Aggregate Credits
+        makeApiCall(`${BASE_URL}/movie/${id}/credits?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
+            console.log("==== Aggregate Credits ====");
+            console.log(response);
+            setMovieAggCredits(response);
+        });
     }, [id]);
 
     // Open the gallery modal and set the index to the specified index
@@ -52,11 +60,13 @@ const Movie = () => {
         setOpenArtworkModal(false);
     };
 
+    // Open the video modal and set the index to the specified index
     const openVideoModalWithIndex = (index) => {
         setOpenVideoModal(true);
         setVideoModalIndex(index);
     };
 
+    // Close video modal
     const closeVideoModal = () => {
         setOpenVideoModal(false);
     };
@@ -137,7 +147,7 @@ const Movie = () => {
                     </h4>
                 </div>
             </div>
-
+            {/* Gallery Carousel */}
             {movieImages?.backdrops?.length && (
                 <IndexedImageRow title={"Gallery"} media={movieImages.backdrops} setOpen={openArtworkModalWithIndex} />
             )}
@@ -155,6 +165,8 @@ const Movie = () => {
                     }
                 />
             )}
+            {/* Videos Components */}
+            {movieVideos?.length && <VideoTrailerRow videos={movieVideos} setOpen={openVideoModalWithIndex} />}
             {movieVideos?.length && (
                 <BasicModal
                     open={openVideoModal}
@@ -173,8 +185,8 @@ const Movie = () => {
                     }
                 />
             )}
-            {movieVideos?.length && <VideoTrailerRow videos={movieVideos} setOpen={openVideoModalWithIndex} />}
-            <Credits />
+            {/*Credit Component */}
+            {Object.keys(movieAggCredits).length && <Credits title={"Credits"} credits={movieAggCredits} />}{" "}
         </>
     );
 };

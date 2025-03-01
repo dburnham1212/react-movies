@@ -8,6 +8,8 @@ import Credits from "../utility/Credits/Credits";
 import BasicModal from "../utility/Modals/BasicModal";
 import ImageCarousel from "../utility/Carousels/ImageCarousel";
 import IndexedImageRow from "../utility/ImageRows/IndexedImageRow";
+import YouTube from "react-youtube";
+import VideoTrailerRow from "../utility/ImageRows/VideoTrailerRow";
 
 const TVShow = () => {
     const [tvShowData, setTvShowData] = useState({});
@@ -18,6 +20,9 @@ const TVShow = () => {
 
     const [openArtworkModal, setOpenArtworkModal] = useState(false);
     const [artworkModalIndex, setArtworkModalIndex] = useState(0);
+
+    const [openVideoModal, setOpenVideoModal] = useState(false);
+    const [videoModalIndex, setVideoModalIndex] = useState(0);
 
     const { id } = useParams();
 
@@ -59,13 +64,26 @@ const TVShow = () => {
         });
     }, []);
 
+    // Open the artwork modal and set index
     const openArtworkModalWithIndex = (index) => {
         setOpenArtworkModal(true);
         setArtworkModalIndex(index);
     };
 
+    // Close artwork modal
     const closeArtworkModal = () => {
         setOpenArtworkModal(false);
+    };
+
+    // Open video modal and set selected index
+    const openVideoModalWithIndex = (index) => {
+        setOpenVideoModal(true);
+        setVideoModalIndex(index);
+    };
+
+    // Close video modal
+    const closeVideoModal = () => {
+        setOpenVideoModal(false);
     };
 
     //Code html here
@@ -155,7 +173,7 @@ const TVShow = () => {
                         </h4>
                     </div>
                 </div>
-                {/*carousel(s) go here */}
+                {/* Gallery Carousel */}
                 {tvShowImages.backdrops && (
                     <IndexedImageRow
                         title={"Gallery"}
@@ -177,8 +195,28 @@ const TVShow = () => {
                         }
                     />
                 )}
-                {Object.keys(tvShowAggCredits).length && <Credits title={"Credits"} credits={tvShowAggCredits} />}{" "}
+                {/* Videos Components */}
+                {tvShowVideos?.length && <VideoTrailerRow videos={tvShowVideos} setOpen={openVideoModalWithIndex} />}
+                {tvShowVideos?.length && (
+                    <BasicModal
+                        open={openVideoModal}
+                        handleClose={closeVideoModal}
+                        children={
+                            <YouTube
+                                videoId={tvShowVideos[videoModalIndex].key}
+                                opts={{
+                                    height: "550px",
+                                    width: "100%",
+                                    playerVars: {
+                                        autoplay: 1,
+                                    },
+                                }}
+                            />
+                        }
+                    />
+                )}
                 {/*Credit Component */}
+                {Object.keys(tvShowAggCredits).length && <Credits title={"Credits"} credits={tvShowAggCredits} />}{" "}
             </div>
         </>
     );
