@@ -96,81 +96,85 @@ const Search = () => {
     };
 
     return (
-        <div className={styles.page_container}>
-            <div className={styles.input_options}>
-                <FormControl sx={{ minWidth: "25%" }}>
-                    <InputLabel id="select-media-label">Type</InputLabel>
-                    <Select
-                        labelId="select-media-label"
-                        id="select-media"
-                        value={searchFilter}
-                        label="Type"
-                        onChange={handleSearchFilterChange}
-                    >
-                        <MenuItem value={"All"}>All</MenuItem>
-                        <MenuItem value={"Movies"}>Movies</MenuItem>
-                        <MenuItem value={"TV"}>TV</MenuItem>
-                        <MenuItem value={"People"}>People</MenuItem>
-                    </Select>
-                </FormControl>
-                <Paper
-                    sx={{
-                        p: "2px 4px",
-                        display: "flex",
-                        alignItems: "center",
-                        width: "100%",
-                        border: "1px solid grey",
-                    }}
-                >
-                    <InputBase
-                        sx={{ ml: 1, flex: 1 }}
-                        placeholder="Search"
-                        value={searchTerm}
-                        inputProps={{ "aria-label": "search google maps" }}
-                        onChange={handleSearchTermChange}
-                        onKeyDown={handleKeypress}
-                    />
-                    <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-                    <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
-                        <SearchIcon onClick={() => searchWithPageNumber(1)} />
-                    </IconButton>
-                </Paper>
-            </div>
+        <>
+            <div className="wrapper">
+                <div className={styles.page_container}>
+                    <div className={styles.input_options}>
+                        <FormControl sx={{ minWidth: "25%" }}>
+                            <InputLabel id="select-media-label">Type</InputLabel>
+                            <Select
+                                labelId="select-media-label"
+                                id="select-media"
+                                value={searchFilter}
+                                label="Type"
+                                onChange={handleSearchFilterChange}
+                            >
+                                <MenuItem value={"All"}>All</MenuItem>
+                                <MenuItem value={"Movies"}>Movies</MenuItem>
+                                <MenuItem value={"TV"}>TV</MenuItem>
+                                <MenuItem value={"People"}>People</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <Paper
+                            sx={{
+                                p: "2px 4px",
+                                display: "flex",
+                                alignItems: "center",
+                                width: "100%",
+                                border: "1px solid grey",
+                            }}
+                        >
+                            <InputBase
+                                sx={{ ml: 1, flex: 1 }}
+                                placeholder="Search"
+                                value={searchTerm}
+                                inputProps={{ "aria-label": "search google maps" }}
+                                onChange={handleSearchTermChange}
+                                onKeyDown={handleKeypress}
+                            />
+                            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+                            <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+                                <SearchIcon onClick={() => searchWithPageNumber(1)} />
+                            </IconButton>
+                        </Paper>
+                    </div>
 
-            {hasSearched && !searchData?.length && (
-                <div className={styles.empty_search_box}>
-                    <h2>No Items Found</h2>
+                    {hasSearched && !searchData?.length && (
+                        <div className={styles.empty_search_box}>
+                            <h2>No Items Found</h2>
+                        </div>
+                    )}
+                    {!hasSearched && !searchData?.length && (
+                        <div className={styles.empty_search_box}>
+                            <h2>Please enter a search term and press search</h2>
+                        </div>
+                    )}
+                    <div className={styles.card_container}>
+                        {/* If there is a search term and data is found */}
+                        {hasSearched &&
+                            searchData?.length &&
+                            searchData?.map((searchItem, index) => {
+                                return <MediaCard key={index} media={searchItem} displayType={true} />;
+                            })}
+                    </div>
+                    {totalPages > 1 && (
+                        <div className={styles.pagination_box}>
+                            <Stack spacing={2}>
+                                <Pagination
+                                    count={totalPages}
+                                    page={currentPage}
+                                    onChange={handlePageChange}
+                                    variant="outlined"
+                                    shape="rounded"
+                                    showFirstButton
+                                    showLastButton
+                                />
+                            </Stack>
+                        </div>
+                    )}
                 </div>
-            )}
-            {!hasSearched && !searchData?.length && (
-                <div className={styles.empty_search_box}>
-                    <h2>Please enter a search term and press search</h2>
-                </div>
-            )}
-            <div className={styles.card_container}>
-                {/* If there is a search term and data is found */}
-                {hasSearched &&
-                    searchData?.length &&
-                    searchData?.map((searchItem, index) => {
-                        return <MediaCard key={index} media={searchItem} displayType={true} />;
-                    })}
             </div>
-            {totalPages > 1 && (
-                <div className={styles.pagination_box}>
-                    <Stack spacing={2}>
-                        <Pagination
-                            count={totalPages}
-                            page={currentPage}
-                            onChange={handlePageChange}
-                            variant="outlined"
-                            shape="rounded"
-                            showFirstButton
-                            showLastButton
-                        />
-                    </Stack>
-                </div>
-            )}
-        </div>
+        </>
     );
 };
 

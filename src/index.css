@@ -32,6 +32,11 @@ a:hover {
     color: #f57c00;
 }
 
+.wrapper {
+    margin: auto;
+    max-width: 83.75rem;
+}
+
 /* width/height */
 ::-webkit-scrollbar {
     width: 10px;

@@ -19,8 +19,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid #fea423;
-    border-top: 2px solid #fea423;
+    border: 2px solid #fea423;
 }
 
 .large_heading {
@@ -37,8 +36,8 @@
 .card_row {
     display: flex;
     overflow-x: auto;
-    overflow-y: hidden;
-    gap: 0.25rem;
+    overflow-y: clip;
+    gap: 0.5rem;
     margin: 1rem 1rem 3rem 1rem;
 }
 
