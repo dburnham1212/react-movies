@@ -39,7 +39,7 @@
     overflow-x: auto;
     overflow-y: hidden;
     gap: 0.25rem;
-    margin: 1rem;
+    margin: 1rem 1rem 3rem 1rem;
 }
 
 .large_card_container {
