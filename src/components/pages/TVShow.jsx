@@ -210,7 +210,8 @@ const TVShow = () => {
                         }
                     />
                 )}
-                {Object.keys(tvShowAggCredits).length && <Credits title={"Credits"} credits={tvShowAggCredits} />}{" "}
+                {Object.keys(tvShowAggCredits).length && <Credits credits={tvShowAggCredits?.cast} title = {"Cast"}/>}{" "}
+                {Object.keys(tvShowAggCredits).length && <Credits credits={tvShowAggCredits?.crew} title = {"Crew"}/>}{" "}
                 {/*Credit Component */}
             </div>
         </>
