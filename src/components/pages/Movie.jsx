@@ -185,7 +185,9 @@ const Movie = () => {
                     />
                 )}
                 {movieVideos?.length && <VideoTrailerRow videos={movieVideos} setOpen={openVideoModalWithIndex} />}
-                <Credits />
+                {/*Credits */}
+                {Object.keys(movieCredits).length && <Credits credits={movieCredits?.cast} title = {"Cast"}/>}{" "}
+                {Object.keys(movieCredits).length && <Credits credits={movieCredits?.crew} title = {"Crew"}/>}{" "}
             </div>
         </>
     );

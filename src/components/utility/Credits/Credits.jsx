@@ -86,8 +86,8 @@ const Credits = (props) => {
                                     )} 
                                     <h4>Popularity: <span id = {styles.small_text}>{cast?.popularity.toFixed(1)}</span></h4>
                                     <h4>Department: <span id = {styles.small_text}>{cast?.known_for_department}</span></h4>
-                                    {title === "Cast" ? <h4>Role(s): <span id = {styles.small_text}>{cast?.roles[0].character}</span></h4> : 
-                                    <h4>Job(s): <span id = {styles.small_text}>{cast?.jobs[0].job}</span></h4>}
+                                    {title === "Cast" ? <h4>Role(s): <span id = {styles.small_text}>{cast?.character ? cast?.character : cast?.roles[0].character}</span></h4> : 
+                                    <h4>Job(s): <span id = {styles.small_text}>{cast?.job ? cast?.job : cast?.jobs[0].job}</span></h4>}
                                 </CardContent>
                                 <a id = {styles.card_link} href={`/person/${cast?.id}`}>Learn More</a>
                             </div>
