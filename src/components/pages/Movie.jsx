@@ -15,6 +15,7 @@ const Movie = () => {
     const [movieData, setMovieData] = useState({});
     const [movieImages, setMovieImages] = useState({});
     const [movieVideos, setMovieVideos] = useState([]);
+    const [movieCredits, setMovieCredits] = useState({});
 
     const [openArtworkModal, setOpenArtworkModal] = useState(false);
     const [artworkModalIndex, setArtworkModalIndex] = useState(0);
@@ -38,6 +39,11 @@ const Movie = () => {
         makeApiCall(`${BASE_URL}/movie/${id}/videos?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
             console.log(response.results);
             setMovieVideos(response.results.filter((video) => video.site === "YouTube"));
+        });
+
+        makeApiCall(`${BASE_URL}/movie/${id}/credits?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
+            console.log(response);
+            setMovieCredits(response);
         });
     }, [id]);
 
