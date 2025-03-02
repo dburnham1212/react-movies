@@ -67,107 +67,109 @@ const Home = () => {
 
     return (
         <>
-            <div style={{ maxHeight: "650px", width: "100%", height: "650px" }}>
-                {trending.length && <MainCarousel mediaData={trending} />}
-            </div>
-            <div className={styles.large_heading_container}>
-                <LocalMoviesIcon className={styles.icon} />
-                <h1 className={styles.large_heading}>Movies</h1>
-                <LocalMoviesIcon className={styles.icon} />
-            </div>
+            <div className="wrapper">
+                <div style={{ maxHeight: "650px", width: "100%", height: "650px" }}>
+                    {trending.length && <MainCarousel mediaData={trending} />}
+                </div>
+                <div className={styles.large_heading_container}>
+                    <LocalMoviesIcon className={styles.icon} />
+                    <h1 className={styles.large_heading}>Movies</h1>
+                    <LocalMoviesIcon className={styles.icon} />
+                </div>
 
-            <h4 className={styles.small_heading}>Now Playing</h4>
-            <div className={styles.card_row}>
-                {nowPlayingMovies?.map((movie) => {
-                    return (
-                        <div className={styles.large_card_container}>
-                            <MediaCard media={movie} displayType={false} mediaType="movie" />
-                        </div>
-                    );
-                })}
-            </div>
+                <h4 className={styles.small_heading}>Now Playing</h4>
+                <div className={styles.card_row}>
+                    {nowPlayingMovies?.map((movie) => {
+                        return (
+                            <div className={styles.large_card_container}>
+                                <MediaCard media={movie} displayType={false} mediaType="movie" />
+                            </div>
+                        );
+                    })}
+                </div>
 
-            <h4 className={styles.small_heading}>Top Rated</h4>
-            <div className={styles.card_row}>
-                {topRatedMovies?.map((movie) => {
-                    return (
-                        <div className={styles.medium_card_container}>
-                            <MediaCard media={movie} displayType={false} mediaType="movie" />
-                        </div>
-                    );
-                })}
-            </div>
+                <h4 className={styles.small_heading}>Top Rated</h4>
+                <div className={styles.card_row}>
+                    {topRatedMovies?.map((movie) => {
+                        return (
+                            <div className={styles.medium_card_container}>
+                                <MediaCard media={movie} displayType={false} mediaType="movie" />
+                            </div>
+                        );
+                    })}
+                </div>
 
-            <h4 className={styles.small_heading}>Popular</h4>
-            <div className={styles.card_row}>
-                {popularMovies?.map((movie) => {
-                    return (
-                        <div className={styles.medium_card_container}>
-                            <MediaCard media={movie} displayType={false} mediaType="movie" />
-                        </div>
-                    );
-                })}
-            </div>
+                <h4 className={styles.small_heading}>Popular</h4>
+                <div className={styles.card_row}>
+                    {popularMovies?.map((movie) => {
+                        return (
+                            <div className={styles.medium_card_container}>
+                                <MediaCard media={movie} displayType={false} mediaType="movie" />
+                            </div>
+                        );
+                    })}
+                </div>
 
-            <h4 className={styles.small_heading}>Upcoming</h4>
-            <div className={styles.card_row}>
-                {upcomingMovies?.map((movie) => {
-                    return (
-                        <div className={styles.medium_card_container}>
-                            <MediaCard media={movie} displayType={false} mediaType="movie" />
-                        </div>
-                    );
-                })}
-            </div>
+                <h4 className={styles.small_heading}>Upcoming</h4>
+                <div className={styles.card_row}>
+                    {upcomingMovies?.map((movie) => {
+                        return (
+                            <div className={styles.medium_card_container}>
+                                <MediaCard media={movie} displayType={false} mediaType="movie" />
+                            </div>
+                        );
+                    })}
+                </div>
 
-            <div className={styles.large_heading_container}>
-                <TvIcon className={styles.icon} />
-                <h1 className={styles.large_heading}>TV</h1>
-                <TvIcon className={styles.icon} />
-            </div>
+                <div className={styles.large_heading_container}>
+                    <TvIcon className={styles.icon} />
+                    <h1 className={styles.large_heading}>TV</h1>
+                    <TvIcon className={styles.icon} />
+                </div>
 
-            <h4 className={styles.small_heading}>Airing Today</h4>
-            <div className={styles.card_row}>
-                {airingTodayTV?.map((show) => {
-                    return (
-                        <div className={styles.large_card_container}>
-                            <MediaCard media={show} displayType={false} mediaType="tv" />
-                        </div>
-                    );
-                })}
-            </div>
+                <h4 className={styles.small_heading}>Airing Today</h4>
+                <div className={styles.card_row}>
+                    {airingTodayTV?.map((show) => {
+                        return (
+                            <div className={styles.large_card_container}>
+                                <MediaCard media={show} displayType={false} mediaType="tv" />
+                            </div>
+                        );
+                    })}
+                </div>
 
-            <h4 className={styles.small_heading}>Top Rated</h4>
-            <div className={styles.card_row}>
-                {topRatedTv?.map((show) => {
-                    return (
-                        <div className={styles.medium_card_container}>
-                            <MediaCard media={show} displayType={false} mediaType="tv" />
-                        </div>
-                    );
-                })}
-            </div>
+                <h4 className={styles.small_heading}>Top Rated</h4>
+                <div className={styles.card_row}>
+                    {topRatedTv?.map((show) => {
+                        return (
+                            <div className={styles.medium_card_container}>
+                                <MediaCard media={show} displayType={false} mediaType="tv" />
+                            </div>
+                        );
+                    })}
+                </div>
 
-            <h4 className={styles.small_heading}>On The Air</h4>
-            <div className={styles.card_row}>
-                {onTheAirTV?.map((show) => {
-                    return (
-                        <div className={styles.medium_card_container}>
-                            <MediaCard media={show} displayType={false} mediaType="tv" />
-                        </div>
-                    );
-                })}
-            </div>
+                <h4 className={styles.small_heading}>On The Air</h4>
+                <div className={styles.card_row}>
+                    {onTheAirTV?.map((show) => {
+                        return (
+                            <div className={styles.medium_card_container}>
+                                <MediaCard media={show} displayType={false} mediaType="tv" />
+                            </div>
+                        );
+                    })}
+                </div>
 
-            <h4 className={styles.small_heading}>Popular</h4>
-            <div className={styles.card_row}>
-                {popularTV?.map((show) => {
-                    return (
-                        <div className={styles.medium_card_container}>
-                            <MediaCard media={show} displayType={false} mediaType="tv" />
-                        </div>
-                    );
-                })}
+                <h4 className={styles.small_heading}>Popular</h4>
+                <div className={styles.card_row}>
+                    {popularTV?.map((show) => {
+                        return (
+                            <div className={styles.medium_card_container}>
+                                <MediaCard media={show} displayType={false} mediaType="tv" />
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
         </>
     );

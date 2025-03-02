@@ -99,7 +99,7 @@ const Browse = () => {
         makeApiCall(`${BASE_URL}/tv/${66732}?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
             setStrangerThingsSeasons(refineSeasons(response.seasons));
         });
-        //https://api.themoviedb.org/3/tv/{series_id}
+
         // Episode API Calls
         makeApiCall(`${BASE_URL}/tv/${66732}/season/${1}?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
             console.log(response.episodes);
@@ -113,78 +113,88 @@ const Browse = () => {
 
     return (
         <>
-            <h1 className={styles.title}>Browse</h1>
+            <div className="wrapper">
+                <h1 className={styles.title}>Browse</h1>
 
-            <FormControl sx={{ marginLeft: 2.5, minWidth: 120 }}>
-                <InputLabel id="select-media-label">Media Type</InputLabel>
-                <Select
-                    labelId="select-media-label"
-                    id="select-media"
-                    value={mediaType}
-                    label="Media Type"
-                    onChange={handleMediaTypeChange}
-                >
-                    <MenuItem value={"Movies"}>Movies</MenuItem>
-                    <MenuItem value={"TV"}>TV</MenuItem>
-                    <MenuItem value={"People"}>People</MenuItem>
-                    <MenuItem value={"Seasons"}>Seasons</MenuItem>
-                    <MenuItem value={"Episodes"}>Episodes</MenuItem>
-                </Select>
-            </FormControl>
+                <FormControl sx={{ marginLeft: 2.5, minWidth: 120 }}>
+                    <InputLabel id="select-media-label">Media Type</InputLabel>
+                    <Select
+                        labelId="select-media-label"
+                        id="select-media"
+                        value={mediaType}
+                        label="Media Type"
+                        onChange={handleMediaTypeChange}
+                    >
+                        <MenuItem value={"Movies"}>Movies</MenuItem>
+                        <MenuItem value={"TV"}>TV</MenuItem>
+                        <MenuItem value={"People"}>People</MenuItem>
+                        <MenuItem value={"Seasons"}>Seasons</MenuItem>
+                        <MenuItem value={"Episodes"}>Episodes</MenuItem>
+                    </Select>
+                </FormControl>
 
-            {mediaType === "Movies" && (
-                <>
-                    {actionMovies.length && (
-                        <MediaImageRow title={"Action Movies"} media={actionMovies} basePath={"/movie"} />
-                    )}
+                {mediaType === "Movies" && (
+                    <>
+                        {actionMovies.length && (
+                            <MediaImageRow title={"Action Movies"} media={actionMovies} basePath={"/movie"} />
+                        )}
 
-                    {comedyMovies.length && (
-                        <MediaImageRow title={"Comedy Movies"} media={comedyMovies} basePath={"/movie"} />
-                    )}
+                        {comedyMovies.length && (
+                            <MediaImageRow title={"Comedy Movies"} media={comedyMovies} basePath={"/movie"} />
+                        )}
 
-                    {adventureMovies.length && (
-                        <MediaImageRow title={"Adventure Movies"} media={adventureMovies} basePath={"/movie"} />
-                    )}
-                </>
-            )}
-            {mediaType === "TV" && (
-                <>
-                    {animationTvShows.length && (
-                        <MediaImageRow title={"Animated TV"} media={animationTvShows} basePath={"/tv"} />
-                    )}
-                    {animationTvShows.length && (
-                        <MediaImageRow title={"Comedy TV"} media={comedyTVShows} basePath={"/tv"} />
-                    )}
-                    {sciFiFantasyTvShows.length && (
-                        <MediaImageRow title={"Sci-Fi and Fantasy TV"} media={sciFiFantasyTvShows} basePath={"/tv"} />
-                    )}
-                </>
-            )}
-            {mediaType === "People" && (
-                <>
-                    {trendingPeople.length && (
-                        <MediaImageRow title={"Trending People"} media={trendingPeople} basePath={"/person"} />
-                    )}
-                </>
-            )}
-            {mediaType === "Seasons" && (
-                <>
-                    {strangerThingsSeasons.length && (
-                        <MediaImageRow title={"Stranger Things"} media={strangerThingsSeasons} basePath={"/season"} />
-                    )}
-                </>
-            )}
-            {mediaType === "Episodes" && (
-                <>
-                    {strangerThingsOneEpisodes.length && (
-                        <MediaImageRow
-                            title={"Stranger Things One Episodes"}
-                            media={strangerThingsOneEpisodes}
-                            basePath={"/episode"}
-                        />
-                    )}
-                </>
-            )}
+                        {adventureMovies.length && (
+                            <MediaImageRow title={"Adventure Movies"} media={adventureMovies} basePath={"/movie"} />
+                        )}
+                    </>
+                )}
+                {mediaType === "TV" && (
+                    <>
+                        {animationTvShows.length && (
+                            <MediaImageRow title={"Animated TV"} media={animationTvShows} basePath={"/tv"} />
+                        )}
+                        {animationTvShows.length && (
+                            <MediaImageRow title={"Comedy TV"} media={comedyTVShows} basePath={"/tv"} />
+                        )}
+                        {sciFiFantasyTvShows.length && (
+                            <MediaImageRow
+                                title={"Sci-Fi and Fantasy TV"}
+                                media={sciFiFantasyTvShows}
+                                basePath={"/tv"}
+                            />
+                        )}
+                    </>
+                )}
+                {mediaType === "People" && (
+                    <>
+                        {trendingPeople.length && (
+                            <MediaImageRow title={"Trending People"} media={trendingPeople} basePath={"/person"} />
+                        )}
+                    </>
+                )}
+                {mediaType === "Seasons" && (
+                    <>
+                        {strangerThingsSeasons.length && (
+                            <MediaImageRow
+                                title={"Stranger Things"}
+                                media={strangerThingsSeasons}
+                                basePath={"/season"}
+                            />
+                        )}
+                    </>
+                )}
+                {mediaType === "Episodes" && (
+                    <>
+                        {strangerThingsOneEpisodes.length && (
+                            <MediaImageRow
+                                title={"Stranger Things One Episodes"}
+                                media={strangerThingsOneEpisodes}
+                                basePath={"/episode"}
+                            />
+                        )}
+                    </>
+                )}
+            </div>
         </>
     );
 };
