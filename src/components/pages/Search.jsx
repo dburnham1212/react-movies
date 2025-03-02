@@ -152,7 +152,7 @@ const Search = () => {
                 {hasSearched &&
                     searchData?.length &&
                     searchData?.map((searchItem, index) => {
-                        return <MediaCard key={index} media={searchItem} />;
+                        return <MediaCard key={index} media={searchItem} displayType={true} />;
                     })}
             </div>
             {totalPages > 1 && (

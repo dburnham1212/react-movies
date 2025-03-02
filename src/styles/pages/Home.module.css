@@ -1,3 +1,53 @@
 .title {
     color: lightgrey;
 }
+
+.carousel_container {
+    max-height: "650px";
+    width: "100%";
+    height: "650px";
+}
+
+.icon {
+    color: #fea423;
+    font-size: 1.5rem;
+}
+
+.large_heading_container {
+    padding: 0.25rem 1rem;
+    background-image: linear-gradient(#1e1e1e, #000);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #fea423;
+    border-top: 2px solid #fea423;
+}
+
+.large_heading {
+    margin: 0;
+    padding: 0;
+}
+
+.small_heading {
+    border-bottom: 2px solid lightgrey;
+    padding: 0.25rem;
+    margin: 1em 1em;
+}
+
+.card_row {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 0.25rem;
+    margin: 1rem;
+}
+
+.large_card_container {
+    display: flex;
+    min-width: 15rem;
+}
+
+.medium_card_container {
+    display: flex;
+    min-width: 10rem;
+}

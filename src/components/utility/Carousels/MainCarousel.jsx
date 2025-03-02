@@ -50,7 +50,7 @@ const MainCarousel = (props) => {
                             <div className={styles.img_slider_details}>
                                 <h1 className={styles.img_slider_title}>{media.name || media.title}</h1>
                                 <p className={styles.img_slider_details_text}>{media.overview}</p>
-                                <h4>Type: {media.media_type.toUpperCase()}</h4>
+                                <h4>Type: {media?.media_type?.toUpperCase()}</h4>
                                 <Button
                                     onClick={() => goToCorrectPage(media.media_type, media.id)}
                                     variant="contained"
