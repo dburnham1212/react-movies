@@ -169,7 +169,9 @@ const Movie = () => {
                         </h4>
                     </div>
                 </div>
+                {/* Watch provider data */}
                 <WatchProviders watchProviders={watchProviders} title={movieData.title} />
+                {/* Gallery */}
                 {movieImages?.backdrops?.length && (
                     <IndexedImageRow
                         title={"Gallery"}

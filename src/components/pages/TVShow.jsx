@@ -11,6 +11,7 @@ import IndexedImageRow from "../utility/ImageRows/IndexedImageRow";
 import YouTube from "react-youtube";
 import VideoTrailerRow from "../utility/ImageRows/VideoTrailerRow";
 import MediaCardRow from "../utility/ImageRows/MediaCardRow";
+import WatchProviders from "../utility/WatchProviders/WatchProviders";
 
 const TVShow = () => {
     const [tvShowData, setTvShowData] = useState({});
@@ -20,6 +21,7 @@ const TVShow = () => {
     const [tvShowVideos, setTvShowVideos] = useState([]);
     const [recommendedTv, setRecommendedTv] = useState([]);
     const [similarTv, setSimilarTv] = useState([]);
+    const [watchProviders, setWatchProviders] = useState([]);
 
     const [openArtworkModal, setOpenArtworkModal] = useState(false);
     const [artworkModalIndex, setArtworkModalIndex] = useState(0);
@@ -81,6 +83,15 @@ const TVShow = () => {
             console.log(response.results);
             setSimilarTv(response.results);
         });
+
+        // Similar
+        makeApiCall(`${BASE_URL}/tv/${id}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}`).then(
+            (response) => {
+                console.log("==== Videos ====");
+                console.log(response.results);
+                setWatchProviders(response.results);
+            }
+        );
     }, []);
 
     const openArtworkModalWithIndex = (index) => {
@@ -188,6 +199,8 @@ const TVShow = () => {
                         </h4>
                     </div>
                 </div>
+                {/* Watch provider data */}
+                <WatchProviders watchProviders={watchProviders} title={tvShowData.name} />
                 {/*carousel(s) go here */}
                 {tvShowImages.backdrops && (
                     <IndexedImageRow
