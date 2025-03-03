@@ -10,12 +10,18 @@ import ImageCarousel from "../utility/Carousels/ImageCarousel";
 import { Rating } from "@mui/material";
 import VideoTrailerRow from "../utility/ImageRows/VideoTrailerRow";
 import YouTube from "react-youtube";
+import MediaCardRow from "../utility/ImageRows/MediaCardRow";
+import WatchProviders from "../utility/WatchProviders/WatchProviders";
 
 const Movie = () => {
     const [movieData, setMovieData] = useState({});
     const [movieImages, setMovieImages] = useState({});
     const [movieVideos, setMovieVideos] = useState([]);
     const [movieCredits, setMovieCredits] = useState({});
+    const [similarMovies, setSimilarMovies] = useState([]);
+    const [recommendedMovies, setRecommendedMovies] = useState([]);
+
+    const [watchProviders, setWatchProviders] = useState({});
 
     const [openArtworkModal, setOpenArtworkModal] = useState(false);
     const [artworkModalIndex, setArtworkModalIndex] = useState(0);
@@ -45,6 +51,25 @@ const Movie = () => {
             console.log(response);
             setMovieCredits(response);
         });
+
+        makeApiCall(`${BASE_URL}/movie/${id}/similar?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
+            console.log(response.results);
+            setSimilarMovies(response.results);
+        });
+
+        makeApiCall(`${BASE_URL}/movie/${id}/recommendations?api_key=${process.env.REACT_APP_API_KEY}`).then(
+            (response) => {
+                console.log(response.results);
+                setRecommendedMovies(response.results);
+            }
+        );
+
+        makeApiCall(`${BASE_URL}/movie/${id}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}`).then(
+            (response) => {
+                console.log(response);
+                setWatchProviders(response.results);
+            }
+        );
     }, [id]);
 
     // Open the gallery modal and set the index to the specified index
@@ -144,7 +169,7 @@ const Movie = () => {
                         </h4>
                     </div>
                 </div>
-
+                <WatchProviders watchProviders={watchProviders} title={movieData.title} />
                 {movieImages?.backdrops?.length && (
                     <IndexedImageRow
                         title={"Gallery"}
@@ -186,8 +211,12 @@ const Movie = () => {
                 )}
                 {movieVideos?.length && <VideoTrailerRow videos={movieVideos} setOpen={openVideoModalWithIndex} />}
                 {/*Credits */}
-                {Object.keys(movieCredits).length && <Credits credits={movieCredits?.cast} title = {"Cast"}/>}{" "}
-                {Object.keys(movieCredits).length && <Credits credits={movieCredits?.crew} title = {"Crew"}/>}{" "}
+                {Object.keys(movieCredits).length && <Credits credits={movieCredits?.cast} title={"Cast"} />}{" "}
+                {Object.keys(movieCredits).length && <Credits credits={movieCredits?.crew} title={"Crew"} />}{" "}
+                {/* Recommended Movies */}
+                <MediaCardRow media={recommendedMovies} title="Recommended Movies" mediaType="movie" size="N" />
+                {/* Similar Movies */}
+                <MediaCardRow media={similarMovies} title="Similar Movies" mediaType="movie" size="N" />
             </div>
         </>
     );

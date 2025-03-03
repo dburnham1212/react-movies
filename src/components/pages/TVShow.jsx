@@ -10,6 +10,7 @@ import ImageCarousel from "../utility/Carousels/ImageCarousel";
 import IndexedImageRow from "../utility/ImageRows/IndexedImageRow";
 import YouTube from "react-youtube";
 import VideoTrailerRow from "../utility/ImageRows/VideoTrailerRow";
+import MediaCardRow from "../utility/ImageRows/MediaCardRow";
 
 const TVShow = () => {
     const [tvShowData, setTvShowData] = useState({});
@@ -17,6 +18,8 @@ const TVShow = () => {
     const [tvShowAggCredits, setTvShowAggCredits] = useState({});
     const [tvShowImages, setTvShowImages] = useState({});
     const [tvShowVideos, setTvShowVideos] = useState([]);
+    const [recommendedTv, setRecommendedTv] = useState([]);
+    const [similarTv, setSimilarTv] = useState([]);
 
     const [openArtworkModal, setOpenArtworkModal] = useState(false);
     const [artworkModalIndex, setArtworkModalIndex] = useState(0);
@@ -49,7 +52,7 @@ const TVShow = () => {
             }
         );
 
-        // Videos
+        // Images
         makeApiCall(`${BASE_URL}/tv/${id}/images?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
             console.log("==== Images ====");
             console.log(response);
@@ -61,6 +64,22 @@ const TVShow = () => {
             console.log("==== Videos ====");
             console.log(response.results);
             setTvShowVideos(response.results);
+        });
+
+        // Recommendations
+        makeApiCall(`${BASE_URL}/tv/${id}/recommendations?api_key=${process.env.REACT_APP_API_KEY}`).then(
+            (response) => {
+                console.log("==== Videos ====");
+                console.log(response.results);
+                setRecommendedTv(response.results);
+            }
+        );
+
+        // Similar
+        makeApiCall(`${BASE_URL}/tv/${id}/similar?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
+            console.log("==== Videos ====");
+            console.log(response.results);
+            setSimilarTv(response.results);
         });
     }, []);
 
@@ -210,9 +229,15 @@ const TVShow = () => {
                         }
                     />
                 )}
-                {Object.keys(tvShowAggCredits).length && <Credits credits={tvShowAggCredits?.cast} title = {"Cast"}/>}{" "}
-                {Object.keys(tvShowAggCredits).length && <Credits credits={tvShowAggCredits?.crew} title = {"Crew"}/>}{" "}
                 {/*Credit Component */}
+                {Object.keys(tvShowAggCredits).length && (
+                    <Credits credits={tvShowAggCredits?.cast} title={"Cast"} />
+                )}{" "}
+                {Object.keys(tvShowAggCredits).length && <Credits credits={tvShowAggCredits?.crew} title={"Crew"} />}{" "}
+                {/* Recommended Movies */}
+                <MediaCardRow media={recommendedTv} title="Recommended Shows" mediaType="tv" size="N" />
+                {/* Similar Movies */}
+                <MediaCardRow media={similarTv} title="Similar Shows" mediaType="tv" size="N" />
             </div>
         </>
     );

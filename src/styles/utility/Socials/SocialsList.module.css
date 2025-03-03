@@ -1,10 +1,12 @@
-.title {
-}
-
 .facebook_link {
     color: blue;
 }
 
 .icon {
     font-size: 4rem;
+}
+
+.icon_container {
+    display: flex;
+    gap: 0.25rem;
 }
