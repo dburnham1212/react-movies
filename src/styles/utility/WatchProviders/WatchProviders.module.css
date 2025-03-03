@@ -1,0 +1,21 @@
+.container {
+    margin: 1rem;
+    border: 1px solid lightgrey;
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+.underline {
+    border-bottom: 1px solid lightgrey;
+}
+
+.icon_container {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.image_icon {
+    height: 3rem;
+    width: 3rem;
+    border-radius: 10px;
+}

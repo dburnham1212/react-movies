@@ -42,3 +42,21 @@
     color: lightgrey;
     text-align: center;
 }
+
+.card_row {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 0.5rem;
+    margin: 1rem 1rem 3rem 1rem;
+}
+
+.large_card_container {
+    display: flex;
+    min-width: 15rem;
+}
+
+.medium_card_container {
+    display: flex;
+    min-width: 10rem;
+}

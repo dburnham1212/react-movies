@@ -11,6 +11,7 @@ import TvIcon from "@mui/icons-material/Tv";
 
 import MainCarousel from "../utility/Carousels/MainCarousel";
 import MediaCard from "../utility/Cards/MediaCard";
+import MediaCardRow from "../utility/ImageRows/MediaCardRow";
 
 const Home = () => {
     const [trending, setTrending] = useState([]);
@@ -76,50 +77,14 @@ const Home = () => {
                     <h1 className={styles.large_heading}>Movies</h1>
                     <LocalMoviesIcon className={styles.icon} />
                 </div>
-
-                <h4 className={styles.small_heading}>Now Playing</h4>
-                <div className={styles.card_row}>
-                    {nowPlayingMovies?.map((movie) => {
-                        return (
-                            <div className={styles.large_card_container}>
-                                <MediaCard media={movie} displayType={false} mediaType="movie" />
-                            </div>
-                        );
-                    })}
-                </div>
-
-                <h4 className={styles.small_heading}>Top Rated</h4>
-                <div className={styles.card_row}>
-                    {topRatedMovies?.map((movie) => {
-                        return (
-                            <div className={styles.medium_card_container}>
-                                <MediaCard media={movie} displayType={false} mediaType="movie" />
-                            </div>
-                        );
-                    })}
-                </div>
-
-                <h4 className={styles.small_heading}>Popular</h4>
-                <div className={styles.card_row}>
-                    {popularMovies?.map((movie) => {
-                        return (
-                            <div className={styles.medium_card_container}>
-                                <MediaCard media={movie} displayType={false} mediaType="movie" />
-                            </div>
-                        );
-                    })}
-                </div>
-
-                <h4 className={styles.small_heading}>Upcoming</h4>
-                <div className={styles.card_row}>
-                    {upcomingMovies?.map((movie) => {
-                        return (
-                            <div className={styles.medium_card_container}>
-                                <MediaCard media={movie} displayType={false} mediaType="movie" />
-                            </div>
-                        );
-                    })}
-                </div>
+                {/* Now Playing Movies */}
+                <MediaCardRow media={nowPlayingMovies} title="Now Playing" mediaType="movie" size="L" />
+                {/* Top Rated Movies */}
+                <MediaCardRow media={topRatedMovies} title="Top Rated" mediaType="movie" size="N" />
+                {/* Top Rated Movies */}
+                <MediaCardRow media={popularMovies} title="Popular" mediaType="movie" size="N" />
+                {/* Upcoming Movies */}
+                <MediaCardRow media={upcomingMovies} title="Upcoming" mediaType="movie" size="N" />
 
                 <div className={styles.large_heading_container}>
                     <TvIcon className={styles.icon} />
@@ -127,49 +92,14 @@ const Home = () => {
                     <TvIcon className={styles.icon} />
                 </div>
 
-                <h4 className={styles.small_heading}>Airing Today</h4>
-                <div className={styles.card_row}>
-                    {airingTodayTV?.map((show) => {
-                        return (
-                            <div className={styles.large_card_container}>
-                                <MediaCard media={show} displayType={false} mediaType="tv" />
-                            </div>
-                        );
-                    })}
-                </div>
-
-                <h4 className={styles.small_heading}>Top Rated</h4>
-                <div className={styles.card_row}>
-                    {topRatedTv?.map((show) => {
-                        return (
-                            <div className={styles.medium_card_container}>
-                                <MediaCard media={show} displayType={false} mediaType="tv" />
-                            </div>
-                        );
-                    })}
-                </div>
-
-                <h4 className={styles.small_heading}>On The Air</h4>
-                <div className={styles.card_row}>
-                    {onTheAirTV?.map((show) => {
-                        return (
-                            <div className={styles.medium_card_container}>
-                                <MediaCard media={show} displayType={false} mediaType="tv" />
-                            </div>
-                        );
-                    })}
-                </div>
-
-                <h4 className={styles.small_heading}>Popular</h4>
-                <div className={styles.card_row}>
-                    {popularTV?.map((show) => {
-                        return (
-                            <div className={styles.medium_card_container}>
-                                <MediaCard media={show} displayType={false} mediaType="tv" />
-                            </div>
-                        );
-                    })}
-                </div>
+                {/* Airing Today TV */}
+                <MediaCardRow media={airingTodayTV} title="Airing Today" mediaType="tv" size="L" />
+                {/* Top Rated TV */}
+                <MediaCardRow media={topRatedTv} title="Top Rated" mediaType="tv" size="N" />
+                {/* On The Air TV */}
+                <MediaCardRow media={onTheAirTV} title="On The Air" mediaType="tv" size="N" />
+                {/* On The Air TV */}
+                <MediaCardRow media={popularTV} title="Popular" mediaType="tv" size="N" />
             </div>
         </>
     );
