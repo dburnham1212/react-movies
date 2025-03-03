@@ -12,6 +12,7 @@ import YouTube from "react-youtube";
 import VideoTrailerRow from "../utility/ImageRows/VideoTrailerRow";
 import MediaCardRow from "../utility/ImageRows/MediaCardRow";
 import WatchProviders from "../utility/WatchProviders/WatchProviders";
+import Reviews from "../utility/Reviews/Reviews";
 
 const TVShow = () => {
     const [tvShowData, setTvShowData] = useState({});
@@ -22,6 +23,7 @@ const TVShow = () => {
     const [recommendedTv, setRecommendedTv] = useState([]);
     const [similarTv, setSimilarTv] = useState([]);
     const [watchProviders, setWatchProviders] = useState([]);
+    const [reviews, setReviews] = useState({});
 
     const [openArtworkModal, setOpenArtworkModal] = useState(false);
     const [artworkModalIndex, setArtworkModalIndex] = useState(0);
@@ -92,6 +94,13 @@ const TVShow = () => {
                 setWatchProviders(response.results);
             }
         );
+
+        // Similar
+        makeApiCall(`${BASE_URL}/tv/${id}/reviews?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
+            console.log("==== Reviews ====");
+            console.log(response);
+            setReviews(response);
+        });
     }, []);
 
     const openArtworkModalWithIndex = (index) => {
@@ -251,6 +260,8 @@ const TVShow = () => {
                 <MediaCardRow media={recommendedTv} title="Recommended Shows" mediaType="tv" size="N" />
                 {/* Similar Movies */}
                 <MediaCardRow media={similarTv} title="Similar Shows" mediaType="tv" size="N" />
+                {/* Reviews */}
+                <Reviews reviews={reviews} />
             </div>
         </>
     );

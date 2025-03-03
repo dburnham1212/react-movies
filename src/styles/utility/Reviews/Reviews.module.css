@@ -1,0 +1,38 @@
+.title {
+    border-bottom: 1px solid lightgrey;
+}
+
+.container {
+    padding: 1rem;
+}
+
+.avatar_image {
+    height: 5rem;
+    width: 5rem;
+    object-fit: cover;
+}
+
+.rating_container {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.review_container {
+    display: flex;
+    min-height: 20rem;
+    margin: 0.5rem 0;
+}
+
+.review_content {
+    padding: 0 1rem;
+}
+
+.profile_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 10rem;
+    max-height: 10rem;
+    padding: 1rem;
+}

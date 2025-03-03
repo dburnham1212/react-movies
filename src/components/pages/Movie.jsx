@@ -12,6 +12,7 @@ import VideoTrailerRow from "../utility/ImageRows/VideoTrailerRow";
 import YouTube from "react-youtube";
 import MediaCardRow from "../utility/ImageRows/MediaCardRow";
 import WatchProviders from "../utility/WatchProviders/WatchProviders";
+import Reviews from "../utility/Reviews/Reviews";
 
 const Movie = () => {
     const [movieData, setMovieData] = useState({});
@@ -20,6 +21,7 @@ const Movie = () => {
     const [movieCredits, setMovieCredits] = useState({});
     const [similarMovies, setSimilarMovies] = useState([]);
     const [recommendedMovies, setRecommendedMovies] = useState([]);
+    const [reviews, setReviews] = useState([]);
 
     const [watchProviders, setWatchProviders] = useState({});
 
@@ -70,6 +72,11 @@ const Movie = () => {
                 setWatchProviders(response.results);
             }
         );
+
+        makeApiCall(`${BASE_URL}/movie/${id}/reviews?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
+            console.log(response);
+            setReviews(response);
+        });
     }, [id]);
 
     // Open the gallery modal and set the index to the specified index
@@ -193,6 +200,7 @@ const Movie = () => {
                         }
                     />
                 )}
+                {/* Videos with modal */}
                 {movieVideos?.length && (
                     <BasicModal
                         open={openVideoModal}
@@ -219,6 +227,8 @@ const Movie = () => {
                 <MediaCardRow media={recommendedMovies} title="Recommended Movies" mediaType="movie" size="N" />
                 {/* Similar Movies */}
                 <MediaCardRow media={similarMovies} title="Similar Movies" mediaType="movie" size="N" />
+                {/* Reviews */}
+                <Reviews reviews={reviews} />
             </div>
         </>
     );
