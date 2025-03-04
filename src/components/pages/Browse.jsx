@@ -50,10 +50,6 @@ const Browse = () => {
 
     const [currentPage, setCurrentPage] = useState(1);
 
-    const [animationTvShows, setAnimationTVShows] = useState([]);
-    const [comedyTVShows, setComedyTVShows] = useState([]);
-    const [sciFiFantasyTvShows, setSciFiFantasyTVShows] = useState([]);
-
     const [trendingPeople, setTrendingPeople] = useState([]);
 
     const [strangerThingsSeasons, setStrangerThingsSeasons] = useState([]);
@@ -99,19 +95,6 @@ const Browse = () => {
             setTvGenre(response.genres[0]);
             getTvForGenre(response.genres[0].id, currentPage);
         });
-
-        // TV API Calls
-        makeApiCall(
-            `${BASE_URL}/discover/tv?api_key=${process.env.REACT_APP_API_KEY}&with_genres=${ANIMATION_TV_VAL}`
-        ).then((response) => setAnimationTVShows(refineTVShows(response.results)));
-
-        makeApiCall(
-            `${BASE_URL}/discover/tv?api_key=${process.env.REACT_APP_API_KEY}&with_genres=${COMEDY_TV_VAL}`
-        ).then((response) => setComedyTVShows(refineTVShows(response.results)));
-
-        makeApiCall(
-            `${BASE_URL}/discover/tv?api_key=${process.env.REACT_APP_API_KEY}&with_genres=${SCI_FI_FANTASY_VAL}`
-        ).then((response) => setSciFiFantasyTVShows(refineTVShows(response.results)));
 
         // People API Calls
         makeApiCall(`${BASE_URL}/trending/person/week?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
