@@ -2,3 +2,21 @@
     color: lightgrey;
     margin: 1rem 1.5rem;
 }
+
+.card_container {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    width: 100%;
+}
+
+.pagination_box {
+    display: flex;
+    justify-content: center;
+    margin: 2rem;
+}
+
+.page_container {
+    margin: 2rem;
+}
