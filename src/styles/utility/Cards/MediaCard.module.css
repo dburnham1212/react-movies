@@ -20,3 +20,62 @@
     justify-content: space-between;
     flex: 1 0 auto;
 }
+
+.card {
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card_hidden {
+    display: none;
+}
+
+.hidden_image {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    border-radius: 0.25rem;
+}
+
+.hidden_link {
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+.hidden_overlay {
+    background-color: #353535c9;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.75rem;
+    border-radius: 0.25rem;
+}
+
+.hidden_description_text {
+    display: -webkit-box;
+    line-clamp: 8;
+    -webkit-line-clamp: 8;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card:hover {
+    border-radius: 0;
+    position: relative;
+
+    .card_hidden {
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        object-fit: cover;
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+    }
+}

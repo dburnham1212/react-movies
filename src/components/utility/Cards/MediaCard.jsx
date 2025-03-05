@@ -7,14 +7,53 @@ const MediaCard = (props) => {
     const { media, displayType, mediaType } = props;
     return (
         <>
-            <Card
-                sx={{
-                    padding: ".5rem",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                }}
-            >
+            <Card className={styles.card}>
+                <div className={styles.card_hidden}>
+                    <a className={styles.hidden_link} href={`/${media.media_type || mediaType}/${media.id}`}>
+                        <div className={styles.hidden_overlay}>
+                            {media.media_type && media.media_type === "person" ? (
+                                <>
+                                    <h4 className={styles.title_text}>Name:</h4>
+                                    <p className={styles.title_text}>
+                                        {media.name !== media.original_name
+                                            ? `${media.name} / ${media.original_name}`
+                                            : media.name}
+                                    </p>
+
+                                    <h4 className={styles.title_text}>Department:</h4>
+                                    <p className={styles.title_text}>{media.known_for_department}</p>
+
+                                    <h4 className={styles.title_text}>Known For:</h4>
+                                    <p className={styles.title_text}>
+                                        {media.known_for.map((item) => item.title).join(", ")}
+                                    </p>
+
+                                    <h4 className={styles.title_text}>Popularity:</h4>
+                                    <p className={styles.title_text}>{media.popularity.toFixed(1)}</p>
+                                </>
+                            ) : (
+                                <>
+                                    <h4 className={styles.title_text}>Title:</h4>
+                                    <p className={styles.title_text}>{media.title}</p>
+
+                                    <h4 className={styles.title_text}>Description:</h4>
+                                    <p className={`${styles.title_text} ${styles.hidden_description_text}`}>
+                                        {media.overview || "None"}
+                                    </p>
+                                </>
+                            )}
+                        </div>
+                        <img
+                            className={styles.hidden_image}
+                            src={`${
+                                media.poster_path || media.profile_path
+                                    ? BASE_IMAGE_URL + (media.poster_path || media.profile_path)
+                                    : "/images/NO_IMAGE_FOUND.jpg"
+                            }`}
+                            alt={media.title || media.name}
+                        />
+                    </a>
+                </div>
                 <a href={`/${media.media_type || mediaType}/${media.id}`}>
                     <img
                         className={styles.main_image}

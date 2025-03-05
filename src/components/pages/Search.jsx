@@ -33,6 +33,7 @@ const Search = () => {
             ).then((response) => {
                 setSearchData(response.results);
                 setTotalPages(response.total_pages);
+                console.log(response.results);
             });
         } else if (searchFilter === "Movies") {
             makeApiCall(

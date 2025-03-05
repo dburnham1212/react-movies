@@ -2,7 +2,7 @@
     color: lightgrey;
     padding: 0.25rem;
     margin: 1em 1em;
-    display:flex;
+    display: flex;
     flex-direction: row;
 }
 
@@ -12,7 +12,7 @@
 
 #drop_down {
     min-width: 7.5rem;
-    display:flex;
+    display: flex;
     flex-direction: row-reverse;
 }
 
@@ -26,10 +26,10 @@
 
 #card {
     border-radius: 0.25rem;
-    width:10rem;
-    height:20rem;
-    margin:0.5rem;
-    position:relative;
+    width: 10rem;
+    height: 20rem;
+    margin: 0.5rem;
+    position: relative;
 }
 
 #small_text {
@@ -37,54 +37,54 @@
 }
 
 .card_container_O {
-    margin-bottom:2rem;
+    margin-bottom: 2rem;
 }
 
 .card_interact {
-    width:95;
-    display:flex;
-    flex-direction:row-reverse;
-    padding:1rem;
+    width: 95;
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 1rem;
 }
 
-.card_container_I{
+.card_container_I {
     width: 95%;
-    max-height:21rem;
+    max-height: 21rem;
     margin: auto;
-    display:flex;
+    display: flex;
     flex-wrap: wrap;
     overflow-y: hidden;
 }
 
-.card_container_I_B{
+.card_container_I_B {
     width: 95%;
-    max-height:63rem;
+    max-height: 63rem;
     margin: auto;
-    display:flex;
+    display: flex;
     flex-wrap: wrap;
     overflow-y: auto;
 }
 
 #card_name {
-    margin:auto;
-    padding:1rem;
+    margin: auto;
+    padding: 1rem;
 }
 
 #card_link {
     text-align: left;
-    margin-left:2.5rem;
+    margin-left: 2.5rem;
 }
 
 #card_content {
-    height:15.5rem;
-    overflow:hidden;
+    height: 15.5rem;
+    overflow: hidden;
 }
 
 #card_content h4 {
-    margin-bottom:0.2rem;
-    margin-top:0.2rem;
+    margin-bottom: 0.2rem;
+    margin-top: 0.2rem;
     text-overflow: ellipsis;
-    overflow:hidden;
+    overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
@@ -93,39 +93,34 @@
 #card_button {
     border-radius: 0.25rem;
     margin: 0.25rem;
-    width:6rem;
+    width: 6rem;
     text-align: center;
 }
 
 #card_button_hidden {
-    margin:0.25rem;
-    width:6rem;
-    visibility:hidden;
+    margin: 0.25rem;
+    width: 6rem;
+    visibility: hidden;
 }
 
 .card_hidden {
     border-radius: 0.25rem;
-    width:10rem;
-    height:20rem;
-    display:none;
-    overflow-y:auto;
+    width: 10rem;
+    height: 20rem;
+    display: none;
+    overflow-y: auto;
 }
 
 #card:hover {
     #card_profile {
         border-radius: 0.25rem;
-        height:20rem;
+        height: 20rem;
     }
 
     .card_hidden {
-        display:flex;
+        display: flex;
         flex-direction: column;
-        position:absolute;
+        position: absolute;
         background-color: #353535c9;
     }
 }
-
-
-
-
-
