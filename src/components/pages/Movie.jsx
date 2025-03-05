@@ -106,10 +106,14 @@ const Movie = () => {
                 <div className={styles.main_container}>
                     <div className={styles.title_container}>
                         <div>
-                            <h1 className={styles.main_title}>{movieData.title}</h1>
-                            {movieData.original_title !== movieData.title && <h3>{movieData.original_title}</h3>}
+                            <h1 className={styles.main_title} style={{ padding: 0, margin: ".25rem" }}>
+                                {movieData.title}
+                            </h1>
+                            {movieData.original_title !== movieData.title && (
+                                <h3 style={{ padding: 0, margin: ".25rem" }}>{movieData.original_title}</h3>
+                            )}
                             {movieData.tagline && (
-                                <p>
+                                <p style={{ padding: 0, margin: ".25rem" }}>
                                     <i>{movieData.tagline}</i>
                                 </p>
                             )}
@@ -174,6 +178,11 @@ const Movie = () => {
                                     <p style={{ padding: 0, margin: 0 }}>&#8226;</p>
                                     <p style={{ padding: 0, margin: 0 }}>{movieData?.release_date}</p>
 
+                                    <p style={{ padding: 0, margin: 0 }}>&#8226;</p>
+                                    <p style={{ padding: 0, margin: 0 }}>
+                                        {Math.floor(movieData?.runtime / 60)}h {movieData?.runtime % 60}m
+                                    </p>
+
                                     {movieData.homepage && (
                                         <>
                                             <p style={{ padding: 0, margin: 0 }}>&#8226;</p>{" "}
@@ -186,7 +195,6 @@ const Movie = () => {
                                 {movieData?.spoken_languages?.length && (
                                     <h4
                                         style={{
-                                            borderBottom: "1px solid lightgrey",
                                             borderTop: "1px solid lightgrey",
                                             padding: ".5rem 0",
                                             margin: "0",
