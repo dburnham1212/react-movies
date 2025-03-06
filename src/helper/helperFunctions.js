@@ -5,6 +5,41 @@ const makeApiCall = (url) => {
         .catch((err) => console.error(err));
 };
 
+const makePostApiCall = (url, body) => {
+    const options = {
+        method: "POST",
+        headers: {
+            accept: "application/json",
+            "content-type": "application/json",
+            Authorization:
+                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNjczNGVlZDYzODNhNDRlNjc2NzdkYjNkNDgwMmZlZSIsIm5iZiI6MTcwOTY3NTM5OC4zOTYsInN1YiI6IjY1ZTc5Mzg2Y2U5ZTkxMDE2MjNlMDU5NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.N78N6TjYyMSSA_4JSxlSr0KEMRHYG7U8oOjeVm3GPOM",
+        },
+        body: JSON.stringify(body),
+    };
+
+    fetch(url, options)
+        .then((res) => res.json())
+        .then((json) => console.log(json))
+        .catch((err) => console.error(err));
+};
+
+const makeDeleteApiCall = (url) => {
+    const options = {
+        method: "DELETE",
+        headers: {
+            accept: "application/json",
+            "content-type": "application/json",
+            Authorization:
+                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNjczNGVlZDYzODNhNDRlNjc2NzdkYjNkNDgwMmZlZSIsIm5iZiI6MTcwOTY3NTM5OC4zOTYsInN1YiI6IjY1ZTc5Mzg2Y2U5ZTkxMDE2MjNlMDU5NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.N78N6TjYyMSSA_4JSxlSr0KEMRHYG7U8oOjeVm3GPOM",
+        },
+    };
+
+    fetch(url, options)
+        .then((res) => res.json())
+        .then((json) => console.log(json))
+        .catch((err) => console.error(err));
+};
+
 const refineMovies = (movies) => {
     return movies.map((movie) => {
         return {
@@ -55,4 +90,13 @@ const refineEpisodes = (episodes) => {
     });
 };
 
-module.exports = { makeApiCall, refineMovies, refineTVShows, refinePeople, refineSeasons, refineEpisodes };
+module.exports = {
+    makeApiCall,
+    makePostApiCall,
+    makeDeleteApiCall,
+    refineMovies,
+    refineTVShows,
+    refinePeople,
+    refineSeasons,
+    refineEpisodes,
+};

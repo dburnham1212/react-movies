@@ -8,7 +8,7 @@
     align-items: center;
     background-color: black;
     height: 55px;
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid #fea423;
 }
 
 .left {
@@ -26,14 +26,14 @@
 .nav_link {
     cursor: pointer;
     text-decoration: none;
-    color: white;
+    color: #fea423;
     padding: 0 1em;
 }
 
 .nav_link:hover {
-    color: grey;
+    color: #f57c00;
 }
 
 .nav_link:active {
-    color: lightgrey;
+    color: #fea423;
 }
