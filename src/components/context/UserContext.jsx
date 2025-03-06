@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import { createContext, useState } from "react";
 import { BASE_URL } from "../../constants/constants";
 // Create a Context
@@ -9,8 +10,8 @@ const UserProvider = (props) => {
     //------------------------STATES------------------------------------------///
     const [authenticated, setAuthenticated] = useState("");
     const [userId, setUserId] = useState("");
-    const [userName, setUserName] = useState(window.sessionStorage.getItem("username"));
-    const [sessionId, setSessionId] = useState(window.sessionStorage.getItem("session_id"));
+    const [userName, setUserName] = useState(Cookies.get("username"));
+    const [accountId, setAccountId] = useState(Cookies.get("account_id"));
 
     const login = () => {
         const url = `${BASE_URL}/authentication/token/new?api_key=${process.env.REACT_APP_API_KEY}`;
@@ -33,11 +34,24 @@ const UserProvider = (props) => {
             .catch((err) => console.error(err));
     };
 
+    const isAuthenticated = () => {
+        let authenticated = false;
+
+        if (Cookies.get("session_id")) authenticated = true;
+
+        return authenticated;
+    };
+
+    const getSessionId = () => {
+        return Cookies.get("session_id");
+    };
+
     const logout = () => {
+        console.log(getSessionId());
         const url = "https://api.themoviedb.org/3/authentication/session";
         const options = {
             method: "DELETE",
-            body: JSON.stringify({ session_id: sessionId }),
+            body: JSON.stringify({ session_id: getSessionId() }),
             headers: {
                 accept: "application/json",
                 "content-type": "application/json",
@@ -50,9 +64,12 @@ const UserProvider = (props) => {
             .then((res) => res.json())
             .then((json) => {
                 console.log(json);
-                setSessionId("");
                 setUserName("");
-                sessionStorage.clear();
+                setUserId("");
+                Object.keys(Cookies.get()).forEach((cookie) => {
+                    Cookies.remove(cookie);
+                });
+                window.location = "/";
             })
             .catch((err) => console.error(err));
     };
@@ -66,8 +83,10 @@ const UserProvider = (props) => {
         logout,
         userName,
         setUserName,
-        sessionId,
-        setSessionId,
+        getSessionId,
+        accountId,
+        setAccountId,
+        isAuthenticated,
     };
 
     // We can now use this as a component to wrap anything

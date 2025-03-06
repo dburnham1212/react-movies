@@ -1,9 +1,10 @@
+import Cookies from "js-cookie";
 import { useContext, useEffect } from "react";
 import { BASE_URL } from "../../constants/constants";
 import { userContext } from "../context/UserContext";
 
 const Verification = () => {
-    const { setUserName, setSessionId } = useContext(userContext);
+    const { setUserName, setSessionId, setAccountId } = useContext(userContext);
 
     const searchParams = new URLSearchParams(document.location.search);
 
@@ -25,14 +26,16 @@ const Verification = () => {
         fetch(url, options)
             .then((res) => res.json())
             .then((json) => {
-                setSessionId(json.session_id);
-                window.sessionStorage.setItem("sesson_id", json.session_id);
+                Cookies.set("session_id", json.session_id);
 
                 fetch(`${BASE_URL}/account?api_key=${process.env.REACT_APP_API_KEY}&session_id=${json.session_id}`)
                     .then((res) => res.json())
                     .then((json) => {
+                        console.log(json);
                         setUserName(json.username);
-                        window.sessionStorage.setItem("username", json.username);
+                        Cookies.set("username", json.username);
+                        setAccountId(json.id);
+                        Cookies.set("account_id", json.id);
                         window.location = "/";
                     })
                     .catch((err) => console.error(err));
