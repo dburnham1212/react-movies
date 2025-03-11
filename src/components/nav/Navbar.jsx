@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { userContext } from "../context/UserContext";
 import { useContext } from "react";
 import { Avatar } from "@mui/material";
-import { yellow } from "@mui/material/colors";
 
 const Navbar = () => {
     const { login, logout, userName, isAuthenticated } = useContext(userContext);
