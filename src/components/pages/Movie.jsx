@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { makeApiCall, makeDeleteApiCall, makePostApiCall } from "../../helper/helperFunctions";
 import { BASE_IMAGE_URL, BASE_URL } from "../../constants/constants";
 import { useParams } from "react-router-dom";
-import { Alert, Button, IconButton, Rating, Tooltip } from "@mui/material";
+import { Button, IconButton, Rating, Tooltip } from "@mui/material";
 
 // MUI Icons
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -255,6 +255,41 @@ const Movie = () => {
     return (
         <>
             <div className="wrapper">
+                <div className={styles.heading_container}>
+                    <div className={styles.heading}>
+                        <h1>{movieData.title}</h1>
+                        {movieData.original_title !== movieData.title && <h3>{movieData.original_title}</h3>}
+                    </div>
+                    <div className={styles.movie_ratings}>
+                        {/* Overall movie rating */}
+                        <div className={styles.rating_container}>
+                            <h5>TMDB Rating</h5>
+                            <div className={styles.star_rating}>
+                                <StarIcon color="warning" />
+                                <p>
+                                    <span>{Number(movieData.vote_average / 2).toFixed(1)}</span>/5
+                                </p>
+                            </div>
+                            <p id={styles.num_votes}>Votes: {movieData.vote_count}</p>
+                        </div>
+                        {/* Personal rating if user has logged in */}
+                        {isAuthenticated() && (
+                            <div className={styles.rating_container}>
+                                <h5>My Rating</h5>
+                                <div className={styles.star_rating}>
+                                    <StarIcon color="warning" />
+                                    {accountStates?.rated?.value ? (
+                                        <p>
+                                            <span>{Number(accountStates.rated.value / 2).toFixed(1)}</span>/5
+                                        </p>
+                                    ) : (
+                                        <p>N/A</p>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
                 <div className={styles.container}>
                     <div className={styles.content_left}>
                         <img
@@ -262,12 +297,25 @@ const Movie = () => {
                             alt={`${movieData.title} poster`}
                             width={"360"}
                         />
+                    </div>
+                    <div className={styles.content_right}>
+                        <div id={styles.right_upper_content}>
+                            {movieData.tagline && <p id={styles.tagline}>{movieData.tagline}</p>}
+                            <p id={styles.overview}>{movieData.overview}</p>
+                            {/* Genres */}
+                            {movieData?.genres?.length === 1 ? <h3>Genre:</h3> : <h3>Genres:</h3>}
+                            <div className={styles.genre_container}>
+                                <p id={styles.genres}>{movieData?.genres?.map((genre) => genre.name).join(", ")}</p>
+                            </div>
+                            {movieData.adult && <p>Adults Only</p>}
+                        </div>
                         {/* Buttons for favourite, watchlist and rating */}
                         {isAuthenticated() && (
-                            <div style={{ display: "flex", justifyContent: "center", gap: "1rem" }}>
+                            <div style={{ display: "flex", gap: "1rem" }}>
                                 <Tooltip title={accountStates.favorite ? "Remove favourite" : "Add to favourites"}>
                                     <IconButton
                                         sx={{ backgroundColor: "#555555" }}
+                                        size="large"
                                         color="warning"
                                         onClick={toggleFavourite}
                                     >
@@ -279,6 +327,7 @@ const Movie = () => {
                                 >
                                     <IconButton
                                         sx={{ backgroundColor: "#555555" }}
+                                        size="large"
                                         color="warning"
                                         onClick={toggleWatchlist}
                                     >
@@ -288,6 +337,7 @@ const Movie = () => {
                                 <Tooltip title="Update rating">
                                     <IconButton
                                         sx={{ backgroundColor: "#555555" }}
+                                        size="large"
                                         color="warning"
                                         onClick={openRatingModal}
                                     >
@@ -342,85 +392,70 @@ const Movie = () => {
                                 />
                             </div>
                         )}
-                    </div>
-                    <div className={styles.content_right}>
-                        <h1>{movieData.title}</h1>
-                        {movieData.original_title !== movieData.title && <h3>{movieData.original_title}</h3>}
-                        {movieData.tagline && (
-                            <p>
-                                <i>{movieData.tagline}</i>
-                            </p>
-                        )}
-                        <p>{movieData.overview}</p>
-                        {movieData.adult && <p>Adults Only</p>}
-                        {/* Overall movie rating */}
-                        <div className={styles.rating_container}>
-                            <Rating value={movieData.vote_average / 2} precision={0.1} readOnly />
-                            <p>Average Score: {Number(movieData.vote_average / 2).toFixed(1)}/5</p>
-                            <p id={styles.num_votes}>Votes: {movieData.vote_count}</p>
-                        </div>
-                        {/* Personal rating if user has logged in */}
-                        {isAuthenticated() && (
-                            <>
-                                <h4>My Rating</h4>
-                                {accountStates?.rated?.value ? (
-                                    <Rating value={accountStates.rated.value / 2} precision={0.5} readOnly />
-                                ) : (
-                                    <p>No Rating Saved</p>
-                                )}
-                            </>
-                        )}
-                        {/*Misc info */}
-                        <h3>Details:</h3>
-                        {/*Movie info */}
-                        <div className={styles.s_e_info}>
-                            <p>Release Date: {movieData?.release_date}</p>
-                        </div>
-                        {/* Website */}
-                        {movieData.homepage && (
-                            <p>
-                                Website: <a href={movieData.homepage}>{movieData.homepage}</a>
-                            </p>
-                        )}
-                        {/* Genres */}
-                        {movieData?.genres?.length === 1 ? <h4>Genre:</h4> : <h4>Genres:</h4>}
-                        <div className={styles.genre_container}>
-                            <p>{movieData?.genres?.map((genre) => genre.name).join(", ")}</p>
-                        </div>
 
-                        {/*Display country(s) of origin */}
-                        {movieData?.production_countries?.map((country, index) => (
-                            <img
-                                key={index}
-                                id={styles.flag}
-                                src={`https://flagsapi.com/${country.iso_3166_1}/flat/64.png`}
-                                alt={country.name}
-                            />
-                        ))}
-                        {/*Display available languages */}
-                        {movieData?.spoken_languages?.length && (
-                            <h4>
-                                Available languages:
-                                <span id={styles.lang_font}>
-                                    {" "}
-                                    {movieData?.spoken_languages
-                                        ?.map((lang) =>
-                                            lang.name !== lang.english_name
-                                                ? lang.name + "/" + lang.english_name
-                                                : lang.english_name
-                                        )
-                                        .join(", ")}
+                        <div id={styles.right_lower_content}>
+                            <div className={styles.lower_content_line}>
+                                {/*Display country(s) of origin */}
+                                <div>
+                                    {movieData?.production_countries?.map((country, index) => (
+                                        <img
+                                            key={index}
+                                            className={styles.flag}
+                                            src={`https://flagsapi.com/${country.iso_3166_1}/flat/64.png`}
+                                            alt={country.name}
+                                        />
+                                    ))}
+                                </div>
+                                {/*Release Date */}
+                                <span>&#9679;</span>
+                                <span>{movieData?.release_date}</span>
+                                {/*Release Date */}
+                                <span>&#9679;</span>
+                                <span>
+                                    {movieData?.runtime > 60 && Math.floor(movieData.runtime / 60) + "h"}{" "}
+                                    {movieData.runtime % 60}m
                                 </span>
-                            </h4>
-                        )}
-                        {/*Produced by */}
-                        <h4>
-                            Produced by:
-                            <span id={styles.prod_font}>
-                                {" "}
-                                {movieData?.production_companies?.map((prod) => prod.name).join(", ")}
-                            </span>
-                        </h4>
+
+                                {/* Website */}
+                                {movieData.homepage && (
+                                    <>
+                                        <span>&#9679;</span>
+                                        <p>
+                                            Website: <a href={movieData.homepage}>{movieData.homepage}</a>
+                                        </p>
+                                    </>
+                                )}
+                            </div>
+
+                            {/*Display available languages */}
+                            <div className={styles.lower_content_line}>
+                                {movieData?.spoken_languages?.length && (
+                                    <h4>
+                                        Available languages:
+                                        <span id={styles.lang_font}>
+                                            {" "}
+                                            {movieData?.spoken_languages
+                                                ?.map((lang) =>
+                                                    lang.name !== lang.english_name
+                                                        ? lang.name + "/" + lang.english_name
+                                                        : lang.english_name
+                                                )
+                                                .join(", ")}
+                                        </span>
+                                    </h4>
+                                )}
+                            </div>
+                            {/*Produced by */}
+                            <div className={styles.lower_content_line}>
+                                <h4>
+                                    Produced by:
+                                    <span id={styles.prod_font}>
+                                        {" "}
+                                        {movieData?.production_companies?.map((prod) => prod.name).join(", ")}
+                                    </span>
+                                </h4>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 {/* Watch provider data */}
