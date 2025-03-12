@@ -1,5 +1,6 @@
 import { Alert } from "@mui/material";
 import { useEffect, useState } from "react";
+import styles from "../../../styles/utility/Alerts/AlertMessage.module.css";
 
 const AlertMessage = (props) => {
     const { controlState, alertMessage } = props;
@@ -20,9 +21,11 @@ const AlertMessage = (props) => {
     return (
         <>
             {show && alertMessage && (
-                <Alert icon={false} severity="warning">
-                    {alertMessage}
-                </Alert>
+                <div className={styles.alert_popup}>
+                    <Alert icon={false} severity="warning">
+                        {alertMessage}
+                    </Alert>
+                </div>
             )}
         </>
     );
