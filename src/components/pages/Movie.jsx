@@ -24,6 +24,7 @@ import VideoTrailerRow from "../utility/ImageRows/VideoTrailerRow";
 import MediaCardRow from "../utility/ImageRows/MediaCardRow";
 import WatchProviders from "../utility/WatchProviders/WatchProviders";
 import Reviews from "../utility/Reviews/Reviews";
+import RatingModal from "../utility/Modals/RatingModal";
 import YouTube from "react-youtube";
 
 // Context providers
@@ -345,50 +346,14 @@ const Movie = () => {
                                     </IconButton>
                                 </Tooltip>
                                 <AlertMessage controlState={accountStates} alertMessage={accountStateChangeAlert} />
-                                <BasicModal
+                                <RatingModal
                                     open={ratingModalOpen}
                                     handleClose={closeRatingModal}
-                                    children={
-                                        <>
-                                            <div
-                                                style={{
-                                                    display: "flex",
-                                                    flexDirection: "column",
-                                                    alignItems: " center",
-                                                }}
-                                            >
-                                                <h1>Add Rating For:</h1>
-                                                <h2>{movieData.title}</h2>
-                                                <Rating
-                                                    sx={{ fontSize: "4rem" }}
-                                                    value={ratingValue}
-                                                    precision={0.5}
-                                                    onChange={(event, newValue) => {
-                                                        setRatingValue(newValue);
-                                                    }}
-                                                />
-
-                                                <div style={{ display: "flex", gap: "1.5rem", margin: "1rem" }}>
-                                                    <Button
-                                                        variant="contained"
-                                                        color="warning"
-                                                        size="large"
-                                                        onClick={deleteRating}
-                                                    >
-                                                        Delete Rating
-                                                    </Button>
-                                                    <Button
-                                                        variant="contained"
-                                                        color="warning"
-                                                        size="large"
-                                                        onClick={saveRating}
-                                                    >
-                                                        Update Rating
-                                                    </Button>
-                                                </div>
-                                            </div>
-                                        </>
-                                    }
+                                    title={movieData.title}
+                                    ratingValue={ratingValue}
+                                    setRatingValue={setRatingValue}
+                                    deleteRating={deleteRating}
+                                    saveRating={saveRating}
                                 />
                             </div>
                         )}
