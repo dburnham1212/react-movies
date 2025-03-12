@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
-import { makeApiCall } from "../../helper/helperFunctions";
+import { useState, useEffect, useContext } from "react";
+import { makeApiCall, makeDeleteApiCall, makePostApiCall } from "../../helper/helperFunctions";
 import { BASE_IMAGE_URL, BASE_URL } from "../../constants/constants";
 import { useParams } from "react-router-dom";
 import styles from "../../styles/pages/TVShow.module.css";
-import { Rating } from "@mui/material";
+import { IconButton, Rating, Tooltip } from "@mui/material";
 import Credits from "../utility/Credits/Credits";
 import BasicModal from "../utility/Modals/BasicModal";
 import ImageCarousel from "../utility/Carousels/ImageCarousel";
@@ -13,6 +13,15 @@ import VideoTrailerRow from "../utility/ImageRows/VideoTrailerRow";
 import MediaCardRow from "../utility/ImageRows/MediaCardRow";
 import WatchProviders from "../utility/WatchProviders/WatchProviders";
 import Reviews from "../utility/Reviews/Reviews";
+import { userContext } from "../context/UserContext";
+import { FavoriteOutlined } from "@mui/icons-material";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import DesktopWindowsIcon from "@mui/icons-material/DesktopWindows";
+import TvIcon from "@mui/icons-material/Tv";
+import StarIcon from "@mui/icons-material/Star";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import AlertMessage from "../utility/Alerts/AlertMessage";
+import RatingModal from "../utility/Modals/RatingModal";
 
 const TVShow = () => {
     const [tvShowData, setTvShowData] = useState({});
@@ -25,16 +34,43 @@ const TVShow = () => {
     const [watchProviders, setWatchProviders] = useState([]);
     const [reviews, setReviews] = useState({});
 
+    // ----- Dynamic states -----
+    // Account states if a user is logged in
+    const [accountStates, setAccountStates] = useState({});
+    const [accountStateChangeAlert, setAccountStateChangeAlert] = useState("");
+
+    // Rating modal states
+    const [ratingModalOpen, setRatingModalOpen] = useState(false);
+    const [ratingValue, setRatingValue] = useState(2.5);
+
     const [openArtworkModal, setOpenArtworkModal] = useState(false);
     const [artworkModalIndex, setArtworkModalIndex] = useState(0);
 
     const [openVideoModal, setOpenVideoModal] = useState(false);
     const [videoModalIndex, setVideoModalIndex] = useState(0);
 
+    // Context providers
+    const { isAuthenticated, accountId, getSessionId } = useContext(userContext);
+
     const { id } = useParams();
 
     //Function to get api data from db
     useEffect(() => {
+        // check if the user is authenticated or not
+        if (isAuthenticated()) {
+            // if so get their current account states for the selected movie
+            makeApiCall(
+                `${BASE_URL}/tv/${id}/account_states?api_key=${
+                    process.env.REACT_APP_API_KEY
+                }&session_id=${getSessionId()}`
+            ).then((response) => {
+                // set account states based on response
+                setAccountStates(response);
+                // update the rating value locally to be the same as the one that is saved
+                if (response.rated) setRatingValue((response.rated.value / 2).toFixed(1));
+            });
+        }
+
         makeApiCall(`${BASE_URL}/tv/${id}?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
             console.log(response);
             setTvShowData(response);
@@ -103,6 +139,103 @@ const TVShow = () => {
         });
     }, []);
 
+    // function to toggle the movies as a favourite
+    const toggleFavourite = () => {
+        if (accountStates.favorite) {
+            // update local state
+            setAccountStates({ ...accountStates, favorite: false });
+            // update on server
+            makePostApiCall(
+                `${BASE_URL}/account/${accountId}/favorite?api_key=${
+                    process.env.REACT_APP_API_KEY
+                }&session_id=${getSessionId()}`,
+                { media_type: "tv", media_id: id, favorite: false }
+            );
+            // Show appropriate alert message
+            setAccountStateChangeAlert("Removed from favourites");
+        } else {
+            // update local state
+            setAccountStates({ ...accountStates, favorite: true });
+            // update on server
+            makePostApiCall(
+                `${BASE_URL}/account/${accountId}/favorite?api_key=${
+                    process.env.REACT_APP_API_KEY
+                }&session_id=${getSessionId()}`,
+                { media_type: "tv", media_id: id, favorite: true }
+            );
+            // Show appropriate alert message
+            setAccountStateChangeAlert("Added to favourites");
+        }
+    };
+
+    // function to toggle the movies as a part of watchlist
+    const toggleWatchlist = () => {
+        if (accountStates.watchlist) {
+            // update local state
+            setAccountStates({ ...accountStates, watchlist: false });
+            // update on server
+            makePostApiCall(
+                `${BASE_URL}/account/${accountId}/watchlist?api_key=${
+                    process.env.REACT_APP_API_KEY
+                }&session_id=${getSessionId()}`,
+                { media_type: "tv", media_id: id, watchlist: false }
+            );
+            // Show appropriate alert message
+            setAccountStateChangeAlert("Removed from watchlist");
+        } else {
+            // update local state
+            setAccountStates({ ...accountStates, watchlist: true });
+            // update on server
+            makePostApiCall(
+                `${BASE_URL}/account/${accountId}/watchlist?api_key=${
+                    process.env.REACT_APP_API_KEY
+                }&session_id=${getSessionId()}`,
+                { media_type: "tv", media_id: id, watchlist: true }
+            );
+            // Show appropriate alert message
+            setAccountStateChangeAlert("Added to watchlist");
+        }
+    };
+
+    // open the rating modal
+    const openRatingModal = () => {
+        setRatingModalOpen(true);
+    };
+
+    // close the rating modal
+    const closeRatingModal = () => {
+        setRatingModalOpen(false);
+    };
+
+    // function to save the users rating
+    const saveRating = () => {
+        // send the rating to the db
+        makePostApiCall(
+            `${BASE_URL}/tv/${id}/rating?api_key=${process.env.REACT_APP_API_KEY}&session_id=${getSessionId()}`,
+            { value: ratingValue * 2 }
+        );
+        // update locally
+        setAccountStates({ ...accountStates, rated: { value: ratingValue * 2 } });
+        // close modal
+        closeRatingModal();
+        // Show appropriate alert message
+        setAccountStateChangeAlert("Rating saved");
+    };
+
+    const deleteRating = () => {
+        // delete rating from db
+        makeDeleteApiCall(
+            `${BASE_URL}/tv/${id}/rating?api_key=${process.env.REACT_APP_API_KEY}&session_id=${getSessionId()}`
+        );
+        // update locally
+        setAccountStates({ ...accountStates, rated: false });
+        setRatingValue(2.5);
+        // close modal
+        closeRatingModal();
+        // Show appropriate alert message
+        setAccountStateChangeAlert("Rating deleted");
+    };
+
     const openArtworkModalWithIndex = (index) => {
         setOpenArtworkModal(true);
         setArtworkModalIndex(index);
@@ -136,6 +269,53 @@ const TVShow = () => {
                             alt={`${tvShowData.title} poster`}
                             width={"360"}
                         />
+                        {/* Buttons for favourite, watchlist and rating */}
+                        {isAuthenticated() && (
+                            <div style={{ display: "flex", gap: "1rem" }}>
+                                <Tooltip title={accountStates.favorite ? "Remove favourite" : "Add to favourites"}>
+                                    <IconButton
+                                        sx={{ backgroundColor: "#555555" }}
+                                        size="large"
+                                        color="warning"
+                                        onClick={toggleFavourite}
+                                    >
+                                        {accountStates.favorite ? <FavoriteOutlined /> : <FavoriteBorderIcon />}
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip
+                                    title={accountStates.watchlist ? "Remove from watch list" : "Add to watch list"}
+                                >
+                                    <IconButton
+                                        sx={{ backgroundColor: "#555555" }}
+                                        size="large"
+                                        color="warning"
+                                        onClick={toggleWatchlist}
+                                    >
+                                        {accountStates.watchlist ? <DesktopWindowsIcon /> : <TvIcon />}
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title="Update rating">
+                                    <IconButton
+                                        sx={{ backgroundColor: "#555555" }}
+                                        size="large"
+                                        color="warning"
+                                        onClick={openRatingModal}
+                                    >
+                                        {accountStates?.rated?.value ? <StarIcon /> : <StarBorderIcon />}
+                                    </IconButton>
+                                </Tooltip>
+                                <AlertMessage controlState={accountStates} alertMessage={accountStateChangeAlert} />
+                                <RatingModal
+                                    open={ratingModalOpen}
+                                    handleClose={closeRatingModal}
+                                    title={tvShowData.name}
+                                    ratingValue={ratingValue}
+                                    setRatingValue={setRatingValue}
+                                    deleteRating={deleteRating}
+                                    saveRating={saveRating}
+                                />
+                            </div>
+                        )}
                     </div>
                     <div className={styles.info_right}>
                         {" "}

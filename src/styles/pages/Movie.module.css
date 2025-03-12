@@ -80,6 +80,10 @@
     margin: 0.5rem 0;
 }
 
+.lower_content_line span {
+    color: lightgrey;
+}
+
 .movie_ratings {
     display: flex;
     gap: 0.5rem;
