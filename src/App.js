@@ -13,6 +13,7 @@ import Verification from "./components/login/Verification";
 import Episode from "./components/pages/Episode";
 import Footer from "./components/footer/Footer";
 import Lists from "./components/pages/Lists";
+import ListCreation from "./components/pages/ListCreation";
 
 const darkTheme = createTheme({
     palette: {
@@ -37,6 +38,7 @@ function App() {
                         <Route path="/season/:id" element={<Season />} />
                         <Route path="/episode/:id" element={<Episode />} />
                         <Route path="/lists" element={<Lists />} />
+                        <Route path="/lists/create" element={<ListCreation />} />
                     </Routes>
                     <Footer />
                 </BrowserRouter>
