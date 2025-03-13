@@ -5,6 +5,7 @@ import { userContext } from "../context/UserContext";
 import { FormControl, InputLabel, MenuItem, Pagination, Select, Stack } from "@mui/material";
 import MediaCard from "../utility/Cards/MediaCard";
 import styles from "../../styles/pages/Lists.module.css";
+import { Link } from "react-router-dom";
 
 const Lists = () => {
     const { accountId, getSessionId } = useContext(userContext);
@@ -15,6 +16,23 @@ const Lists = () => {
     const [currentPage, setCurrentPage] = useState(1);
 
     const [mediaListData, setMediaListData] = useState({});
+
+    const [customLists, setCustomLists] = useState([]);
+
+    const [currentCustomList, setCurrentCustomList] = useState(0);
+
+    useEffect(() => {
+        makeApiCall(
+            `${BASE_URL}/account/${accountId}/lists?api_key=${
+                process.env.REACT_APP_API_KEY
+            }&session_id=${getSessionId()}`
+        ).then((response) => {
+            setCustomLists(response.results);
+            if (response.results.length > 0) {
+                setCurrentCustomList(response.results[0].id);
+            }
+        });
+    }, []);
 
     const setMediaListDataWithPage = (mediaType, listType, pageNumber) => {
         if (mediaType === "Movies") {
@@ -89,8 +107,12 @@ const Lists = () => {
     };
 
     const handleListFilterChange = (e) => {
-        setListFilter(e.target.value);
-        setMediaListDataWithPage(typeFilter, e.target.value, 1);
+        if (typeFilter !== "Custom") {
+            setListFilter(e.target.value);
+            setMediaListDataWithPage(typeFilter, e.target.value, 1);
+        } else {
+            setCurrentCustomList(e.target.value);
+        }
     };
 
     const handleMediaPageChange = (e, value) => {
@@ -113,29 +135,54 @@ const Lists = () => {
                         >
                             <MenuItem value={"Movies"}>Movies</MenuItem>
                             <MenuItem value={"TV"}>TV</MenuItem>
+                            <MenuItem value={"Custom"}>Custom</MenuItem>
                         </Select>
                     </FormControl>
-                    <FormControl sx={{ minWidth: "25%" }}>
-                        <InputLabel id="select-media-label">List Type</InputLabel>
-                        <Select
-                            labelId="select-media-label"
-                            id="select-media"
-                            value={listFilter}
-                            label="List Type"
-                            onChange={handleListFilterChange}
-                        >
-                            <MenuItem value={"Favourites"}>Favourites</MenuItem>
-                            <MenuItem value={"Rated"}>Rated</MenuItem>
-                            <MenuItem value={"Watchlist"}>Watch List</MenuItem>
-                        </Select>
-                    </FormControl>
+                    {typeFilter !== "Custom" && (
+                        <FormControl sx={{ minWidth: "25%" }}>
+                            <InputLabel id="select-media-label">List Type</InputLabel>
+                            <Select
+                                labelId="select-media-label"
+                                id="select-media"
+                                value={listFilter}
+                                label="List Type"
+                                onChange={handleListFilterChange}
+                            >
+                                <MenuItem value={"Favourites"}>Favourites</MenuItem>
+                                <MenuItem value={"Rated"}>Rated</MenuItem>
+                                <MenuItem value={"Watchlist"}>Watch List</MenuItem>
+                            </Select>
+                        </FormControl>
+                    )}
+                    {typeFilter === "Custom" && (
+                        <FormControl sx={{ minWidth: "25%" }}>
+                            <InputLabel id="select-media-label">List Type</InputLabel>
+                            <Select
+                                labelId="select-media-label"
+                                id="select-media"
+                                value={currentCustomList}
+                                label="List Type"
+                                onChange={handleListFilterChange}
+                            >
+                                {customLists?.map((list, index) => (
+                                    <MenuItem key={index} value={list.id}>
+                                        {list.name}
+                                    </MenuItem>
+                                ))}
+                                <MenuItem value={0} component={Link} to="/lists/create">
+                                    Create New List
+                                </MenuItem>
+                            </Select>
+                        </FormControl>
+                    )}
                     {!mediaListData?.results?.length && (
-                        <>
-                            <h1>You have nothing added to </h1>
+                        <div className={styles.no_items_container}>
+                            <h1>You have nothing added to: </h1>
                             <h2>
                                 {typeFilter} {listFilter}
                             </h2>
-                        </>
+                            <h3>Add an item to view it here</h3>
+                        </div>
                     )}
                     {typeFilter === "Movies" && (
                         <>
@@ -153,19 +200,21 @@ const Lists = () => {
                                         );
                                     })}
                             </div>
-                            <div className={styles.pagination_box}>
-                                <Stack spacing={2}>
-                                    <Pagination
-                                        count={mediaListData.total_pages > 500 ? 500 : mediaListData.total_pages}
-                                        page={currentPage}
-                                        onChange={handleMediaPageChange}
-                                        variant="outlined"
-                                        shape="rounded"
-                                        showFirstButton
-                                        showLastButton
-                                    />
-                                </Stack>
-                            </div>
+                            {mediaListData.total_pages > 1 && (
+                                <div className={styles.pagination_box}>
+                                    <Stack spacing={2}>
+                                        <Pagination
+                                            count={mediaListData.total_pages > 500 ? 500 : mediaListData.total_pages}
+                                            page={currentPage}
+                                            onChange={handleMediaPageChange}
+                                            variant="outlined"
+                                            shape="rounded"
+                                            showFirstButton
+                                            showLastButton
+                                        />
+                                    </Stack>
+                                </div>
+                            )}
                         </>
                     )}
                     {typeFilter === "TV" && (
@@ -179,19 +228,21 @@ const Lists = () => {
                                         );
                                     })}
                             </div>
-                            <div className={styles.pagination_box}>
-                                <Stack spacing={2}>
-                                    <Pagination
-                                        count={mediaListData.total_pages > 500 ? 500 : mediaListData.total_pages}
-                                        page={currentPage}
-                                        onChange={handleMediaPageChange}
-                                        variant="outlined"
-                                        shape="rounded"
-                                        showFirstButton
-                                        showLastButton
-                                    />
-                                </Stack>
-                            </div>
+                            {mediaListData.total_pages > 1 && (
+                                <div className={styles.pagination_box}>
+                                    <Stack spacing={2}>
+                                        <Pagination
+                                            count={mediaListData.total_pages > 500 ? 500 : mediaListData.total_pages}
+                                            page={currentPage}
+                                            onChange={handleMediaPageChange}
+                                            variant="outlined"
+                                            shape="rounded"
+                                            showFirstButton
+                                            showLastButton
+                                        />
+                                    </Stack>
+                                </div>
+                            )}
                         </>
                     )}
                 </div>
