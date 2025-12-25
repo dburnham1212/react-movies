@@ -6,11 +6,12 @@ import { useParams } from "react-router-dom";
 import styles from "../../styles/pages/Season.module.css";
 
 import StarIcon from "@mui/icons-material/Star";
+import YouTube from "react-youtube";
+
 import WatchProviders from "../utility/WatchProviders/WatchProviders";
 import IndexedImageRow from "../utility/ImageRows/IndexedImageRow";
 import BasicModal from "../utility/Modals/BasicModal";
 import ImageCarousel from "../utility/Carousels/ImageCarousel";
-import YouTube from "react-youtube";
 import VideoTrailerRow from "../utility/ImageRows/VideoTrailerRow";
 import Credits from "../utility/Credits/Credits";
 
@@ -119,11 +120,19 @@ const Season = () => {
                 </div>
                 <div className={styles.container}>
                     <div className={styles.content_left}>
-                        <img
-                            src={`${BASE_IMAGE_URL}${seasonDetails.poster_path}`}
-                            alt={`${tvShowData.name} - ${seasonDetails.name}`}
-                            width={"360"}
-                        />
+                        {seasonDetails.poster_path ? (
+                            <img
+                                src={`${BASE_IMAGE_URL}${seasonDetails.poster_path}`}
+                                alt={`${tvShowData.name} - ${seasonDetails.name}`}
+                                width={"360"}
+                            />
+                        ) : (
+                            <img
+                                className={styles.no_poster}
+                                src={"/images/NO_IMAGE_FOUND.jpg"}
+                                alt={`${tvShowData.name} no poster `}
+                            />
+                        )}
                     </div>
                     <div className={styles.content_right}>
                         <div id={styles.right_upper_content}>
@@ -206,12 +215,20 @@ const Season = () => {
                                 href={`/tv/${tvShowData.id}/season/${seasonDetails.season_number}/episode/${episode.episode_number}`}
                             >
                                 <div className={styles.episode_content}>
-                                    <img
-                                        src={BASE_IMAGE_URL + episode.still_path}
-                                        alt={episode.name}
-                                        height={"150px"}
-                                        width={"auto"}
-                                    />
+                                    {episode.still_path ? (
+                                        <img
+                                            src={BASE_IMAGE_URL + episode.still_path}
+                                            alt={episode.name}
+                                            height={"150px"}
+                                            width={"auto"}
+                                        />
+                                    ) : (
+                                        <img
+                                            className={styles.no_episode_image}
+                                            src={"/images/NO_IMAGE_FOUND.jpg"}
+                                            alt={`${tvShowData.name} no poster `}
+                                        />
+                                    )}
                                     <div className={styles.episode_info}>
                                         <h3>{episode.name}</h3>
                                         <p>{episode.overview}</p>

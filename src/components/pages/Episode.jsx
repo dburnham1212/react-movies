@@ -128,11 +128,20 @@ const Episode = () => {
                 </div>
                 <div className={styles.container}>
                     <div className={styles.content_left}>
-                        <img
-                            src={`${BASE_IMAGE_URL}${episodeData.still_path}`}
-                            alt={`${episodeData.title} poster`}
-                            width={"360"}
-                        />
+                        {episodeData.still_path ? (
+                            <img
+                                src={`${BASE_IMAGE_URL}${episodeData.still_path}`}
+                                alt={`${episodeData.title} poster`}
+                                width={"360"}
+                            />
+                        ) : (
+                            <img
+                                className={styles.no_still}
+                                src={"/images/NO_IMAGE_FOUND.jpg"}
+                                alt={`${episodeData.title} no poster `}
+                                width={"360"}
+                            />
+                        )}
                     </div>
                     <div className={styles.content_right}>
                         <div id={styles.right_upper_content}>

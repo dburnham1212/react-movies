@@ -125,3 +125,9 @@
 #prod_font {
     font-weight: normal;
 }
+
+.no_still {
+    height: 360px;
+    width: 360px;
+    object-fit: cover;
+}

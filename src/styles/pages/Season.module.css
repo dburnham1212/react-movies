@@ -147,6 +147,10 @@
     border-radius: 1rem;
 }
 
+.episode_content:hover {
+    background-color: rgb(32, 32, 32);
+}
+
 .episode_info {
     padding: 0 1rem;
 }
@@ -155,4 +159,12 @@
     padding: 0;
     margin: 0;
     width: 100%;
+}
+
+.no_episode_image {
+    height: 150px;
+    width: 150px;
+    padding: 0 60px;
+    object-fit: cover;
+    background-color: #cccccc;
 }
