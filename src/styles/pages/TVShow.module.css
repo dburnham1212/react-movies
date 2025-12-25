@@ -3,7 +3,7 @@
 }
 
 .wrapper {
-    margin:auto;
+    margin: auto;
     max-width: 83.75rem;
 }
 .flex_info_container {
@@ -44,4 +44,19 @@
 
 #prod_font {
     font-weight: normal;
+}
+
+.seasons_container {
+    padding: 0 1rem;
+}
+
+.seasons_container h3 {
+    border-bottom: 1px solid lightgrey;
+}
+
+.seasons_row {
+    display: flex;
+    overflow-y: hidden;
+    overflow-x: auto;
+    gap: 1rem;
 }

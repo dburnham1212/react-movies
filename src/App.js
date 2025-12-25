@@ -33,10 +33,10 @@ function App() {
                         <Route path="/browse" element={<Browse />} />
                         <Route path="/search" element={<Search />} />
                         <Route path="/movie/:id" element={<Movie />} />
+                        <Route path="/tv/:showId/season/:seasonNumber" element={<Season />} />
                         <Route path="/tv/:id" element={<TVShow />} />
                         <Route path="/person/:id" element={<Person />} />
-                        <Route path="/season/:id" element={<Season />} />
-                        <Route path="/episode/:id" element={<Episode />} />
+                        <Route path="/tv/:showId/season/:seasonNumber/episode/:episodeNumber" element={<Episode />} />
                         <Route path="/lists" element={<Lists />} />
                         <Route path="/lists/create" element={<ListCreation />} />
                     </Routes>

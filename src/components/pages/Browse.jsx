@@ -52,10 +52,6 @@ const Browse = () => {
 
     const [trendingPeople, setTrendingPeople] = useState([]);
 
-    const [strangerThingsSeasons, setStrangerThingsSeasons] = useState([]);
-
-    const [strangerThingsOneEpisodes, setStrangerThingsOneEpisodes] = useState([]);
-
     const getMoviesForGenre = (genreId, currentPage) => {
         makeApiCall(
             `${BASE_URL}/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&with_genres=${genreId}&page=${currentPage}`
@@ -99,17 +95,6 @@ const Browse = () => {
         // People API Calls
         makeApiCall(`${BASE_URL}/trending/person/week?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
             setTrendingPeople(refinePeople(response.results));
-        });
-
-        // Season API Calls
-        makeApiCall(`${BASE_URL}/tv/${66732}?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
-            setStrangerThingsSeasons(refineSeasons(response.seasons));
-        });
-
-        // Episode API Calls
-        makeApiCall(`${BASE_URL}/tv/${66732}/season/${1}?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
-            console.log(response.episodes);
-            setStrangerThingsOneEpisodes(refineEpisodes(response.episodes));
         });
     }, []);
 
@@ -165,8 +150,6 @@ const Browse = () => {
                             <MenuItem value={"Movies"}>Movies</MenuItem>
                             <MenuItem value={"TV"}>TV</MenuItem>
                             <MenuItem value={"People"}>People</MenuItem>
-                            <MenuItem value={"Seasons"}>Seasons</MenuItem>
-                            <MenuItem value={"Episodes"}>Episodes</MenuItem>
                         </Select>
                     </FormControl>
                     {/* Movies browse info */}
@@ -273,28 +256,6 @@ const Browse = () => {
                         <>
                             {trendingPeople.length && (
                                 <MediaImageRow title={"Trending People"} media={trendingPeople} basePath={"/person"} />
-                            )}
-                        </>
-                    )}
-                    {mediaType === "Seasons" && (
-                        <>
-                            {strangerThingsSeasons.length && (
-                                <MediaImageRow
-                                    title={"Stranger Things"}
-                                    media={strangerThingsSeasons}
-                                    basePath={"/season"}
-                                />
-                            )}
-                        </>
-                    )}
-                    {mediaType === "Episodes" && (
-                        <>
-                            {strangerThingsOneEpisodes.length && (
-                                <MediaImageRow
-                                    title={"Stranger Things One Episodes"}
-                                    media={strangerThingsOneEpisodes}
-                                    basePath={"/episode"}
-                                />
                             )}
                         </>
                     )}

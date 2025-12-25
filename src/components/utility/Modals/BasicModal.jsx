@@ -22,7 +22,7 @@ const BasicModal = (props) => {
             <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title">
                 <Box sx={modalStyle}>
                     <h2
-                        style={{ position: "absolute", top: -22.5, right: 7.5, cursor: "pointer" }}
+                        style={{ position: "absolute", top: -10, right: 10, cursor: "pointer" }}
                         onClick={() => handleClose()}
                     >
                         x

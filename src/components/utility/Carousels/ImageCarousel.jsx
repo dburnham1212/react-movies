@@ -7,7 +7,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { grey } from "@mui/material/colors";
 
 const ImageCarousel = (props) => {
-    const { images, imageIndex, setImageIndex, mediaTitle } = props;
+    const { images, imageIndex, setImageIndex, mediaTitle, matchHeight } = props;
 
     const boxRef = useRef(null);
 
@@ -44,7 +44,7 @@ const ImageCarousel = (props) => {
                                 <img
                                     src={`${HD_IMAGE_URL}${image.file_path}`}
                                     alt={`${mediaTitle} backdrop ${index}`}
-                                    className={styles.img_slider_img}
+                                    className={matchHeight ? styles.img_slider_img_match_height : styles.img_slider_img}
                                 />
                             </div>
                         );

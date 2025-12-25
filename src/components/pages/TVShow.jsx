@@ -72,6 +72,7 @@ const TVShow = () => {
         }
 
         makeApiCall(`${BASE_URL}/tv/${id}?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
+            console.log("====TV Show Data====");
             console.log(response);
             setTvShowData(response);
         });
@@ -386,6 +387,16 @@ const TVShow = () => {
                                 {tvShowData?.production_companies?.map((prod) => prod.name).join(", ")}
                             </span>
                         </h4>
+                    </div>
+                </div>
+                <div class={styles.seasons_container}>
+                    <h3>Seasons</h3>
+                    <div className={styles.seasons_row}>
+                        {tvShowData?.seasons?.map((season) => (
+                            <a key={season.id} href={`/tv/${tvShowData.id}/season/${season.season_number}`}>
+                                <img src={BASE_IMAGE_URL + season.poster_path} alt={season.name} height={"250px"} />
+                            </a>
+                        ))}
                     </div>
                 </div>
                 {/* Watch provider data */}

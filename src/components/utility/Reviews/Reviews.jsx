@@ -11,8 +11,8 @@ const Reviews = (props) => {
             {reviews?.results?.length && (
                 <div className={styles.container}>
                     <h4 className={styles.title}>Reviews</h4>
-                    {reviews?.results?.map((review) => (
-                        <>
+                    {reviews?.results?.map((review, index) => (
+                        <div key={index}>
                             <Card className={styles.review_container}>
                                 <div className={styles.profile_container}>
                                     {review.author_details.avatar_path ? (
@@ -42,7 +42,7 @@ const Reviews = (props) => {
                                     <p dangerouslySetInnerHTML={{ __html: review.content }}></p>
                                 </div>
                             </Card>
-                        </>
+                        </div>
                     ))}
                 </div>
             )}
