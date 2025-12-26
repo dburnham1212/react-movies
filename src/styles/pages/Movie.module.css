@@ -71,6 +71,7 @@
 .lower_content_line {
     border-bottom: 1px solid lightgrey;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 0.5rem;
 }
@@ -124,4 +125,14 @@
 
 #prod_font {
     font-weight: normal;
+}
+
+@media only screen and (max-width: 1000px) {
+    .heading_container {
+        flex-direction: column;
+    }
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
 }

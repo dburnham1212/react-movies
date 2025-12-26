@@ -391,10 +391,16 @@ const TVShow = () => {
                 </div>
                 <div class={styles.seasons_container}>
                     <h3>Seasons</h3>
-                    <div className={styles.seasons_row}>
+                    <div className={styles.seasons_list}>
                         {tvShowData?.seasons?.map((season) => (
                             <a key={season.id} href={`/tv/${tvShowData.id}/season/${season.season_number}`}>
-                                <img src={BASE_IMAGE_URL + season.poster_path} alt={season.name} height={"250px"} />
+                                <div className={styles.season_content}>
+                                    <img src={BASE_IMAGE_URL + season.poster_path} alt={season.name} height={"250px"} />
+                                    <div className={styles.season_info}>
+                                        <h3>{season.name}</h3>
+                                        <p>{season.overview}</p>
+                                    </div>
+                                </div>
                             </a>
                         ))}
                     </div>

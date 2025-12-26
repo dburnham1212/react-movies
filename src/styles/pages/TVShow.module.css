@@ -54,9 +54,30 @@
     border-bottom: 1px solid lightgrey;
 }
 
-.seasons_row {
+.seasons_list {
     display: flex;
-    overflow-y: hidden;
-    overflow-x: auto;
+    flex-direction: column;
     gap: 1rem;
+}
+
+.season_content {
+    border: 1px solid lightgrey;
+    border-radius: 1rem;
+    padding: 1rem;
+    width: 100%;
+    display: flex;
+}
+
+.season_content:hover {
+    background-color: rgb(32, 32, 32);
+}
+
+.season_info {
+    width: 100%;
+    padding: 0 1rem;
+}
+
+.season_info h3 {
+    padding: 0;
+    margin: 0;
 }
