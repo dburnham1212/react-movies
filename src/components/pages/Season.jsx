@@ -15,6 +15,8 @@ import ImageCarousel from "../utility/Carousels/ImageCarousel";
 import VideoTrailerRow from "../utility/ImageRows/VideoTrailerRow";
 import Credits from "../utility/Credits/Credits";
 
+import { combineCrewCredits } from "../../helper/helperFunctions";
+
 const Season = () => {
     const [seasonDetails, setSeasonDetails] = useState({});
     const [tvShowData, setTvShowData] = useState({});
@@ -285,7 +287,9 @@ const Season = () => {
                 {seasonVideos?.length && <VideoTrailerRow videos={seasonVideos} setOpen={openVideoModalWithIndex} />}
                 {/*Credits */}
                 {Object.keys(seasonCredits).length && <Credits credits={seasonCredits?.cast} title={"Cast"} />}{" "}
-                {Object.keys(seasonCredits).length && <Credits credits={seasonCredits?.crew} title={"Crew"} />}{" "}
+                {Object.keys(seasonCredits).length && (
+                    <Credits credits={combineCrewCredits(seasonCredits?.crew)} title={"Crew"} />
+                )}{" "}
             </div>
         </>
     );

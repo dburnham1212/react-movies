@@ -31,6 +31,8 @@ import YouTube from "react-youtube";
 import { userContext } from "../context/UserContext";
 import AlertMessage from "../utility/Alerts/AlertMessage";
 
+import { combineCrewCredits } from "../../helper/helperFunctions";
+
 const Movie = () => {
     // ----- Static states -----
     const [movieData, setMovieData] = useState({});
@@ -469,7 +471,9 @@ const Movie = () => {
                 {movieVideos?.length && <VideoTrailerRow videos={movieVideos} setOpen={openVideoModalWithIndex} />}
                 {/*Credits */}
                 {Object.keys(movieCredits).length && <Credits credits={movieCredits?.cast} title={"Cast"} />}{" "}
-                {Object.keys(movieCredits).length && <Credits credits={movieCredits?.crew} title={"Crew"} />}{" "}
+                {Object.keys(movieCredits).length && (
+                    <Credits credits={combineCrewCredits(movieCredits?.crew)} title={"Crew"} />
+                )}{" "}
                 {/* Recommended Movies */}
                 <MediaCardRow media={recommendedMovies} title="Recommended Movies" mediaType="movie" size="N" />
                 {/* Similar Movies */}

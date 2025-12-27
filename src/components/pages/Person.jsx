@@ -6,6 +6,8 @@ import { BASE_IMAGE_URL, BASE_URL } from "../../constants/constants";
 import styles from "../../styles/pages/Person.module.css";
 import MediaCreditCard from "../utility/Cards/MediaCreditCard";
 import SocialsList from "../utility/Socials/SocailsList";
+import MediaCreditGrid from "../utility/Grids/MediaCreditGrid";
+import { combineCrewCredits } from "../../helper/helperFunctions";
 
 const Person = () => {
     const [personData, setPersonData] = useState({});
@@ -30,12 +32,6 @@ const Person = () => {
                 setMovieCredits(response);
             }
         );
-
-        makeApiCall(`${BASE_URL}/person/${id}/tv_credits?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
-            console.log("===== TV CREDITS =====");
-            console.log(response);
-            setTvShowCredits(response);
-        });
 
         makeApiCall(`${BASE_URL}/person/${id}/tv_credits?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
             console.log("===== TV CREDITS =====");
@@ -99,12 +95,37 @@ const Person = () => {
                     </div>
                 </div>
 
-                <div>
-                    <h1>This is movie credits</h1>
-                    {movieCredits?.cast?.map((credit) => {
-                        return <MediaCreditCard media={credit} />;
-                    })}
-                </div>
+                {movieCredits?.cast?.length > 0 && (
+                    <MediaCreditGrid
+                        mediaCredits={movieCredits?.cast}
+                        title="Movie Casting Credits"
+                        mediaType={"movie"}
+                        creditType={"CA"}
+                    />
+                )}
+                {movieCredits?.crew?.length > 0 && (
+                    <MediaCreditGrid
+                        mediaCredits={combineCrewCredits(movieCredits?.crew)}
+                        title="Movie Crew Credits"
+                        mediaType={"movie"}
+                    />
+                )}
+
+                {tvShowCredits?.cast?.length > 0 && (
+                    <MediaCreditGrid
+                        mediaCredits={tvShowCredits?.cast}
+                        title="TV Casting Credits"
+                        mediaType={"tv"}
+                        creditType={"CA"}
+                    />
+                )}
+                {tvShowCredits?.crew?.length > 0 && (
+                    <MediaCreditGrid
+                        mediaCredits={combineCrewCredits(tvShowCredits?.crew)}
+                        title="TV Crew Credits"
+                        mediaType={"tv"}
+                    />
+                )}
             </div>
         </>
     );

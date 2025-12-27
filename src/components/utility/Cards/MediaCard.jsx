@@ -23,10 +23,14 @@ const MediaCard = (props) => {
                                     <h4 className={styles.title_text}>Department:</h4>
                                     <p className={styles.title_text}>{media.known_for_department}</p>
 
-                                    <h4 className={styles.title_text}>Known For:</h4>
-                                    <p className={styles.title_text}>
-                                        {media.known_for.map((item) => item.title).join(", ")}
-                                    </p>
+                                    {media?.known_for?.length && (
+                                        <>
+                                            <h4 className={styles.title_text}>Known For:</h4>
+                                            <p className={styles.title_text}>
+                                                {media?.known_for?.map((item) => item.title || item.name).join(", ")}
+                                            </p>
+                                        </>
+                                    )}
 
                                     <h4 className={styles.title_text}>Popularity:</h4>
                                     <p className={styles.title_text}>{media.popularity.toFixed(1)}</p>

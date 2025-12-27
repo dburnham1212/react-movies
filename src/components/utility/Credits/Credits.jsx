@@ -89,60 +89,64 @@ const Credits = (props) => {
                     {sorted
                         ?.filter((_, index) => index < Count)
                         .map((cast, index) => (
-                            <Card id={styles.card} key={index}>
-                                {" "}
-                                {/*cast-card */}
-                                <div className={styles.card_hidden}>
+                            <a key={index} id={styles.card_link} href={`/person/${cast?.id}`}>
+                                <Card id={styles.card}>
                                     {" "}
-                                    {/*cast-card additional info */}
-                                    <CardContent id={styles.card_content}>
-                                        {cast?.name !== cast?.original_name ? (
+                                    {/*cast-card */}
+                                    <div className={styles.card_hidden}>
+                                        {" "}
+                                        {/*cast-card additional info */}
+                                        <CardContent id={styles.card_content}>
+                                            {cast?.name !== cast?.original_name ? (
+                                                <h4>
+                                                    Name:{" "}
+                                                    <span id={styles.small_text}>
+                                                        {cast?.name} / {cast?.original_name}
+                                                    </span>
+                                                </h4>
+                                            ) : (
+                                                <h4>
+                                                    Name: <span id={styles.small_text}>{cast?.name}</span>
+                                                </h4>
+                                            )}
                                             <h4>
-                                                Name:{" "}
+                                                Popularity:{" "}
+                                                <span id={styles.small_text}>{cast?.popularity.toFixed(1)}</span>
+                                            </h4>
+                                            <h4>
+                                                Department(s):{" "}
                                                 <span id={styles.small_text}>
-                                                    {cast?.name} / {cast?.original_name}
+                                                    {cast?.departments
+                                                        ? cast?.departments.join(", ")
+                                                        : cast?.known_for_department}
                                                 </span>
                                             </h4>
-                                        ) : (
-                                            <h4>
-                                                Name: <span id={styles.small_text}>{cast?.name}</span>
-                                            </h4>
-                                        )}
-                                        <h4>
-                                            Popularity:{" "}
-                                            <span id={styles.small_text}>{cast?.popularity.toFixed(1)}</span>
-                                        </h4>
-                                        <h4>
-                                            Department: <span id={styles.small_text}>{cast?.known_for_department}</span>
-                                        </h4>
-                                        {title === "Cast" ? (
-                                            <h4>
-                                                Role(s):{" "}
-                                                <span id={styles.small_text}>
-                                                    {cast?.character ? cast?.character : cast?.roles[0].character}
-                                                </span>
-                                            </h4>
-                                        ) : (
-                                            <h4>
-                                                Job(s):{" "}
-                                                <span id={styles.small_text}>
-                                                    {cast?.job ? cast?.job : cast?.jobs[0].job}
-                                                </span>
-                                            </h4>
-                                        )}
-                                    </CardContent>
-                                    <a id={styles.card_link} href={`/person/${cast?.id}`}>
-                                        Learn More
-                                    </a>
-                                </div>
-                                {/*cast profile-img */}
-                                <CardMedia
-                                    id={styles.card_profile}
-                                    image={`${BASE_IMAGE_URL}${cast?.profile_path}`}
-                                    title={cast?.name}
-                                />
-                                <h4 id={styles.card_name}>{cast?.name}</h4> {/*Cast name display*/}
-                            </Card>
+                                            {title === "Cast" ? (
+                                                <h4>
+                                                    Role(s):{" "}
+                                                    <span id={styles.small_text}>
+                                                        {cast?.character ? cast?.character : cast?.roles[0].character}
+                                                    </span>
+                                                </h4>
+                                            ) : (
+                                                <h4>
+                                                    Job(s):{" "}
+                                                    <span id={styles.small_text}>
+                                                        {cast?.jobs ? cast?.jobs.join(", ") : cast?.job}
+                                                    </span>
+                                                </h4>
+                                            )}
+                                        </CardContent>
+                                    </div>
+                                    {/*cast profile-img */}
+                                    <CardMedia
+                                        id={styles.card_profile}
+                                        image={`${BASE_IMAGE_URL}${cast?.profile_path}`}
+                                        title={cast?.name}
+                                    />
+                                    <h4 id={styles.card_name}>{cast?.name}</h4> {/*Cast name display*/}
+                                </Card>
+                            </a>
                         ))}
                 </div>
             </div>

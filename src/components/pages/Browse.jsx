@@ -94,7 +94,9 @@ const Browse = () => {
 
         // People API Calls
         makeApiCall(`${BASE_URL}/trending/person/week?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
-            setTrendingPeople(refinePeople(response.results));
+            console.log("===== Trending People =====");
+            console.log(response);
+            setTrendingPeople(response);
         });
     }, []);
 
@@ -231,9 +233,9 @@ const Browse = () => {
                             <div className={styles.card_container}>
                                 {/* Get Movies By Selected Genre*/}
                                 {selectedGenreTv?.results?.length &&
-                                    selectedGenreTv?.results?.map((movie, index) => {
+                                    selectedGenreTv?.results?.map((show, index) => {
                                         return (
-                                            <MediaCard key={index} media={movie} displayType={false} mediaType={"tv"} />
+                                            <MediaCard key={index} media={show} displayType={false} mediaType={"tv"} />
                                         );
                                     })}
                             </div>
@@ -254,9 +256,23 @@ const Browse = () => {
                     )}
                     {mediaType === "People" && (
                         <>
-                            {trendingPeople.length && (
+                            <div className={styles.card_container}>
+                                {/* Get Trending People*/}
+                                {trendingPeople?.results?.length &&
+                                    trendingPeople?.results?.map((person, index) => {
+                                        return (
+                                            <MediaCard
+                                                key={index}
+                                                media={person}
+                                                displayType={true}
+                                                mediaType={"person"}
+                                            />
+                                        );
+                                    })}
+                            </div>
+                            {/* {trendingPeople.length && (
                                 <MediaImageRow title={"Trending People"} media={trendingPeople} basePath={"/person"} />
-                            )}
+                            )} */}
                         </>
                     )}
                 </div>

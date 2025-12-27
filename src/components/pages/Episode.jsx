@@ -12,6 +12,7 @@ import ImageCarousel from "../utility/Carousels/ImageCarousel";
 import YouTube from "react-youtube";
 import VideoTrailerRow from "../utility/ImageRows/VideoTrailerRow";
 import Credits from "../utility/Credits/Credits";
+import { combineCrewCredits } from "../../helper/helperFunctions";
 
 const Episode = () => {
     const [tvShowData, setTvShowData] = useState({});
@@ -264,7 +265,9 @@ const Episode = () => {
                 {epsiodeVideos?.length && <VideoTrailerRow videos={epsiodeVideos} setOpen={openVideoModalWithIndex} />}
                 {/*Credits */}
                 {Object.keys(epsiodeCredits).length && <Credits credits={epsiodeCredits?.cast} title={"Cast"} />}{" "}
-                {Object.keys(epsiodeCredits).length && <Credits credits={epsiodeCredits?.crew} title={"Crew"} />}{" "}
+                {Object.keys(epsiodeCredits).length && (
+                    <Credits credits={combineCrewCredits(epsiodeCredits?.crew)} title={"Crew"} />
+                )}{" "}
             </div>
         </>
     );

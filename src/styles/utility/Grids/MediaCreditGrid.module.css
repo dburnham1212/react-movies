@@ -1,0 +1,30 @@
+.credit_container {
+    padding: 1rem;
+}
+
+.credit_list {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    width: 100%;
+}
+
+.credit_container > h3 {
+    border-bottom: 1px solid lightgrey;
+}
+
+.expand_button {
+    width: 100%;
+    background-color: rgb(16, 16, 16);
+    color: white;
+    padding: 1rem;
+    border: 1px solid white;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    margin-top: 1rem;
+}
+
+.expand_button:hover {
+    background-color: rgb(48, 48, 48);
+}

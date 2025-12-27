@@ -36,3 +36,9 @@
     max-height: 10rem;
     padding: 1rem;
 }
+
+@media only screen and (max-width: 600px) {
+    .review_container {
+        flex-direction: column;
+    }
+}

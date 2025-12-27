@@ -3,12 +3,47 @@ import { BASE_IMAGE_URL } from "../../../constants/constants";
 import styles from "../../../styles/utility/Cards/MediaCreditCard.module.css";
 
 const MediaCreditCard = (props) => {
-    const { media } = props;
+    const { media, mediaType, creditType } = props;
 
     return (
         <>
-            <Card sx={{ padding: "2rem" }}>
-                <img src={`${BASE_IMAGE_URL}${media.poster_path}`} alt={"This is an alt tag"} />
+            <Card className={styles.card}>
+                <img
+                    src={`${
+                        media.poster_path || media.profile_path
+                            ? BASE_IMAGE_URL + (media.poster_path || media.profile_path)
+                            : "/images/NO_IMAGE_FOUND.jpg"
+                    }`}
+                    alt={media.original_title}
+                />
+                <h4>{media.title}</h4>
+                <div className={styles.card_hidden}>
+                    <a className={styles.hidden_link} href={`/${mediaType}/${media.id}`}>
+                        <div className={styles.hidden_overlay}>
+                            <h4>Title:</h4>
+                            <p>{media.title || media.name}</p>
+                            <h4>Role(s):</h4>
+                            {creditType === "CA" ? (
+                                <p className={styles.hidden_role_text}>{media.character || "None"}</p>
+                            ) : (
+                                <p className={styles.hidden_role_text}>
+                                    {media.jobs ? media.jobs.join(", ") : media.job || "None"}
+                                </p>
+                            )}
+                            <h4>Description:</h4>
+                            <p className={styles.hidden_description_text}>{media.overview || "None"}</p>
+                        </div>
+                        <img
+                            className={styles.hidden_image}
+                            src={`${
+                                media.poster_path || media.profile_path
+                                    ? BASE_IMAGE_URL + (media.poster_path || media.profile_path)
+                                    : "/images/NO_IMAGE_FOUND.jpg"
+                            }`}
+                            alt={media.title || media.name}
+                        />
+                    </a>
+                </div>
             </Card>
         </>
     );

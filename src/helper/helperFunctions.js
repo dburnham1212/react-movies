@@ -90,6 +90,30 @@ const refineEpisodes = (episodes) => {
     });
 };
 
+const combineCrewCredits = (credits) => {
+    const combinedCredits = Object.values(
+        credits.reduce((acc, person) => {
+            // Normalize jobs
+            const jobs = person.jobs ? person.jobs.map((j) => j.job) : person.job ? [person.job] : [];
+
+            if (!acc[person.id]) {
+                acc[person.id] = {
+                    ...person,
+                    jobs: [...jobs],
+                    departments: [person.department],
+                };
+            } else {
+                acc[person.id].jobs.push(...jobs);
+                acc[person.id].departments.push(person.department);
+            }
+
+            return acc;
+        }, {})
+    );
+
+    return combinedCredits;
+};
+
 module.exports = {
     makeApiCall,
     makePostApiCall,
@@ -99,4 +123,5 @@ module.exports = {
     refinePeople,
     refineSeasons,
     refineEpisodes,
+    combineCrewCredits,
 };

@@ -22,6 +22,7 @@ import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import AlertMessage from "../utility/Alerts/AlertMessage";
 import RatingModal from "../utility/Modals/RatingModal";
+import { combineCrewCredits } from "../../helper/helperFunctions";
 
 const TVShow = () => {
     const [tvShowData, setTvShowData] = useState({});
@@ -452,7 +453,9 @@ const TVShow = () => {
                 {Object.keys(tvShowAggCredits).length && (
                     <Credits credits={tvShowAggCredits?.cast} title={"Cast"} />
                 )}{" "}
-                {Object.keys(tvShowAggCredits).length && <Credits credits={tvShowAggCredits?.crew} title={"Crew"} />}{" "}
+                {Object.keys(tvShowAggCredits).length && (
+                    <Credits credits={combineCrewCredits(tvShowAggCredits?.crew)} title={"Crew"} />
+                )}{" "}
                 {/* Recommended Movies */}
                 <MediaCardRow media={recommendedTv} title="Recommended Shows" mediaType="tv" size="N" />
                 {/* Similar Movies */}

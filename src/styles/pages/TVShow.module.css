@@ -19,7 +19,7 @@
 }
 
 .genre_container {
-    margin-top: -36px;
+    margin-top: 0;
     display: flex;
 }
 
@@ -28,11 +28,11 @@
 }
 
 .rating_container p {
-    margin-top: -0.3rem;
+    margin-top: 0;
 }
 
 #num_votes {
-    margin-top: -1rem;
+    margin-top: 0;
 }
 #flag {
     width: 1.5rem;

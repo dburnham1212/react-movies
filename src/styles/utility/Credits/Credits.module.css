@@ -26,7 +26,7 @@
 
 #card {
     border-radius: 0.25rem;
-    width: 10rem;
+    width: 12rem;
     height: 20rem;
     margin: 0.5rem;
     position: relative;
@@ -72,11 +72,9 @@
 
 #card_link {
     text-align: left;
-    margin-left: 2.5rem;
 }
 
 #card_content {
-    height: 15.5rem;
     overflow: hidden;
 }
 
@@ -105,7 +103,7 @@
 
 .card_hidden {
     border-radius: 0.25rem;
-    width: 10rem;
+    width: 12rem;
     height: 20rem;
     display: none;
     overflow-y: auto;
