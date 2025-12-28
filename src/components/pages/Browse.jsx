@@ -70,6 +70,15 @@ const Browse = () => {
         });
     };
 
+    const getPeopleByPage = (currentPage) => {
+        makeApiCall(
+            `${BASE_URL}/trending/person/week?api_key=${process.env.REACT_APP_API_KEY}&page=${currentPage}`
+        ).then((response) => {
+            console.log(response);
+            setTrendingPeople(response);
+        });
+    };
+
     useEffect(() => {
         // This is an example of the use effect hook!
         // We can use the use effect hook to create api calls
@@ -110,6 +119,8 @@ const Browse = () => {
             // reset the tv search to the first selection
             setTvGenre(tvGenres[0]);
             getTvForGenre(tvGenres[0].id, 1);
+        } else if (e.target.value === "People") {
+            getPeopleByPage(1);
         }
         setCurrentPage(1);
     };
@@ -134,6 +145,11 @@ const Browse = () => {
     const handleTvPageChange = (e, value) => {
         setCurrentPage(value);
         getTvForGenre(tvGenre.id, value);
+    };
+
+    const handlePeoplePageChange = (e, value) => {
+        setCurrentPage(value);
+        getPeopleByPage(value);
     };
 
     return (
@@ -269,6 +285,19 @@ const Browse = () => {
                                             />
                                         );
                                     })}
+                            </div>
+                            <div className={styles.pagination_box}>
+                                <Stack spacing={2}>
+                                    <Pagination
+                                        count={trendingPeople.total_pages > 500 ? 500 : trendingPeople.total_pages}
+                                        page={currentPage}
+                                        onChange={handlePeoplePageChange}
+                                        variant="outlined"
+                                        shape="rounded"
+                                        showFirstButton
+                                        showLastButton
+                                    />
+                                </Stack>
                             </div>
                             {/* {trendingPeople.length && (
                                 <MediaImageRow title={"Trending People"} media={trendingPeople} basePath={"/person"} />

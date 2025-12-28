@@ -125,7 +125,11 @@ const Credits = (props) => {
                                                 <h4>
                                                     Role(s):{" "}
                                                     <span id={styles.small_text}>
-                                                        {cast?.character ? cast?.character : cast?.roles[0].character}
+                                                        {cast?.character
+                                                            ? cast?.character
+                                                            : cast?.roles
+                                                            ? cast?.roles[0].character
+                                                            : "None"}
                                                     </span>
                                                 </h4>
                                             ) : (

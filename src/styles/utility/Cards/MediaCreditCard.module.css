@@ -57,8 +57,8 @@ p {
 
 .hidden_description_text {
     display: -webkit-box;
-    line-clamp: 8;
-    -webkit-line-clamp: 8;
+    line-clamp: 4;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
