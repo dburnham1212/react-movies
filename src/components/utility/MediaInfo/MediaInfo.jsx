@@ -1,6 +1,6 @@
 import { BASE_IMAGE_URL } from "../../../constants/constants";
 
-import { Button, IconButton, Rating, Tooltip } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { FavoriteOutlined } from "@mui/icons-material";
@@ -71,11 +71,11 @@ const MediaInfo = (props) => {
                     {isEpisode && (
                         <>
                             <h1>{mediaEpisodeData?.name}</h1>
-                            <a href={`/tv/${mediaData.id}/season/${mediaSeasonData.season_number}`}>
-                                <h3>{mediaSeasonData?.name}</h3>
-                            </a>
                             <a href={`/tv/${mediaData.id}`}>
                                 {mediaData.name ? <h3>{mediaData.name}</h3> : <h3>{mediaData.original_name}</h3>}
+                            </a>
+                            <a href={`/tv/${mediaData.id}/season/${mediaSeasonData.season_number}`}>
+                                <h4>{mediaSeasonData?.name}</h4>
                             </a>
                         </>
                     )}
@@ -210,16 +210,14 @@ const MediaInfo = (props) => {
                             </>
                         )}
                         {/* Genres */}
-                        {mediaData?.genres?.length === 1 ? <h3>Genre:</h3> : <h3>Genres:</h3>}
-                        {mediaData?.genres?.length > 0 ? (
-                            <div className={styles.genre_container}>
+                        <div className={styles.genre_container}>
+                            {mediaData?.genres?.length === 1 ? <h3>Genre:</h3> : <h3>Genres:</h3>}
+                            {mediaData?.genres?.length > 0 ? (
                                 <p id={styles.genres}>{mediaData?.genres?.map((genre) => genre.name).join(", ")}</p>
-                            </div>
-                        ) : (
-                            <div className={styles.genre_container}>
+                            ) : (
                                 <p id={styles.genre}>No Genres Found</p>
-                            </div>
-                        )}
+                            )}
+                        </div>
                         {mediaData.adult && <p>Adults Only</p>}
                     </div>
                     {/* Buttons for favourite, watchlist and rating */}

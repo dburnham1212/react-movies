@@ -114,6 +114,7 @@ const Season = () => {
                     <div className={styles.episode_list}>
                         {seasonDetails?.episodes?.map((episode) => (
                             <a
+                                key={episode.id}
                                 href={`/tv/${tvShowData.id}/season/${seasonDetails.season_number}/episode/${episode.episode_number}`}
                             >
                                 <div className={styles.episode_content}>
@@ -174,7 +175,7 @@ const Season = () => {
                             <YouTube
                                 videoId={seasonVideos[videoModalIndex].key}
                                 opts={{
-                                    height: "550px",
+                                    height: "500px",
                                     width: "100%",
                                     playerVars: {
                                         autoplay: 1,

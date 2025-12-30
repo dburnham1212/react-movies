@@ -6,13 +6,20 @@
 }
 
 .heading_title_info > h1,
-.heading_title_info > a > h3 {
+.heading_title_info > a > h3,
+.heading_title_info > a > h4 {
     padding: 0;
     margin: 0;
 }
 
-.heading_title_info > a > h3:hover {
+.heading_title_info > a > h3,
+.heading_title_info > a > h4 {
     color: #fea423;
+}
+
+.heading_title_info > a > h3:hover,
+.heading_title_info > a > h4:hover {
+    color: #f57c00;
 }
 
 .heading {
@@ -72,6 +79,7 @@
 #tagline {
     font-size: 1.2rem;
     font-style: italic;
+    margin-bottom: 1.5rem;
 }
 
 #genres {
@@ -129,8 +137,12 @@
 
 .genre_container {
     margin: 0;
+    padding: 1rem 0 2rem 0;
+}
+
+.genre_container > h3 {
     padding: 0;
-    display: flex;
+    margin: 0;
 }
 
 .flag {

@@ -260,7 +260,7 @@ const TVShow = () => {
     //Code html here
     return (
         <>
-            <div className={styles.wrapper}>
+            <div className="wrapper">
                 <MediaInfo
                     mediaData={tvShowData}
                     mediaType="TVShow"
