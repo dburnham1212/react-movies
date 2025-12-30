@@ -13,6 +13,7 @@ import YouTube from "react-youtube";
 import VideoTrailerRow from "../utility/ImageRows/VideoTrailerRow";
 import Credits from "../utility/Credits/Credits";
 import { combineCrewCredits } from "../../helper/helperFunctions";
+import MediaInfo from "../utility/MediaInfo/MediaInfo";
 
 const Episode = () => {
     const [tvShowData, setTvShowData] = useState({});
@@ -107,118 +108,13 @@ const Episode = () => {
     return (
         <>
             <div className="wrapper">
-                <div className={styles.heading_container}>
-                    <div className={styles.heading}>
-                        <h1>{episodeData.name}</h1>
-                        <h3>{tvShowData.name}</h3>
-                        <h3>{seasonDetails.name}</h3>
-                    </div>
-                    <div className={styles.movie_ratings}>
-                        {/* Overall movie rating */}
-                        <div className={styles.rating_container}>
-                            <h5>TMDB Rating</h5>
-                            <div className={styles.star_rating}>
-                                <StarIcon color="warning" />
-                                <p>
-                                    <span>{Number(episodeData.vote_average / 2).toFixed(1)}</span>/5
-                                </p>
-                            </div>
-                            <p id={styles.num_votes}>Votes: {episodeData.vote_count}</p>
-                        </div>
-                    </div>
-                </div>
-                <div className={styles.container}>
-                    <div className={styles.content_left}>
-                        {episodeData.still_path ? (
-                            <img
-                                src={`${BASE_IMAGE_URL}${episodeData.still_path}`}
-                                alt={`${episodeData.title} poster`}
-                                width={"360"}
-                            />
-                        ) : (
-                            <img
-                                className={styles.no_still}
-                                src={"/images/NO_IMAGE_FOUND.jpg"}
-                                alt={`${episodeData.title} no poster `}
-                                width={"360"}
-                            />
-                        )}
-                    </div>
-                    <div className={styles.content_right}>
-                        <div id={styles.right_upper_content}>
-                            <p id={styles.episode_line}>Episode: {episodeData.episode_number}</p>
-                            <p id={styles.overview}>{episodeData.overview}</p>
-                            {tvShowData?.genres?.length === 1 ? <h3>Genre:</h3> : <h3>Genres:</h3>}
-                            <div className={styles.genre_container}>
-                                <p id={styles.genres}>{tvShowData?.genres?.map((genre) => genre.name).join(", ")}</p>
-                            </div>
-                            {tvShowData.adult && <p>Adults Only</p>}
-                        </div>
-                        <div id={styles.right_lower_content}>
-                            <div className={styles.lower_content_line}>
-                                {/*Display country(s) of origin */}
-                                <div>
-                                    {tvShowData?.production_countries?.map((country, index) => (
-                                        <img
-                                            key={index}
-                                            className={styles.flag}
-                                            src={`https://flagsapi.com/${country.iso_3166_1}/flat/64.png`}
-                                            alt={country.name}
-                                        />
-                                    ))}
-                                </div>
-                                {/*Release Date */}
-                                <span>&#9679;</span>
-                                <span>{episodeData?.air_date}</span>
-                                {/*Release Date */}
-                                <span>&#9679;</span>
-                                <span>
-                                    {episodeData?.runtime > 60 && Math.floor(episodeData.runtime / 60) + "h"}{" "}
-                                    {episodeData.runtime % 60}m
-                                </span>
-
-                                {/* Website */}
-                                {tvShowData.homepage && (
-                                    <>
-                                        <span>&#9679;</span>
-                                        <p>
-                                            Website: <a href={tvShowData.homepage}>{tvShowData.homepage}</a>
-                                        </p>
-                                    </>
-                                )}
-                            </div>
-
-                            {/*Display available languages */}
-                            <div className={styles.lower_content_line}>
-                                {tvShowData?.spoken_languages?.length && (
-                                    <h4>
-                                        Available languages:
-                                        <span id={styles.lang_font}>
-                                            {" "}
-                                            {tvShowData?.spoken_languages
-                                                ?.map((lang) =>
-                                                    lang.name !== lang.english_name
-                                                        ? lang.name + "/" + lang.english_name
-                                                        : lang.english_name
-                                                )
-                                                .join(", ")}
-                                        </span>
-                                    </h4>
-                                )}
-                            </div>
-                            {/*Produced by */}
-                            <div className={styles.lower_content_line}>
-                                <h4>
-                                    Produced by:
-                                    <span id={styles.prod_font}>
-                                        {" "}
-                                        {tvShowData?.production_companies?.map((prod) => prod.name).join(", ")}
-                                    </span>
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <MediaInfo
+                    mediaData={tvShowData}
+                    mediaSeasonData={seasonDetails}
+                    mediaEpisodeData={episodeData}
+                    mediaType="episode"
+                    showAuthOptions={false}
+                />
                 {/* Watch provider data */}
                 <WatchProviders watchProviders={watchProviders} title={tvShowData.name} />
                 {/* Gallery */}

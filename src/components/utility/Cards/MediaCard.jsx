@@ -91,10 +91,14 @@ const MediaCard = (props) => {
                             </>
                         )
                     ) : (
-                        <div className={styles.title_text}>
-                            <StarIcon sx={{ fontSize: "medium", color: "#fea423" }} />
-                            <span>{Number(media.vote_average / 2).toFixed(1)}</span>
-                        </div>
+                        <>
+                            {media.media_type !== "person" && (
+                                <div className={styles.title_text}>
+                                    <StarIcon sx={{ fontSize: "medium", color: "#fea423" }} />
+                                    <span>{Number(media.vote_average / 2).toFixed(1)}</span>
+                                </div>
+                            )}
+                        </>
                     )}
                     <h4 className={styles.title_text}>{`${media.title || media.name}`}</h4>
                 </div>

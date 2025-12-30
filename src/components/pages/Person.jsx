@@ -55,7 +55,11 @@ const Person = () => {
                     <div className={styles.info_left}>
                         <img
                             className={styles.img}
-                            src={`${BASE_IMAGE_URL}${personData.profile_path}`}
+                            src={
+                                personData.profile_path
+                                    ? `${BASE_IMAGE_URL}${personData.profile_path}`
+                                    : "/images/NO_IMAGE_FOUND.jpg"
+                            }
                             alt={`${personData.name} profile`}
                             width={"360"}
                         />

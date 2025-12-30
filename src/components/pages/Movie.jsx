@@ -16,6 +16,7 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import styles from "../../styles/pages/Movie.module.css";
 
 // Component Imports
+import MediaInfo from "../utility/MediaInfo/MediaInfo";
 import Credits from "../utility/Credits/Credits";
 import IndexedImageRow from "../utility/ImageRows/IndexedImageRow";
 import BasicModal from "../utility/Modals/BasicModal";
@@ -258,184 +259,34 @@ const Movie = () => {
     return (
         <>
             <div className="wrapper">
-                <div className={styles.heading_container}>
-                    <div className={styles.heading}>
-                        <h1>{movieData.title}</h1>
-                        {movieData.original_title !== movieData.title && <h3>{movieData.original_title}</h3>}
-                    </div>
-                    <div className={styles.movie_ratings}>
-                        {/* Overall movie rating */}
-                        <div className={styles.rating_container}>
-                            <h5>TMDB Rating</h5>
-                            <div className={styles.star_rating}>
-                                <StarIcon color="warning" />
-                                <p>
-                                    <span>{Number(movieData.vote_average / 2).toFixed(1)}</span>/5
-                                </p>
-                            </div>
-                            <p id={styles.num_votes}>Votes: {movieData.vote_count}</p>
-                        </div>
-                        {/* Personal rating if user has logged in */}
-                        {isAuthenticated() && (
-                            <div className={styles.rating_container}>
-                                <h5>My Rating</h5>
-                                <div className={styles.star_rating}>
-                                    <StarIcon color="warning" />
-                                    {accountStates?.rated?.value ? (
-                                        <p>
-                                            <span>{Number(accountStates.rated.value / 2).toFixed(1)}</span>/5
-                                        </p>
-                                    ) : (
-                                        <p>N/A</p>
-                                    )}
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </div>
-                <div className={styles.container}>
-                    <div className={styles.content_left}>
-                        <img
-                            src={`${BASE_IMAGE_URL}${movieData.poster_path}`}
-                            alt={`${movieData.title} poster`}
-                            width={"360"}
-                        />
-                    </div>
-                    <div className={styles.content_right}>
-                        <div id={styles.right_upper_content}>
-                            {movieData.tagline && <p id={styles.tagline}>{movieData.tagline}</p>}
-                            <p id={styles.overview}>{movieData.overview}</p>
-                            {/* Genres */}
-                            {movieData?.genres?.length === 1 ? <h3>Genre:</h3> : <h3>Genres:</h3>}
-                            <div className={styles.genre_container}>
-                                <p id={styles.genres}>{movieData?.genres?.map((genre) => genre.name).join(", ")}</p>
-                            </div>
-                            {movieData.adult && <p>Adults Only</p>}
-                        </div>
-                        {/* Buttons for favourite, watchlist and rating */}
-                        {isAuthenticated() && (
-                            <div style={{ display: "flex", gap: "1rem" }}>
-                                <Tooltip title={accountStates.favorite ? "Remove favourite" : "Add to favourites"}>
-                                    <IconButton
-                                        sx={{ backgroundColor: "#555555" }}
-                                        size="large"
-                                        color="warning"
-                                        onClick={toggleFavourite}
-                                    >
-                                        {accountStates.favorite ? <FavoriteOutlined /> : <FavoriteBorderIcon />}
-                                    </IconButton>
-                                </Tooltip>
-                                <Tooltip
-                                    title={accountStates.watchlist ? "Remove from watch list" : "Add to watch list"}
-                                >
-                                    <IconButton
-                                        sx={{ backgroundColor: "#555555" }}
-                                        size="large"
-                                        color="warning"
-                                        onClick={toggleWatchlist}
-                                    >
-                                        {accountStates.watchlist ? <DesktopWindowsIcon /> : <TvIcon />}
-                                    </IconButton>
-                                </Tooltip>
-                                <Tooltip title="Update rating">
-                                    <IconButton
-                                        sx={{ backgroundColor: "#555555" }}
-                                        size="large"
-                                        color="warning"
-                                        onClick={openRatingModal}
-                                    >
-                                        {accountStates?.rated?.value ? <StarIcon /> : <StarBorderIcon />}
-                                    </IconButton>
-                                </Tooltip>
-                                <AlertMessage controlState={accountStates} alertMessage={accountStateChangeAlert} />
-                                <RatingModal
-                                    open={ratingModalOpen}
-                                    handleClose={closeRatingModal}
-                                    title={movieData.title}
-                                    ratingValue={ratingValue}
-                                    setRatingValue={setRatingValue}
-                                    deleteRating={deleteRating}
-                                    saveRating={saveRating}
-                                />
-                            </div>
-                        )}
-
-                        <div id={styles.right_lower_content}>
-                            <div className={styles.lower_content_line}>
-                                {/*Display country(s) of origin */}
-                                <div>
-                                    {movieData?.production_countries?.map((country, index) => (
-                                        <img
-                                            key={index}
-                                            className={styles.flag}
-                                            src={`https://flagsapi.com/${country.iso_3166_1}/flat/64.png`}
-                                            alt={country.name}
-                                        />
-                                    ))}
-                                </div>
-                                {/*Release Date */}
-                                <span>&#9679;</span>
-                                <span>{movieData?.release_date}</span>
-                                {/*Release Date */}
-                                <span>&#9679;</span>
-                                <span>
-                                    {movieData?.runtime > 60 && Math.floor(movieData.runtime / 60) + "h"}{" "}
-                                    {movieData.runtime % 60}m
-                                </span>
-
-                                {/* Website */}
-                                {movieData.homepage && (
-                                    <>
-                                        <span>&#9679;</span>
-                                        <p>
-                                            Website: <a href={movieData.homepage}>{movieData.homepage}</a>
-                                        </p>
-                                    </>
-                                )}
-                            </div>
-
-                            {/*Display available languages */}
-                            <div className={styles.lower_content_line}>
-                                {movieData?.spoken_languages?.length && (
-                                    <h4>
-                                        Available languages:
-                                        <span id={styles.lang_font}>
-                                            {" "}
-                                            {movieData?.spoken_languages
-                                                ?.map((lang) =>
-                                                    lang.name !== lang.english_name
-                                                        ? lang.name + "/" + lang.english_name
-                                                        : lang.english_name
-                                                )
-                                                .join(", ")}
-                                        </span>
-                                    </h4>
-                                )}
-                            </div>
-                            {/*Produced by */}
-                            <div className={styles.lower_content_line}>
-                                <h4>
-                                    Produced by:
-                                    <span id={styles.prod_font}>
-                                        {" "}
-                                        {movieData?.production_companies?.map((prod) => prod.name).join(", ")}
-                                    </span>
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <MediaInfo
+                    mediaData={movieData}
+                    mediaType="movie"
+                    showAuthOptions={true}
+                    accountStates={accountStates}
+                    isAuthenticated={isAuthenticated}
+                    toggleFavourite={toggleFavourite}
+                    toggleWatchlist={toggleWatchlist}
+                    accountStateChangeAlert={accountStateChangeAlert}
+                    ratingModalOpen={ratingModalOpen}
+                    openRatingModal={openRatingModal}
+                    closeRatingModal={closeRatingModal}
+                    ratingValue={ratingValue}
+                    setRatingValue={setRatingValue}
+                    deleteRating={deleteRating}
+                    saveRating={saveRating}
+                />
                 {/* Watch provider data */}
                 <WatchProviders watchProviders={watchProviders} title={movieData.title} />
                 {/* Gallery */}
-                {movieImages?.backdrops?.length && (
+                {movieImages?.backdrops?.length > 0 && (
                     <IndexedImageRow
                         title={"Gallery"}
                         media={movieImages.backdrops}
                         setOpen={openArtworkModalWithIndex}
                     />
                 )}
-                {movieImages?.backdrops?.length && (
+                {movieImages?.backdrops?.length > 0 && (
                     <BasicModal
                         open={openArtworkModal}
                         handleClose={closeArtworkModal}
@@ -450,7 +301,7 @@ const Movie = () => {
                     />
                 )}
                 {/* Videos with modal */}
-                {movieVideos?.length && (
+                {movieVideos?.length > 0 && (
                     <BasicModal
                         open={openVideoModal}
                         handleClose={closeVideoModal}
@@ -468,16 +319,20 @@ const Movie = () => {
                         }
                     />
                 )}
-                {movieVideos?.length && <VideoTrailerRow videos={movieVideos} setOpen={openVideoModalWithIndex} />}
+                {movieVideos?.length > 0 && <VideoTrailerRow videos={movieVideos} setOpen={openVideoModalWithIndex} />}
                 {/*Credits */}
-                {Object.keys(movieCredits).length && <Credits credits={movieCredits?.cast} title={"Cast"} />}{" "}
-                {Object.keys(movieCredits).length && (
+                {movieCredits?.cast?.length > 0 && <Credits credits={movieCredits?.cast} title={"Cast"} />}{" "}
+                {movieCredits?.crew?.length > 0 && (
                     <Credits credits={combineCrewCredits(movieCredits?.crew)} title={"Crew"} />
                 )}{" "}
                 {/* Recommended Movies */}
-                <MediaCardRow media={recommendedMovies} title="Recommended Movies" mediaType="movie" size="N" />
+                {recommendedMovies.length > 0 && (
+                    <MediaCardRow media={recommendedMovies} title="Recommended Movies" mediaType="movie" size="N" />
+                )}
                 {/* Similar Movies */}
-                <MediaCardRow media={similarMovies} title="Similar Movies" mediaType="movie" size="N" />
+                {similarMovies.length > 0 && (
+                    <MediaCardRow media={similarMovies} title="Similar Movies" mediaType="movie" size="N" />
+                )}
                 {/* Reviews */}
                 <Reviews reviews={reviews} />
             </div>

@@ -145,7 +145,11 @@ const Credits = (props) => {
                                     {/*cast profile-img */}
                                     <CardMedia
                                         id={styles.card_profile}
-                                        image={`${BASE_IMAGE_URL}${cast?.profile_path}`}
+                                        image={
+                                            cast?.profile_path
+                                                ? `${BASE_IMAGE_URL}${cast?.profile_path}`
+                                                : "/images/NO_IMAGE_FOUND.jpg"
+                                        }
                                         title={cast?.name}
                                     />
                                     <h4 id={styles.card_name}>{cast?.name}</h4> {/*Cast name display*/}

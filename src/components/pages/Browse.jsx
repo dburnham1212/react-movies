@@ -280,7 +280,7 @@ const Browse = () => {
                                             <MediaCard
                                                 key={index}
                                                 media={person}
-                                                displayType={true}
+                                                displayType={false}
                                                 mediaType={"person"}
                                             />
                                         );
@@ -299,9 +299,6 @@ const Browse = () => {
                                     />
                                 </Stack>
                             </div>
-                            {/* {trendingPeople.length && (
-                                <MediaImageRow title={"Trending People"} media={trendingPeople} basePath={"/person"} />
-                            )} */}
                         </>
                     )}
                 </div>

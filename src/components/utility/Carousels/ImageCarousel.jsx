@@ -10,11 +10,24 @@ const ImageCarousel = (props) => {
     const { images, imageIndex, setImageIndex, mediaTitle, matchHeight } = props;
 
     const boxRef = useRef(null);
+    const thumbnailRefs = useRef([]);
 
     useEffect(() => {
         console.log("===== Trending Movies =====");
         console.log(images);
     }, []);
+
+    useEffect(() => {
+        const activeThumb = thumbnailRefs.current[imageIndex];
+
+        if (activeThumb) {
+            activeThumb.scrollIntoView({
+                behavior: "smooth",
+                inline: "center",
+                block: "nearest",
+            });
+        }
+    }, [imageIndex]);
 
     const showNextImage = () => {
         setImageIndex((index) => {
@@ -62,6 +75,7 @@ const ImageCarousel = (props) => {
                     return (
                         <button
                             key={index}
+                            ref={(el) => (thumbnailRefs.current[index] = el)}
                             className={`${styles.img_slider_img_btn} ${
                                 index === imageIndex && styles.img_slider_img_btn_active
                             }`}

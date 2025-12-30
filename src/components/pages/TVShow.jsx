@@ -23,6 +23,7 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import AlertMessage from "../utility/Alerts/AlertMessage";
 import RatingModal from "../utility/Modals/RatingModal";
 import { combineCrewCredits } from "../../helper/helperFunctions";
+import MediaInfo from "../utility/MediaInfo/MediaInfo";
 
 const TVShow = () => {
     const [tvShowData, setTvShowData] = useState({});
@@ -260,143 +261,38 @@ const TVShow = () => {
     return (
         <>
             <div className={styles.wrapper}>
-                <div className={styles.flex_info_container}>
-                    {" "}
-                    {/*Flexbox info container*/}
-                    <div className={styles.info_left}>
-                        {" "}
-                        {/*Flexbox info left*/}
-                        <img
-                            src={`${BASE_IMAGE_URL}${tvShowData.poster_path}`}
-                            alt={`${tvShowData.title} poster`}
-                            width={"360"}
-                        />
-                        {/* Buttons for favourite, watchlist and rating */}
-                        {isAuthenticated() && (
-                            <div style={{ display: "flex", gap: "1rem" }}>
-                                <Tooltip title={accountStates.favorite ? "Remove favourite" : "Add to favourites"}>
-                                    <IconButton
-                                        sx={{ backgroundColor: "#555555" }}
-                                        size="large"
-                                        color="warning"
-                                        onClick={toggleFavourite}
-                                    >
-                                        {accountStates.favorite ? <FavoriteOutlined /> : <FavoriteBorderIcon />}
-                                    </IconButton>
-                                </Tooltip>
-                                <Tooltip
-                                    title={accountStates.watchlist ? "Remove from watch list" : "Add to watch list"}
-                                >
-                                    <IconButton
-                                        sx={{ backgroundColor: "#555555" }}
-                                        size="large"
-                                        color="warning"
-                                        onClick={toggleWatchlist}
-                                    >
-                                        {accountStates.watchlist ? <DesktopWindowsIcon /> : <TvIcon />}
-                                    </IconButton>
-                                </Tooltip>
-                                <Tooltip title="Update rating">
-                                    <IconButton
-                                        sx={{ backgroundColor: "#555555" }}
-                                        size="large"
-                                        color="warning"
-                                        onClick={openRatingModal}
-                                    >
-                                        {accountStates?.rated?.value ? <StarIcon /> : <StarBorderIcon />}
-                                    </IconButton>
-                                </Tooltip>
-                                <AlertMessage controlState={accountStates} alertMessage={accountStateChangeAlert} />
-                                <RatingModal
-                                    open={ratingModalOpen}
-                                    handleClose={closeRatingModal}
-                                    title={tvShowData.name}
-                                    ratingValue={ratingValue}
-                                    setRatingValue={setRatingValue}
-                                    deleteRating={deleteRating}
-                                    saveRating={saveRating}
-                                />
-                            </div>
-                        )}
-                    </div>
-                    <div className={styles.info_right}>
-                        {" "}
-                        {/*Flexbox info right*/}
-                        <h1>{tvShowData.name}</h1> {/*Title*/}
-                        {/*if show doesn't have a title in local language, display original title*/}
-                        {!tvShowData.name && <h1>{tvShowData.original_name}</h1>}
-                        {/*if show has a tagline, display tagline*/}
-                        {tvShowData.tagline && <p id={styles.tagline}>{tvShowData.tagline}</p>}
-                        <p id={styles.overview}>{tvShowData.overview}</p> {/*info paragraph */}
-                        {tvShowData.adult && <p id={styles.adult_warning}>Adults Only 18+</p>} {/*R warning */}
-                        {/*Ratings mui here*/}
-                        <div className={styles.rating_container}>
-                            <Rating value={tvShowData.vote_average / 2} precision={0.1} readOnly />
-                            <p>Average Score: {Number(tvShowData.vote_average / 2).toFixed(1)}/5</p>
-                            <p id={styles.num_votes}>Votes: {tvShowData.vote_count}</p>
-                        </div>
-                        {/*Misc info */}
-                        <h3>Details:</h3>
-                        {/*seasons&episodes info */}
-                        <div className={styles.s_e_info}>
-                            <p>
-                                Seasons: {tvShowData?.number_of_seasons}, Episodes: {tvShowData?.number_of_episodes}
-                            </p>
-                            <p>
-                                Aired: {tvShowData?.first_air_date} to {tvShowData?.last_air_date}
-                            </p>
-                            <p>Status: {tvShowData?.status}</p>
-                        </div>
-                        {/*show homepage link if available */}
-                        {tvShowData.homepage && (
-                            <p id={styles.homepage_link}>
-                                Website: <a href={tvShowData.homepage}>{tvShowData.homepage}</a>
-                            </p>
-                        )}
-                        <h3>Genres:</h3> {/*genre display */}
-                        <div className={styles.genre_container}>
-                            <p>{tvShowData?.genres?.map((genre) => genre.name).join(", ")}</p>
-                        </div>
-                        {/*Display country(s) of origin */}
-                        {tvShowData?.production_countries?.map((country, index) => (
-                            <img
-                                key={index}
-                                id={styles.flag}
-                                src={`https://flagsapi.com/${country.iso_3166_1}/flat/64.png`}
-                                alt={country.name}
-                            />
-                        ))}
-                        {/*Display available languages */}
-                        <h4>
-                            Available languages:
-                            <span id={styles.lang_font}>
-                                {" "}
-                                {tvShowData?.spoken_languages
-                                    ?.map((lang) =>
-                                        lang.name !== lang.english_name
-                                            ? lang.name + "/" + lang.english_name
-                                            : lang.english_name
-                                    )
-                                    .join(", ")}
-                            </span>
-                        </h4>
-                        {/*Produced by */}
-                        <h4>
-                            Produced by:
-                            <span id={styles.prod_font}>
-                                {" "}
-                                {tvShowData?.production_companies?.map((prod) => prod.name).join(", ")}
-                            </span>
-                        </h4>
-                    </div>
-                </div>
+                <MediaInfo
+                    mediaData={tvShowData}
+                    mediaType="TVShow"
+                    showAuthOptions={true}
+                    accountStates={accountStates}
+                    isAuthenticated={isAuthenticated}
+                    toggleFavourite={toggleFavourite}
+                    toggleWatchlist={toggleWatchlist}
+                    accountStateChangeAlert={accountStateChangeAlert}
+                    ratingModalOpen={ratingModalOpen}
+                    openRatingModal={openRatingModal}
+                    closeRatingModal={closeRatingModal}
+                    ratingValue={ratingValue}
+                    setRatingValue={setRatingValue}
+                    deleteRating={deleteRating}
+                    saveRating={saveRating}
+                />
                 <div class={styles.seasons_container}>
                     <h3>Seasons</h3>
                     <div className={styles.seasons_list}>
                         {tvShowData?.seasons?.map((season) => (
                             <a key={season.id} href={`/tv/${tvShowData.id}/season/${season.season_number}`}>
                                 <div className={styles.season_content}>
-                                    <img src={BASE_IMAGE_URL + season.poster_path} alt={season.name} height={"250px"} />
+                                    {season.poster_path ? (
+                                        <img
+                                            src={BASE_IMAGE_URL + season.poster_path}
+                                            alt={season.name}
+                                            height={"250px"}
+                                        />
+                                    ) : (
+                                        <img src={"/images/NO_IMAGE_FOUND.jpg"} alt={season.name} height={"250px"} />
+                                    )}
                                     <div className={styles.season_info}>
                                         <h3>{season.name}</h3>
                                         <p>{season.overview}</p>

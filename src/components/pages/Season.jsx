@@ -16,6 +16,7 @@ import VideoTrailerRow from "../utility/ImageRows/VideoTrailerRow";
 import Credits from "../utility/Credits/Credits";
 
 import { combineCrewCredits } from "../../helper/helperFunctions";
+import MediaInfo from "../utility/MediaInfo/MediaInfo";
 
 const Season = () => {
     const [seasonDetails, setSeasonDetails] = useState({});
@@ -102,113 +103,12 @@ const Season = () => {
     return (
         <>
             <div className="wrapper">
-                <div className={styles.heading_container}>
-                    <div className={styles.heading}>
-                        <h1 className={styles.title}>{tvShowData.name}</h1>
-                        <h3>{seasonDetails.name}</h3>
-                    </div>
-                    <div className={styles.seasonRatings}>
-                        {/* Overall movie rating */}
-                        <div className={styles.rating_container}>
-                            <h5>TMDB Rating</h5>
-                            <div className={styles.star_rating}>
-                                <StarIcon color="warning" />
-                                <p>
-                                    <span>{Number(seasonDetails.vote_average / 2).toFixed(1)}</span>/5
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className={styles.container}>
-                    <div className={styles.content_left}>
-                        {seasonDetails.poster_path ? (
-                            <img
-                                src={`${BASE_IMAGE_URL}${seasonDetails.poster_path}`}
-                                alt={`${tvShowData.name} - ${seasonDetails.name}`}
-                                width={"360"}
-                            />
-                        ) : (
-                            <img
-                                className={styles.no_poster}
-                                src={"/images/NO_IMAGE_FOUND.jpg"}
-                                alt={`${tvShowData.name} no poster `}
-                            />
-                        )}
-                    </div>
-                    <div className={styles.content_right}>
-                        <div id={styles.right_upper_content}>
-                            {/* {movieData.tagline && <p id={styles.tagline}>{movieData.tagline}</p>} */}
-                            <p id={styles.overview}>{seasonDetails.overview}</p>
-                            {/* Genres */}
-                            {tvShowData?.genres?.length === 1 ? <h3>Genre:</h3> : <h3>Genres:</h3>}
-                            <div className={styles.genre_container}>
-                                <p id={styles.genres}>{tvShowData?.genres?.map((genre) => genre.name).join(", ")}</p>
-                            </div>
-                            {tvShowData.adult && <p>Adults Only</p>}
-                        </div>
-                        <div id={styles.right_lower_content}>
-                            <div className={styles.lower_content_line}>
-                                {/*Display country(s) of origin */}
-                                <div>
-                                    {tvShowData?.production_countries?.map((country, index) => (
-                                        <img
-                                            key={index}
-                                            className={styles.flag}
-                                            src={`https://flagsapi.com/${country.iso_3166_1}/flat/64.png`}
-                                            alt={country.name}
-                                        />
-                                    ))}
-                                </div>
-                                {/*Release Date */}
-                                <span>&#9679;</span>
-                                <span>{seasonDetails?.air_date}</span>
-
-                                {/* Website */}
-                                {tvShowData.homepage && (
-                                    <>
-                                        <span>&#9679;</span>
-                                        <p>
-                                            Website:{" "}
-                                            <a href={tvShowData.homepage} target="_blank" rel="noreferrer">
-                                                {tvShowData.homepage}
-                                            </a>
-                                        </p>
-                                    </>
-                                )}
-                            </div>
-
-                            {/*Display available languages */}
-                            <div className={styles.lower_content_line}>
-                                {tvShowData?.spoken_languages?.length && (
-                                    <h4>
-                                        Available languages:
-                                        <span id={styles.lang_font}>
-                                            {" "}
-                                            {tvShowData?.spoken_languages
-                                                ?.map((lang) =>
-                                                    lang.name !== lang.english_name
-                                                        ? lang.name + "/" + lang.english_name
-                                                        : lang.english_name
-                                                )
-                                                .join(", ")}
-                                        </span>
-                                    </h4>
-                                )}
-                            </div>
-                            {/*Produced by */}
-                            <div className={styles.lower_content_line}>
-                                <h4>
-                                    Produced by:
-                                    <span id={styles.prod_font}>
-                                        {" "}
-                                        {tvShowData?.production_companies?.map((prod) => prod.name).join(", ")}
-                                    </span>
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <MediaInfo
+                    mediaData={tvShowData}
+                    mediaSeasonData={seasonDetails}
+                    mediaType="season"
+                    showAuthOptions={false}
+                />
                 <div className={styles.episode_container}>
                     <h3>Episodes</h3>
                     <div className={styles.episode_list}>
@@ -227,7 +127,7 @@ const Season = () => {
                                     ) : (
                                         <img
                                             className={styles.no_episode_image}
-                                            src={"/images/NO_IMAGE_FOUND.jpg"}
+                                            src={"/images/NO_IMAGE_FOUND_WIDE.jpg"}
                                             alt={`${tvShowData.name} no poster `}
                                         />
                                     )}
