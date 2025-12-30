@@ -89,6 +89,7 @@
 .movie_option_buttons {
     display: flex;
     gap: 1rem;
+    margin-bottom: 2rem;
 }
 
 .lower_content_line {
@@ -157,7 +158,7 @@
     font-weight: normal;
 }
 
-.movie_info_item:not(:first-child)::before {
+.movie_info_item + .movie_info_item::before {
     content: "•";
     margin-right: 0.25rem;
     color: lightgrey;

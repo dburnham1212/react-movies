@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 
 import styles from "../../styles/pages/Season.module.css";
 
-import StarIcon from "@mui/icons-material/Star";
 import YouTube from "react-youtube";
 
 import WatchProviders from "../utility/WatchProviders/WatchProviders";

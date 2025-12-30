@@ -1,29 +1,32 @@
+// React
 import { useState, useEffect, useContext } from "react";
-import { makeApiCall, makeDeleteApiCall, makePostApiCall } from "../../helper/helperFunctions";
-import { BASE_IMAGE_URL, BASE_URL } from "../../constants/constants";
+
+// Third-party libraries
 import { useParams } from "react-router-dom";
+import YouTube from "react-youtube";
+
+// Context
+import { userContext } from "../context/UserContext";
+
+// Helpers
+import { makeApiCall, makeDeleteApiCall, makePostApiCall, combineCrewCredits } from "../../helper/helperFunctions";
+
+// Constants
+import { BASE_IMAGE_URL, BASE_URL } from "../../constants/constants";
+
+// Page styles
 import styles from "../../styles/pages/TVShow.module.css";
-import { IconButton, Rating, Tooltip } from "@mui/material";
-import Credits from "../utility/Credits/Credits";
+
+// Components
 import BasicModal from "../utility/Modals/BasicModal";
+import MediaInfo from "../utility/MediaInfo/MediaInfo";
 import ImageCarousel from "../utility/Carousels/ImageCarousel";
 import IndexedImageRow from "../utility/ImageRows/IndexedImageRow";
-import YouTube from "react-youtube";
 import VideoTrailerRow from "../utility/ImageRows/VideoTrailerRow";
 import MediaCardRow from "../utility/ImageRows/MediaCardRow";
+import Credits from "../utility/Credits/Credits";
 import WatchProviders from "../utility/WatchProviders/WatchProviders";
 import Reviews from "../utility/Reviews/Reviews";
-import { userContext } from "../context/UserContext";
-import { FavoriteOutlined } from "@mui/icons-material";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import DesktopWindowsIcon from "@mui/icons-material/DesktopWindows";
-import TvIcon from "@mui/icons-material/Tv";
-import StarIcon from "@mui/icons-material/Star";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import AlertMessage from "../utility/Alerts/AlertMessage";
-import RatingModal from "../utility/Modals/RatingModal";
-import { combineCrewCredits } from "../../helper/helperFunctions";
-import MediaInfo from "../utility/MediaInfo/MediaInfo";
 
 const TVShow = () => {
     const [tvShowData, setTvShowData] = useState({});

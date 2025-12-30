@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { makeApiCall } from "../../helper/helperFunctions";
-import { BASE_IMAGE_URL, BASE_URL } from "../../constants/constants";
+import { BASE_URL } from "../../constants/constants";
 import { useParams } from "react-router-dom";
 import styles from "../../styles/pages/Episode.module.css";
 
-import StarIcon from "@mui/icons-material/Star";
 import WatchProviders from "../utility/WatchProviders/WatchProviders";
 import IndexedImageRow from "../utility/ImageRows/IndexedImageRow";
 import BasicModal from "../utility/Modals/BasicModal";
@@ -12,8 +11,10 @@ import ImageCarousel from "../utility/Carousels/ImageCarousel";
 import YouTube from "react-youtube";
 import VideoTrailerRow from "../utility/ImageRows/VideoTrailerRow";
 import Credits from "../utility/Credits/Credits";
+import { makePostApiCall, makeDeleteApiCall } from "../../helper/helperFunctions";
 import { combineCrewCredits } from "../../helper/helperFunctions";
 import MediaInfo from "../utility/MediaInfo/MediaInfo";
+import { userContext } from "../context/UserContext";
 
 const Episode = () => {
     const [tvShowData, setTvShowData] = useState({});
@@ -32,9 +33,35 @@ const Episode = () => {
     const [openVideoModal, setOpenVideoModal] = useState(false);
     const [videoModalIndex, setVideoModalIndex] = useState(0);
 
+    // Account states if a user is logged in
+    const [accountStates, setAccountStates] = useState({});
+    const [accountStateChangeAlert, setAccountStateChangeAlert] = useState("");
+
+    // Rating modal states
+    const [ratingModalOpen, setRatingModalOpen] = useState(false);
+    const [ratingValue, setRatingValue] = useState(2.5);
+
     const { showId, seasonNumber, episodeNumber } = useParams();
 
+    // Context providers
+    const { isAuthenticated, getSessionId } = useContext(userContext);
+
     useEffect(() => {
+        // check if the user is authenticated or not
+        if (isAuthenticated()) {
+            // if so get their current account states for the selected movie
+            makeApiCall(
+                `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/account_states?api_key=${
+                    process.env.REACT_APP_API_KEY
+                }&session_id=${getSessionId()}`
+            ).then((response) => {
+                // set account states based on response
+                setAccountStates(response);
+                // update the rating value locally to be the same as the one that is saved
+                if (response.rated) setRatingValue((response.rated.value / 2).toFixed(1));
+            });
+        }
+
         makeApiCall(`${BASE_URL}/tv/${showId}?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
             console.log(response);
             setTvShowData(response);
@@ -83,6 +110,49 @@ const Episode = () => {
         });
     }, []);
 
+    // open the rating modal
+    const openRatingModal = () => {
+        setRatingModalOpen(true);
+    };
+
+    // close the rating modal
+    const closeRatingModal = () => {
+        setRatingModalOpen(false);
+    };
+
+    // function to save the users rating
+    const saveRating = () => {
+        // send the rating to the db
+        makePostApiCall(
+            `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/rating?api_key=${
+                process.env.REACT_APP_API_KEY
+            }&session_id=${getSessionId()}`,
+            { value: ratingValue * 2 }
+        );
+        // update locally
+        setAccountStates({ ...accountStates, rated: { value: ratingValue * 2 } });
+        // close modal
+        closeRatingModal();
+        // Show appropriate alert message
+        setAccountStateChangeAlert("Rating saved");
+    };
+
+    const deleteRating = () => {
+        // delete rating from db
+        makeDeleteApiCall(
+            `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/rating?api_key=${
+                process.env.REACT_APP_API_KEY
+            }&session_id=${getSessionId()}`
+        );
+        // update locally
+        setAccountStates({ ...accountStates, rated: false });
+        setRatingValue(2.5);
+        // close modal
+        closeRatingModal();
+        // Show appropriate alert message
+        setAccountStateChangeAlert("Rating deleted");
+    };
+
     // Open the gallery modal and set the index to the specified index
     const openArtworkModalWithIndex = (index) => {
         setOpenArtworkModal(true);
@@ -113,7 +183,17 @@ const Episode = () => {
                     mediaSeasonData={seasonDetails}
                     mediaEpisodeData={episodeData}
                     mediaType="episode"
-                    showAuthOptions={false}
+                    showAuthOptions={true}
+                    isAuthenticated={isAuthenticated}
+                    accountStates={accountStates}
+                    accountStateChangeAlert={accountStateChangeAlert}
+                    ratingModalOpen={ratingModalOpen}
+                    openRatingModal={openRatingModal}
+                    closeRatingModal={closeRatingModal}
+                    ratingValue={ratingValue}
+                    setRatingValue={setRatingValue}
+                    deleteRating={deleteRating}
+                    saveRating={saveRating}
                 />
                 {/* Watch provider data */}
                 <WatchProviders watchProviders={watchProviders} title={tvShowData.name} />

@@ -141,7 +141,7 @@ const MediaInfo = (props) => {
                                         <span>
                                             {accountStates.rated.value
                                                 ? (accountStates.rated.value / 2).toFixed(1)
-                                                : "N/A"}
+                                                : "0"}
                                         </span>
                                         /5
                                     </p>
@@ -223,26 +223,32 @@ const MediaInfo = (props) => {
                     {/* Buttons for favourite, watchlist and rating */}
                     {showAuthOptions && isAuthenticated() && (
                         <div className={styles.movie_option_buttons}>
-                            <Tooltip title={accountStates.favorite ? "Remove favourite" : "Add to favourites"}>
-                                <IconButton
-                                    sx={{ backgroundColor: "#555555" }}
-                                    size="large"
-                                    color="warning"
-                                    onClick={toggleFavourite}
-                                >
-                                    {accountStates.favorite ? <FavoriteOutlined /> : <FavoriteBorderIcon />}
-                                </IconButton>
-                            </Tooltip>
-                            <Tooltip title={accountStates.watchlist ? "Remove from watch list" : "Add to watch list"}>
-                                <IconButton
-                                    sx={{ backgroundColor: "#555555" }}
-                                    size="large"
-                                    color="warning"
-                                    onClick={toggleWatchlist}
-                                >
-                                    {accountStates.watchlist ? <DesktopWindowsIcon /> : <TvIcon />}
-                                </IconButton>
-                            </Tooltip>
+                            {(isMovie || isTvShow) && (
+                                <>
+                                    <Tooltip title={accountStates.favorite ? "Remove favourite" : "Add to favourites"}>
+                                        <IconButton
+                                            sx={{ backgroundColor: "#555555" }}
+                                            size="large"
+                                            color="warning"
+                                            onClick={toggleFavourite}
+                                        >
+                                            {accountStates.favorite ? <FavoriteOutlined /> : <FavoriteBorderIcon />}
+                                        </IconButton>
+                                    </Tooltip>
+                                    <Tooltip
+                                        title={accountStates.watchlist ? "Remove from watch list" : "Add to watch list"}
+                                    >
+                                        <IconButton
+                                            sx={{ backgroundColor: "#555555" }}
+                                            size="large"
+                                            color="warning"
+                                            onClick={toggleWatchlist}
+                                        >
+                                            {accountStates.watchlist ? <DesktopWindowsIcon /> : <TvIcon />}
+                                        </IconButton>
+                                    </Tooltip>
+                                </>
+                            )}
                             <Tooltip title="Update rating">
                                 <IconButton
                                     sx={{ backgroundColor: "#555555" }}
