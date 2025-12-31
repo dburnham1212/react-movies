@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { BASE_IMAGE_URL, BASE_URL } from "../../constants/constants";
 
 import styles from "../../styles/pages/Person.module.css";
-import MediaCreditCard from "../utility/Cards/MediaCreditCard";
 import SocialsList from "../utility/Socials/SocailsList";
 import MediaCreditGrid from "../utility/Grids/MediaCreditGrid";
 import { combineCrewCredits } from "../../helper/helperFunctions";

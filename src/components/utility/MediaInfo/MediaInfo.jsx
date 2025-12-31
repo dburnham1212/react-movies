@@ -344,7 +344,7 @@ const MediaInfo = (props) => {
                                     </span>
                                 )}
 
-                                {isTvShow && (
+                                {isTvShow && mediaData?.first_air_date && mediaData?.last_air_date && (
                                     <span className={styles.movie_info_item}>
                                         Aired: {mediaData?.first_air_date} to {mediaData?.last_air_date}
                                     </span>

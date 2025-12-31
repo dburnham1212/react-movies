@@ -1,16 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { makeApiCall, makeDeleteApiCall, makePostApiCall } from "../../helper/helperFunctions";
-import { BASE_IMAGE_URL, BASE_URL } from "../../constants/constants";
+import { BASE_URL } from "../../constants/constants";
 import { useParams } from "react-router-dom";
-import { Button, IconButton, Rating, Tooltip } from "@mui/material";
-
-// MUI Icons
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { FavoriteOutlined } from "@mui/icons-material";
-import DesktopWindowsIcon from "@mui/icons-material/DesktopWindows";
-import TvIcon from "@mui/icons-material/Tv";
-import StarIcon from "@mui/icons-material/Star";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
 
 // Style sheet
 import styles from "../../styles/pages/Movie.module.css";
@@ -25,12 +16,10 @@ import VideoTrailerRow from "../utility/ImageRows/VideoTrailerRow";
 import MediaCardRow from "../utility/ImageRows/MediaCardRow";
 import WatchProviders from "../utility/WatchProviders/WatchProviders";
 import Reviews from "../utility/Reviews/Reviews";
-import RatingModal from "../utility/Modals/RatingModal";
 import YouTube from "react-youtube";
 
 // Context providers
 import { userContext } from "../context/UserContext";
-import AlertMessage from "../utility/Alerts/AlertMessage";
 
 import { combineCrewCredits } from "../../helper/helperFunctions";
 
