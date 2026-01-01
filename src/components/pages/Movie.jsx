@@ -22,6 +22,7 @@ import YouTube from "react-youtube";
 import { userContext } from "../context/UserContext";
 
 import { combineCrewCredits } from "../../helper/helperFunctions";
+import MediaInfoSkeleton from "../utility/MediaInfo/MediaInfoSkeleton";
 
 const Movie = () => {
     // ----- Static states -----
@@ -33,6 +34,7 @@ const Movie = () => {
     const [recommendedMovies, setRecommendedMovies] = useState([]);
     const [reviews, setReviews] = useState([]);
     const [watchProviders, setWatchProviders] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
 
     // ----- Dynamic states -----
     // Account states if a user is logged in
@@ -57,74 +59,62 @@ const Movie = () => {
     // Params from url
     const { id } = useParams();
 
-    useEffect(() => {
-        // check if the user is authenticated or not
-        if (isAuthenticated()) {
-            // if so get their current account states for the selected movie
-            makeApiCall(
-                `${BASE_URL}/movie/${id}/account_states?api_key=${
-                    process.env.REACT_APP_API_KEY
-                }&session_id=${getSessionId()}`
-            ).then((response) => {
-                // set account states based on response
-                setAccountStates(response);
-                // update the rating value locally to be the same as the one that is saved
-                if (response.rated) setRatingValue((response.rated.value / 2).toFixed(1));
-            });
+    const fetchMovieData = async () => {
+        setIsLoading(true);
+
+        try {
+            const [
+                accountStatesResponse,
+                movieDataResponse,
+                watchProvidersResponse,
+                imagesResponse,
+                videosResponse,
+                creditsResponse,
+                similarResponse,
+                recommendationsResponse,
+                reviewsResponse,
+            ] = await Promise.all([
+                isAuthenticated()
+                    ? makeApiCall(
+                          `${BASE_URL}/movie/${id}/account_states?api_key=${
+                              process.env.REACT_APP_API_KEY
+                          }&session_id=${getSessionId()}`
+                      )
+                    : Promise.resolve(null),
+                makeApiCall(`${BASE_URL}/movie/${id}?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/movie/${id}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/movie/${id}/images?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/movie/${id}/videos?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/movie/${id}/credits?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/movie/${id}/similar?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/movie/${id}/recommendations?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/movie/${id}/reviews?api_key=${process.env.REACT_APP_API_KEY}`),
+            ]);
+
+            if (accountStatesResponse) {
+                setAccountStates(accountStatesResponse);
+
+                if (accountStatesResponse.rated) setRatingValue((accountStatesResponse.rated.value / 2).toFixed(1));
+            }
+
+            setMovieData(movieDataResponse);
+            setWatchProviders(watchProvidersResponse.results);
+            setMovieImages(imagesResponse);
+            setMovieVideos(videosResponse.results.filter((video) => video.site === "YouTube"));
+            setMovieCredits(creditsResponse);
+            setSimilarMovies(similarResponse.results);
+            setRecommendedMovies(recommendationsResponse.results);
+            setReviews(reviewsResponse);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoading(false);
         }
+    };
 
-        // Get the base data for the movie and set update movieData state to match
-        makeApiCall(`${BASE_URL}/movie/${id}?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
-            console.log(response);
-            setMovieData(response);
-        });
-
-        // Get the movie image data and update movieImage state to match
-        makeApiCall(`${BASE_URL}/movie/${id}/images?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
-            console.log(response);
-            setMovieImages(response);
-        });
-
-        // Get the videos specifically tagged as YouTube and update movieVideos state to match
-        makeApiCall(`${BASE_URL}/movie/${id}/videos?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
-            console.log(response.results);
-            setMovieVideos(response.results.filter((video) => video.site === "YouTube"));
-        });
-
-        // Get the movies credits and update movieCredits state to match
-        makeApiCall(`${BASE_URL}/movie/${id}/credits?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
-            console.log(response);
-            setMovieCredits(response);
-        });
-
-        // Get the similar movies and update similarMovies state to match
-        makeApiCall(`${BASE_URL}/movie/${id}/similar?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
-            console.log(response.results);
-            setSimilarMovies(response.results);
-        });
-
-        // Get the recommended movies and update recommendedMovies state to match
-        makeApiCall(`${BASE_URL}/movie/${id}/recommendations?api_key=${process.env.REACT_APP_API_KEY}`).then(
-            (response) => {
-                console.log(response.results);
-                setRecommendedMovies(response.results);
-            }
-        );
-
-        // Get the watch providers and update watchProviders state to match
-        makeApiCall(`${BASE_URL}/movie/${id}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}`).then(
-            (response) => {
-                console.log(response);
-                setWatchProviders(response.results);
-            }
-        );
-
-        // Get the reviews and update reviews state to match
-        makeApiCall(`${BASE_URL}/movie/${id}/reviews?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
-            console.log(response);
-            setReviews(response);
-        });
-    }, [id]);
+    useEffect(() => {
+        fetchMovieData();
+    }, []);
 
     // function to toggle the movies as a favourite
     const toggleFavourite = () => {
@@ -248,23 +238,27 @@ const Movie = () => {
     return (
         <>
             <div className="wrapper">
-                <MediaInfo
-                    mediaData={movieData}
-                    mediaType="movie"
-                    showAuthOptions={true}
-                    accountStates={accountStates}
-                    isAuthenticated={isAuthenticated}
-                    toggleFavourite={toggleFavourite}
-                    toggleWatchlist={toggleWatchlist}
-                    accountStateChangeAlert={accountStateChangeAlert}
-                    ratingModalOpen={ratingModalOpen}
-                    openRatingModal={openRatingModal}
-                    closeRatingModal={closeRatingModal}
-                    ratingValue={ratingValue}
-                    setRatingValue={setRatingValue}
-                    deleteRating={deleteRating}
-                    saveRating={saveRating}
-                />
+                {isLoading ? (
+                    <MediaInfoSkeleton mediaType="movie" />
+                ) : (
+                    <MediaInfo
+                        mediaData={movieData}
+                        mediaType="movie"
+                        showAuthOptions={true}
+                        accountStates={accountStates}
+                        isAuthenticated={isAuthenticated}
+                        toggleFavourite={toggleFavourite}
+                        toggleWatchlist={toggleWatchlist}
+                        accountStateChangeAlert={accountStateChangeAlert}
+                        ratingModalOpen={ratingModalOpen}
+                        openRatingModal={openRatingModal}
+                        closeRatingModal={closeRatingModal}
+                        ratingValue={ratingValue}
+                        setRatingValue={setRatingValue}
+                        deleteRating={deleteRating}
+                        saveRating={saveRating}
+                    />
+                )}
                 {/* Watch provider data */}
                 <WatchProviders watchProviders={watchProviders} title={movieData.title} />
                 {/* Gallery */}
