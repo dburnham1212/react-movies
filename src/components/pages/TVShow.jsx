@@ -27,6 +27,7 @@ import MediaCardRow from "../utility/ImageRows/MediaCardRow";
 import Credits from "../utility/Credits/Credits";
 import WatchProviders from "../utility/WatchProviders/WatchProviders";
 import Reviews from "../utility/Reviews/Reviews";
+import MediaInfoSkeleton from "../utility/MediaInfo/MediaInfoSkeleton";
 
 const TVShow = () => {
     const [tvShowData, setTvShowData] = useState({});
@@ -38,6 +39,7 @@ const TVShow = () => {
     const [similarTv, setSimilarTv] = useState([]);
     const [watchProviders, setWatchProviders] = useState([]);
     const [reviews, setReviews] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
 
     // ----- Dynamic states -----
     // Account states if a user is logged in
@@ -59,90 +61,65 @@ const TVShow = () => {
 
     const { id } = useParams();
 
+    const fetchTvData = async () => {
+        setIsLoading(true);
+
+        try {
+            const [
+                accountStatesResponse,
+                tvShowDataResponse,
+                watchProvidersResponse,
+                imagesResponse,
+                videosResponse,
+                creditsResponse,
+                aggCreditsResponse,
+                similarResponse,
+                recommendationsResponse,
+                reviewsResponse,
+            ] = await Promise.all([
+                isAuthenticated()
+                    ? makeApiCall(
+                          `${BASE_URL}/tv/${id}/account_states?api_key=${
+                              process.env.REACT_APP_API_KEY
+                          }&session_id=${getSessionId()}`
+                      )
+                    : Promise.resolve(null),
+                makeApiCall(`${BASE_URL}/tv/${id}?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/tv/${id}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/tv/${id}/images?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/tv/${id}/videos?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/tv/${id}/credits?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/tv/${id}/aggregate_credits?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/tv/${id}/similar?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/tv/${id}/recommendations?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/tv/${id}/reviews?api_key=${process.env.REACT_APP_API_KEY}`),
+            ]);
+
+            if (accountStatesResponse) {
+                setAccountStates(accountStatesResponse);
+
+                if (accountStatesResponse.rated) setRatingValue((accountStatesResponse.rated.value / 2).toFixed(1));
+            }
+
+            setTvShowData(tvShowDataResponse);
+            setWatchProviders(watchProvidersResponse.results);
+            setTvShowImages(imagesResponse);
+            setTvShowVideos(videosResponse.results.filter((video) => video.site === "YouTube"));
+            setTvShowCredits(creditsResponse);
+            setTvShowAggCredits(aggCreditsResponse);
+            setSimilarTv(similarResponse.results);
+            setRecommendedTv(recommendationsResponse.results);
+            setReviews(reviewsResponse);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     //Function to get api data from db
     useEffect(() => {
-        // check if the user is authenticated or not
-        if (isAuthenticated()) {
-            // if so get their current account states for the selected movie
-            makeApiCall(
-                `${BASE_URL}/tv/${id}/account_states?api_key=${
-                    process.env.REACT_APP_API_KEY
-                }&session_id=${getSessionId()}`
-            ).then((response) => {
-                // set account states based on response
-                setAccountStates(response);
-                // update the rating value locally to be the same as the one that is saved
-                if (response.rated) setRatingValue((response.rated.value / 2).toFixed(1));
-            });
-        }
-
-        makeApiCall(`${BASE_URL}/tv/${id}?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
-            console.log("====TV Show Data====");
-            console.log(response);
-            setTvShowData(response);
-        });
-
-        // Credits
-        makeApiCall(`${BASE_URL}/tv/${id}/credits?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
-            console.log("==== Credits ====");
-            console.log(response);
-            setTvShowCredits(response);
-        });
-
-        // Aggregate Credits
-        makeApiCall(`${BASE_URL}/tv/${id}/aggregate_credits?api_key=${process.env.REACT_APP_API_KEY}`).then(
-            (response) => {
-                console.log("==== Aggregate Credits ====");
-                console.log(response);
-                setTvShowAggCredits(response);
-            }
-        );
-
-        // Images
-        makeApiCall(`${BASE_URL}/tv/${id}/images?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
-            console.log("==== Images ====");
-            console.log(response);
-            setTvShowImages(response);
-        });
-
-        // Videos
-        makeApiCall(`${BASE_URL}/tv/${id}/videos?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
-            console.log("==== Videos ====");
-            console.log(response.results);
-            setTvShowVideos(response.results);
-        });
-
-        // Recommendations
-        makeApiCall(`${BASE_URL}/tv/${id}/recommendations?api_key=${process.env.REACT_APP_API_KEY}`).then(
-            (response) => {
-                console.log("==== Videos ====");
-                console.log(response.results);
-                setRecommendedTv(response.results);
-            }
-        );
-
-        // Similar
-        makeApiCall(`${BASE_URL}/tv/${id}/similar?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
-            console.log("==== Videos ====");
-            console.log(response.results);
-            setSimilarTv(response.results);
-        });
-
-        // Similar
-        makeApiCall(`${BASE_URL}/tv/${id}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}`).then(
-            (response) => {
-                console.log("==== Videos ====");
-                console.log(response.results);
-                setWatchProviders(response.results);
-            }
-        );
-
-        // Similar
-        makeApiCall(`${BASE_URL}/tv/${id}/reviews?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
-            console.log("==== Reviews ====");
-            console.log(response);
-            setReviews(response);
-        });
+        fetchTvData();
     }, []);
 
     // function to toggle the movies as a favourite
@@ -264,23 +241,27 @@ const TVShow = () => {
     return (
         <>
             <div className="wrapper">
-                <MediaInfo
-                    mediaData={tvShowData}
-                    mediaType="TVShow"
-                    showAuthOptions={true}
-                    accountStates={accountStates}
-                    isAuthenticated={isAuthenticated}
-                    toggleFavourite={toggleFavourite}
-                    toggleWatchlist={toggleWatchlist}
-                    accountStateChangeAlert={accountStateChangeAlert}
-                    ratingModalOpen={ratingModalOpen}
-                    openRatingModal={openRatingModal}
-                    closeRatingModal={closeRatingModal}
-                    ratingValue={ratingValue}
-                    setRatingValue={setRatingValue}
-                    deleteRating={deleteRating}
-                    saveRating={saveRating}
-                />
+                {isLoading ? (
+                    <MediaInfoSkeleton mediaType="TVShow" />
+                ) : (
+                    <MediaInfo
+                        mediaData={tvShowData}
+                        mediaType="TVShow"
+                        showAuthOptions={true}
+                        accountStates={accountStates}
+                        isAuthenticated={isAuthenticated}
+                        toggleFavourite={toggleFavourite}
+                        toggleWatchlist={toggleWatchlist}
+                        accountStateChangeAlert={accountStateChangeAlert}
+                        ratingModalOpen={ratingModalOpen}
+                        openRatingModal={openRatingModal}
+                        closeRatingModal={closeRatingModal}
+                        ratingValue={ratingValue}
+                        setRatingValue={setRatingValue}
+                        deleteRating={deleteRating}
+                        saveRating={saveRating}
+                    />
+                )}
                 <div class={styles.seasons_container}>
                     <h3>Seasons</h3>
                     <div className={styles.seasons_list}>
