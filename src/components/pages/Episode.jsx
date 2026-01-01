@@ -15,6 +15,7 @@ import { makePostApiCall, makeDeleteApiCall } from "../../helper/helperFunctions
 import { combineCrewCredits } from "../../helper/helperFunctions";
 import MediaInfo from "../utility/MediaInfo/MediaInfo";
 import { userContext } from "../context/UserContext";
+import MediaInfoSkeleton from "../utility/MediaInfo/MediaInfoSkeleton";
 
 const Episode = () => {
     const [tvShowData, setTvShowData] = useState({});
@@ -24,6 +25,7 @@ const Episode = () => {
     const [episodeImages, setEpsiodeImages] = useState({});
     const [epsiodeVideos, setEpisodeVideos] = useState([]);
     const [epsiodeCredits, setEpisodeCredits] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
 
     // Gallery modal states
     const [openArtworkModal, setOpenArtworkModal] = useState(false);
@@ -46,68 +48,68 @@ const Episode = () => {
     // Context providers
     const { isAuthenticated, getSessionId } = useContext(userContext);
 
-    useEffect(() => {
-        // check if the user is authenticated or not
-        if (isAuthenticated()) {
-            // if so get their current account states for the selected movie
-            makeApiCall(
-                `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/account_states?api_key=${
-                    process.env.REACT_APP_API_KEY
-                }&session_id=${getSessionId()}`
-            ).then((response) => {
-                // set account states based on response
-                setAccountStates(response);
-                // update the rating value locally to be the same as the one that is saved
-                if (response.rated) setRatingValue((response.rated.value / 2).toFixed(1));
-            });
-        }
+    const fetchEpisodeData = async () => {
+        setIsLoading(true);
 
-        makeApiCall(`${BASE_URL}/tv/${showId}?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
-            console.log(response);
-            setTvShowData(response);
-        });
+        try {
+            const [
+                accountStatesResponse,
+                tvShowDataResponse,
+                seasonDataResponse,
+                episodeDataResponse,
+                watchProvidersResponse,
+                imagesResponse,
+                videosResponse,
+                creditsResponse,
+            ] = await Promise.all([
+                isAuthenticated()
+                    ? makeApiCall(
+                          `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/account_states?api_key=${
+                              process.env.REACT_APP_API_KEY
+                          }&session_id=${getSessionId()}`
+                      )
+                    : Promise.resolve(null),
+                makeApiCall(`${BASE_URL}/tv/${showId}?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/tv/${showId}/season/${seasonNumber}?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(
+                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}?api_key=${process.env.REACT_APP_API_KEY}`
+                ),
+                makeApiCall(
+                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}`
+                ),
+                makeApiCall(
+                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/images?api_key=${process.env.REACT_APP_API_KEY}`
+                ),
+                makeApiCall(
+                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/videos?api_key=${process.env.REACT_APP_API_KEY}`
+                ),
+                makeApiCall(
+                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/credits?api_key=${process.env.REACT_APP_API_KEY}`
+                ),
+            ]);
 
-        makeApiCall(`${BASE_URL}/tv/${showId}/season/${seasonNumber}?api_key=${process.env.REACT_APP_API_KEY}`).then(
-            (response) => {
-                console.log(response);
-                setSeasonDetails(response);
+            if (accountStatesResponse) {
+                setAccountStates(accountStatesResponse);
+
+                if (accountStatesResponse.rated) setRatingValue((accountStatesResponse.rated.value / 2).toFixed(1));
             }
-        );
 
-        makeApiCall(
-            `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}?api_key=${process.env.REACT_APP_API_KEY}`
-        ).then((response) => {
-            console.log(response);
-            setEpisodeData(response);
-        });
+            setTvShowData(tvShowDataResponse);
+            setSeasonDetails(seasonDataResponse);
+            setEpisodeData(episodeDataResponse);
+            setWatchProviders(watchProvidersResponse.results);
+            setEpsiodeImages(imagesResponse);
+            setEpisodeVideos(videosResponse.results.filter((video) => video.site === "YouTube"));
+            setEpisodeCredits(creditsResponse);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
-        makeApiCall(
-            `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}`
-        ).then((response) => {
-            console.log(response);
-            setWatchProviders(response.results);
-        });
-
-        makeApiCall(
-            `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/images?api_key=${process.env.REACT_APP_API_KEY}`
-        ).then((response) => {
-            console.log(response);
-            setEpsiodeImages(response);
-        });
-
-        makeApiCall(
-            `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/videos?api_key=${process.env.REACT_APP_API_KEY}`
-        ).then((response) => {
-            console.log(response);
-            setEpisodeVideos(response.results);
-        });
-
-        makeApiCall(
-            `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/credits?api_key=${process.env.REACT_APP_API_KEY}`
-        ).then((response) => {
-            console.log(response);
-            setEpisodeCredits(response);
-        });
+    useEffect(() => {
+        fetchEpisodeData();
     }, []);
 
     // open the rating modal
@@ -178,23 +180,27 @@ const Episode = () => {
     return (
         <>
             <div className="wrapper">
-                <MediaInfo
-                    mediaData={tvShowData}
-                    mediaSeasonData={seasonDetails}
-                    mediaEpisodeData={episodeData}
-                    mediaType="episode"
-                    showAuthOptions={true}
-                    isAuthenticated={isAuthenticated}
-                    accountStates={accountStates}
-                    accountStateChangeAlert={accountStateChangeAlert}
-                    ratingModalOpen={ratingModalOpen}
-                    openRatingModal={openRatingModal}
-                    closeRatingModal={closeRatingModal}
-                    ratingValue={ratingValue}
-                    setRatingValue={setRatingValue}
-                    deleteRating={deleteRating}
-                    saveRating={saveRating}
-                />
+                {isLoading ? (
+                    <MediaInfoSkeleton mediaType="episode" />
+                ) : (
+                    <MediaInfo
+                        mediaData={tvShowData}
+                        mediaSeasonData={seasonDetails}
+                        mediaEpisodeData={episodeData}
+                        mediaType="episode"
+                        showAuthOptions={true}
+                        isAuthenticated={isAuthenticated}
+                        accountStates={accountStates}
+                        accountStateChangeAlert={accountStateChangeAlert}
+                        ratingModalOpen={ratingModalOpen}
+                        openRatingModal={openRatingModal}
+                        closeRatingModal={closeRatingModal}
+                        ratingValue={ratingValue}
+                        setRatingValue={setRatingValue}
+                        deleteRating={deleteRating}
+                        saveRating={saveRating}
+                    />
+                )}
                 {/* Watch provider data */}
                 <WatchProviders watchProviders={watchProviders} title={tvShowData.name} />
                 {/* Gallery */}
