@@ -60,3 +60,13 @@
     display: flex;
     min-width: 10rem;
 }
+
+@media only screen and (max-width: 600px) {
+    .large_card_container {
+        min-width: 10rem;
+    }
+
+    .medium_card_container {
+        min-width: 7.5rem;
+    }
+}

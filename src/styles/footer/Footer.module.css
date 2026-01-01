@@ -3,6 +3,7 @@
     border-top: 1px solid #fea423;
     display: flex;
     justify-content: center;
+    max-width: 100vw;
 }
 
 .column_container {
@@ -38,4 +39,10 @@
 
 .iconed_footer_link:hover {
     color: grey;
+}
+
+@media only screen and (max-width: 600px) {
+    .container {
+        flex-direction: column;
+    }
 }

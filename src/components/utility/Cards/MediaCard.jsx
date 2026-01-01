@@ -58,17 +58,15 @@ const MediaCard = (props) => {
                         />
                     </a>
                 </div>
-                <a href={`/${media.media_type || mediaType}/${media.id}`}>
-                    <img
-                        className={styles.main_image}
-                        src={`${
-                            media.poster_path || media.profile_path
-                                ? BASE_IMAGE_URL + (media.poster_path || media.profile_path)
-                                : "/images/NO_IMAGE_FOUND.jpg"
-                        }`}
-                        alt={media.title || media.name}
-                    />
-                </a>
+                <img
+                    className={styles.main_image}
+                    src={`${
+                        media.poster_path || media.profile_path
+                            ? BASE_IMAGE_URL + (media.poster_path || media.profile_path)
+                            : "/images/NO_IMAGE_FOUND.jpg"
+                    }`}
+                    alt={media.title || media.name}
+                />
                 <div className={styles.lower_container}>
                     {displayType ? (
                         media.media_type === "person" ? (
