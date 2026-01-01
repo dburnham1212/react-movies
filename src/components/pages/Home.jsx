@@ -12,9 +12,11 @@ import TvIcon from "@mui/icons-material/Tv";
 import MainCarousel from "../utility/Carousels/MainCarousel";
 import MediaCard from "../utility/Cards/MediaCard";
 import MediaCardRow from "../utility/ImageRows/MediaCardRow";
+import MainCarouselSkeleton from "../utility/Carousels/MainCarouselSkeleton";
 
 const Home = () => {
     const [trending, setTrending] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     // movie states
     const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
@@ -28,50 +30,64 @@ const Home = () => {
     const [popularTV, setPopularTV] = useState([]);
     const [topRatedTv, setTopRatedTV] = useState([]);
 
+    const fetchHomePageData = async () => {
+        setIsLoading(true);
+
+        try {
+            const [
+                trendingResponse,
+                nowPlayingResponse,
+                popularMoviesResponse,
+                topRatedMoviesResponse,
+                upcomingMoviesResponse,
+                airingTodayTVResponse,
+                onTheAirTVResponse,
+                popularTVResponse,
+                topRatedTVResponse,
+            ] = await Promise.all([
+                makeApiCall(`${BASE_URL}/trending/all/week?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/movie/now_playing?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/movie/popular?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/movie/top_rated?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/movie/upcoming?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/tv/airing_today?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/tv/on_the_air?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/tv/popular?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/tv/top_rated?api_key=${process.env.REACT_APP_API_KEY}`),
+            ]);
+
+            setTrending(trendingResponse?.results ?? []);
+            setNowPlayingMovies(nowPlayingResponse?.results ?? []);
+            setPopularMovies(popularMoviesResponse?.results ?? []);
+            setTopRatedMovies(topRatedMoviesResponse?.results ?? []);
+            setUpcomingMovies(upcomingMoviesResponse?.results ?? []);
+            setAiringTodayTV(airingTodayTVResponse?.results ?? []);
+            setOnTheAirTV(onTheAirTVResponse?.results ?? []);
+            setPopularTV(popularTVResponse?.results ?? []);
+            setTopRatedTV(topRatedTVResponse?.results ?? []);
+        } catch (error) {
+            console.error("Error fetching home page data:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     useEffect(() => {
-        makeApiCall(`${BASE_URL}/trending/all/week?api_key=${process.env.REACT_APP_API_KEY}`).then((response) =>
-            setTrending(response.results)
-        );
-
-        makeApiCall(`${BASE_URL}/movie/now_playing?api_key=${process.env.REACT_APP_API_KEY}`).then((response) =>
-            setNowPlayingMovies(response.results)
-        );
-
-        makeApiCall(`${BASE_URL}/movie/popular?api_key=${process.env.REACT_APP_API_KEY}`).then((response) =>
-            setPopularMovies(response.results)
-        );
-
-        makeApiCall(`${BASE_URL}/movie/top_rated?api_key=${process.env.REACT_APP_API_KEY}`).then((response) =>
-            setTopRatedMovies(response.results)
-        );
-
-        makeApiCall(`${BASE_URL}/movie/upcoming?api_key=${process.env.REACT_APP_API_KEY}`).then((response) =>
-            setUpcomingMovies(response.results)
-        );
-
-        makeApiCall(`${BASE_URL}/tv/airing_today?api_key=${process.env.REACT_APP_API_KEY}`).then((response) =>
-            setAiringTodayTV(response.results)
-        );
-
-        makeApiCall(`${BASE_URL}/tv/on_the_air?api_key=${process.env.REACT_APP_API_KEY}`).then((response) =>
-            setOnTheAirTV(response.results)
-        );
-
-        makeApiCall(`${BASE_URL}/tv/popular?api_key=${process.env.REACT_APP_API_KEY}`).then((response) =>
-            setPopularTV(response.results)
-        );
-
-        makeApiCall(`${BASE_URL}/tv/top_rated?api_key=${process.env.REACT_APP_API_KEY}`).then((response) =>
-            setTopRatedTV(response.results)
-        );
+        fetchHomePageData();
     }, []);
 
     return (
         <>
             <div className="wrapper">
-                <div style={{ maxHeight: "650px", width: "100%", height: "650px" }}>
-                    {trending.length && <MainCarousel mediaData={trending} />}
-                </div>
+                {isLoading ? (
+                    <div style={{ maxHeight: "650px", width: "100%", height: "650px" }}>
+                        <MainCarouselSkeleton />
+                    </div>
+                ) : (
+                    <div style={{ maxHeight: "650px", width: "100%", height: "650px" }}>
+                        {trending.length && <MainCarousel mediaData={trending} />}
+                    </div>
+                )}
                 <div className={styles.large_heading_container}>
                     <LocalMoviesIcon className={styles.icon} />
                     <h1 className={styles.large_heading}>Movies</h1>
