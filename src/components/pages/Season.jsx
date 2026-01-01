@@ -16,6 +16,7 @@ import Credits from "../utility/Credits/Credits";
 
 import { combineCrewCredits } from "../../helper/helperFunctions";
 import MediaInfo from "../utility/MediaInfo/MediaInfo";
+import MediaInfoSkeleton from "../utility/MediaInfo/MediaInfoSkeleton";
 
 const Season = () => {
     const [seasonDetails, setSeasonDetails] = useState({});
@@ -24,6 +25,7 @@ const Season = () => {
     const [seasonVideos, setSeasonVideos] = useState([]);
     const [seasonCredits, setSeasonCredits] = useState({});
     const [watchProviders, setWatchProviders] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     // Gallery modal states
     const [openArtworkModal, setOpenArtworkModal] = useState(false);
@@ -35,46 +37,49 @@ const Season = () => {
 
     const { showId, seasonNumber } = useParams();
 
+    const fetchSeasonData = async () => {
+        setIsLoading(true);
+
+        try {
+            const [
+                tvShowDataResponse,
+                seasonDataResponse,
+                watchProvidersResponse,
+                imagesResponse,
+                videosResponse,
+                creditsResponse,
+            ] = await Promise.all([
+                makeApiCall(`${BASE_URL}/tv/${showId}?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/tv/${showId}/season/${seasonNumber}?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(
+                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}`
+                ),
+                makeApiCall(
+                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/images?api_key=${process.env.REACT_APP_API_KEY}`
+                ),
+                makeApiCall(
+                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/videos?api_key=${process.env.REACT_APP_API_KEY}`
+                ),
+                makeApiCall(
+                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/credits?api_key=${process.env.REACT_APP_API_KEY}`
+                ),
+            ]);
+
+            setTvShowData(tvShowDataResponse);
+            setSeasonDetails(seasonDataResponse);
+            setWatchProviders(watchProvidersResponse.results);
+            setSeasonImages(imagesResponse);
+            setSeasonVideos(videosResponse.results.filter((video) => video.site === "YouTube"));
+            setSeasonCredits(creditsResponse);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     useEffect(() => {
-        makeApiCall(`${BASE_URL}/tv/${showId}?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
-            console.log(response);
-            setTvShowData(response);
-        });
-
-        makeApiCall(`${BASE_URL}/tv/${showId}/season/${seasonNumber}?api_key=${process.env.REACT_APP_API_KEY}`).then(
-            (response) => {
-                console.log(response);
-                setSeasonDetails(response);
-            }
-        );
-
-        makeApiCall(
-            `${BASE_URL}/tv/${showId}/season/${seasonNumber}/images?api_key=${process.env.REACT_APP_API_KEY}`
-        ).then((response) => {
-            console.log(response);
-            setSeasonImages(response);
-        });
-
-        makeApiCall(
-            `${BASE_URL}/tv/${showId}/season/${seasonNumber}/videos?api_key=${process.env.REACT_APP_API_KEY}`
-        ).then((response) => {
-            console.log(response);
-            setSeasonVideos(response.results);
-        });
-
-        makeApiCall(
-            `${BASE_URL}/tv/${showId}/season/${seasonNumber}/credits?api_key=${process.env.REACT_APP_API_KEY}`
-        ).then((response) => {
-            console.log(response);
-            setSeasonCredits(response);
-        });
-
-        makeApiCall(
-            `${BASE_URL}/tv/${showId}/season/${seasonNumber}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}`
-        ).then((response) => {
-            console.log(response);
-            setWatchProviders(response.results);
-        });
+        fetchSeasonData();
     }, []);
 
     // Open the gallery modal and set the index to the specified index
@@ -102,12 +107,16 @@ const Season = () => {
     return (
         <>
             <div className="wrapper">
-                <MediaInfo
-                    mediaData={tvShowData}
-                    mediaSeasonData={seasonDetails}
-                    mediaType="season"
-                    showAuthOptions={false}
-                />
+                {isLoading ? (
+                    <MediaInfoSkeleton mediaType="season" />
+                ) : (
+                    <MediaInfo
+                        mediaData={tvShowData}
+                        mediaSeasonData={seasonDetails}
+                        mediaType="season"
+                        showAuthOptions={false}
+                    />
+                )}
                 <div className={styles.episode_container}>
                     <h3>Episodes</h3>
                     <div className={styles.episode_list}>
