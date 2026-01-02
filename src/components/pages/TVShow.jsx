@@ -28,6 +28,7 @@ import Credits from "../utility/Credits/Credits";
 import WatchProviders from "../utility/WatchProviders/WatchProviders";
 import Reviews from "../utility/Reviews/Reviews";
 import MediaInfoSkeleton from "../utility/MediaInfo/MediaInfoSkeleton";
+import { Box } from "@mui/material";
 
 const TVShow = () => {
     const navigate = useNavigate();
@@ -342,19 +343,21 @@ const TVShow = () => {
                 {tvShowVideos?.length && <VideoTrailerRow videos={tvShowVideos} setOpen={openVideoModalWithIndex} />}
                 {tvShowVideos?.length && (
                     <BasicModal
+                        mediaType="video"
                         open={openVideoModal}
                         handleClose={closeVideoModal}
                         children={
-                            <YouTube
-                                videoId={tvShowVideos[videoModalIndex].key}
-                                opts={{
-                                    height: "550px",
-                                    width: "100%",
-                                    playerVars: {
-                                        autoplay: 1,
-                                    },
-                                }}
-                            />
+                            <Box sx={{ width: "100%", aspectRatio: "16 / 9" }}>
+                                <YouTube
+                                    videoId={tvShowVideos[videoModalIndex]?.key}
+                                    opts={{
+                                        width: "100%",
+                                        height: "100%",
+                                        playerVars: { autoplay: 1 },
+                                    }}
+                                    style={{ width: "100%", height: "100%" }}
+                                />
+                            </Box>
                         }
                     />
                 )}

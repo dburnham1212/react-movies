@@ -24,6 +24,7 @@ const Navbar = () => {
 
         return () => mediaQuery.removeEventListener("change", handleResize);
     }, []);
+
     return (
         <nav className={styles.navbar}>
             <div className={styles.left}>
@@ -48,55 +49,52 @@ const Navbar = () => {
                 </div>
             </div>
             <div className={styles.right}>
-                <div className={styles.desktop_links}>
-                    {isAuthenticated() ? (
-                        <>
-                            <p className={styles.nav_link} onClick={logout}>
-                                Sign Out
-                            </p>
-                            <p>{userName}</p>
-                            <Avatar sx={{ bgcolor: "#fea423", mx: ".5rem" }}>
-                                {userName.slice(0, 1).toUpperCase()}
-                            </Avatar>
-                        </>
-                    ) : (
-                        <p className={styles.nav_link} onClick={login}>
-                            Sign In
-                        </p>
-                    )}
-                </div>
-
                 {/* Hamburger */}
                 <button className={styles.menu_button} onClick={() => setMenuOpen((prev) => !prev)}>
                     <MenuIcon />
                 </button>
+                {isAuthenticated() ? (
+                    <>
+                        <div className={styles.desktop_links}>
+                            <p className={styles.nav_link} onClick={logout}>
+                                Sign Out
+                            </p>
+                            <p>{userName}</p>
+                        </div>
+                        <Avatar sx={{ bgcolor: "#fea423", mx: ".5rem" }}>{userName.slice(0, 1).toUpperCase()}</Avatar>
+                    </>
+                ) : (
+                    <div className={styles.desktop_links}>
+                        <p className={styles.nav_link} onClick={login}>
+                            Sign In
+                        </p>
+                    </div>
+                )}
             </div>
 
-            {menuOpen && (
-                <div className={styles.mobile_menu}>
-                    <Link to="/" onClick={() => setMenuOpen(false)}>
-                        Home
-                    </Link>
-                    <Link to="/browse" onClick={() => setMenuOpen(false)}>
-                        Browse
-                    </Link>
-                    <Link to="/search" onClick={() => setMenuOpen(false)}>
-                        Search
-                    </Link>
+            <div className={`${styles.mobile_menu} ${menuOpen ? styles.open : ""}`}>
+                <Link to="/" onClick={() => setMenuOpen(false)}>
+                    Home
+                </Link>
+                <Link to="/browse" onClick={() => setMenuOpen(false)}>
+                    Browse
+                </Link>
+                <Link to="/search" onClick={() => setMenuOpen(false)}>
+                    Search
+                </Link>
 
-                    {isAuthenticated() && (
-                        <Link to="/lists" onClick={() => setMenuOpen(false)}>
-                            Lists
-                        </Link>
-                    )}
+                {isAuthenticated() && (
+                    <Link to="/lists" onClick={() => setMenuOpen(false)}>
+                        Lists
+                    </Link>
+                )}
 
-                    {isAuthenticated() ? (
-                        <button onClick={logout}>Sign Out</button>
-                    ) : (
-                        <button onClick={login}>Sign In</button>
-                    )}
-                </div>
-            )}
+                {isAuthenticated() ? (
+                    <button onClick={logout}>Sign Out</button>
+                ) : (
+                    <button onClick={login}>Sign In</button>
+                )}
+            </div>
         </nav>
     );
 };

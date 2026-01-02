@@ -17,6 +17,7 @@ import Credits from "../utility/Credits/Credits";
 import { combineCrewCredits } from "../../helper/helperFunctions";
 import MediaInfo from "../utility/MediaInfo/MediaInfo";
 import MediaInfoSkeleton from "../utility/MediaInfo/MediaInfoSkeleton";
+import { Box } from "@mui/material";
 
 const Season = () => {
     const [seasonDetails, setSeasonDetails] = useState({});
@@ -177,19 +178,21 @@ const Season = () => {
                 {/* Videos with modal */}
                 {seasonVideos?.length && (
                     <BasicModal
+                        mediaType="video"
                         open={openVideoModal}
                         handleClose={closeVideoModal}
                         children={
-                            <YouTube
-                                videoId={seasonVideos[videoModalIndex].key}
-                                opts={{
-                                    height: "500px",
-                                    width: "100%",
-                                    playerVars: {
-                                        autoplay: 1,
-                                    },
-                                }}
-                            />
+                            <Box sx={{ width: "100%", aspectRatio: "16 / 9" }}>
+                                <YouTube
+                                    videoId={seasonVideos[videoModalIndex]?.key}
+                                    opts={{
+                                        width: "100%",
+                                        height: "100%",
+                                        playerVars: { autoplay: 1 },
+                                    }}
+                                    style={{ width: "100%", height: "100%" }}
+                                />
+                            </Box>
                         }
                     />
                 )}

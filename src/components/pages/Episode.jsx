@@ -16,6 +16,7 @@ import { combineCrewCredits } from "../../helper/helperFunctions";
 import MediaInfo from "../utility/MediaInfo/MediaInfo";
 import { userContext } from "../context/UserContext";
 import MediaInfoSkeleton from "../utility/MediaInfo/MediaInfoSkeleton";
+import { Box } from "@mui/material";
 
 const Episode = () => {
     const [tvShowData, setTvShowData] = useState({});
@@ -228,19 +229,21 @@ const Episode = () => {
                 {/* Videos with modal */}
                 {epsiodeVideos?.length && (
                     <BasicModal
+                        mediaType="video"
                         open={openVideoModal}
                         handleClose={closeVideoModal}
                         children={
-                            <YouTube
-                                videoId={epsiodeVideos[videoModalIndex].key}
-                                opts={{
-                                    height: "550px",
-                                    width: "100%",
-                                    playerVars: {
-                                        autoplay: 1,
-                                    },
-                                }}
-                            />
+                            <Box sx={{ width: "100%", aspectRatio: "16 / 9" }}>
+                                <YouTube
+                                    videoId={epsiodeVideos[videoModalIndex]?.key}
+                                    opts={{
+                                        width: "100%",
+                                        height: "100%",
+                                        playerVars: { autoplay: 1 },
+                                    }}
+                                    style={{ width: "100%", height: "100%" }}
+                                />
+                            </Box>
                         }
                     />
                 )}

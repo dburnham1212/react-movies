@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { makeApiCall, makeDeleteApiCall, makePostApiCall } from "../../helper/helperFunctions";
 import { BASE_URL } from "../../constants/constants";
 import { useParams } from "react-router-dom";
+import { Box } from "@mui/material";
 
 // Style sheet
 import styles from "../../styles/pages/Movie.module.css";
@@ -286,19 +287,21 @@ const Movie = () => {
                 {/* Videos with modal */}
                 {movieVideos?.length > 0 && (
                     <BasicModal
+                        mediaType="video"
                         open={openVideoModal}
                         handleClose={closeVideoModal}
                         children={
-                            <YouTube
-                                videoId={movieVideos[videoModalIndex].key}
-                                opts={{
-                                    height: "550px",
-                                    width: "100%",
-                                    playerVars: {
-                                        autoplay: 1,
-                                    },
-                                }}
-                            />
+                            <Box sx={{ width: "100%", aspectRatio: "16 / 9" }}>
+                                <YouTube
+                                    videoId={movieVideos[videoModalIndex]?.key}
+                                    opts={{
+                                        width: "100%",
+                                        height: "100%",
+                                        playerVars: { autoplay: 1 },
+                                    }}
+                                    style={{ width: "100%", height: "100%" }}
+                                />
+                            </Box>
                         }
                     />
                 )}

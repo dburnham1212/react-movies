@@ -73,6 +73,7 @@
     overflow-x: auto;
     overflow-y: hidden;
     margin-top: 0.25rem;
+    height: 20%;
 }
 
 .img_slider_img_btn {
@@ -85,7 +86,7 @@
 }
 
 .img_slider_img_btn_img {
-    height: 5rem;
+    height: 100%;
 }
 
 .img_slider_img_btn_active {
