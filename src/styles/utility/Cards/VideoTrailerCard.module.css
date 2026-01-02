@@ -16,3 +16,9 @@
 .title_text {
     margin: 0.25rem;
 }
+
+@media only screen and (max-width: 600px) {
+    .main_image {
+        height: 125px;
+    }
+}
