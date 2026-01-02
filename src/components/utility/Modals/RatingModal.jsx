@@ -6,8 +6,8 @@ const modalStyle = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: "30rem",
-    height: "22.5rem",
+    width: { xs: "95%", sm: "85%", md: "50%" },
+    height: { xs: "50%", sm: "70%", md: "70%" },
     bgcolor: "background.paper",
     border: "2px solid #fea423",
     borderRadius: "10px",
@@ -34,7 +34,7 @@ const RatingModal = (props) => {
                             <h2>{title}</h2>
                         </div>
                         <Rating
-                            sx={{ fontSize: "4rem" }}
+                            sx={{ fontSize: { xs: "3.5rem", sm: "4rem", md: "4rem" } }}
                             color="warning"
                             value={ratingValue}
                             precision={0.5}

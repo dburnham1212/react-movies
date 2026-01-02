@@ -48,7 +48,9 @@
 .rating_container {
     background-color: #1e1e1e;
     border-radius: 0.25rem;
-    min-width: 10rem;
+    width: auto;
+    min-width: 8rem;
+    max-width: 10rem;
     text-align: center;
     padding: 0.5rem 0;
 }
@@ -127,6 +129,13 @@
 
 .content_left {
     padding: 1rem 1rem;
+}
+
+.content_left img {
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+    display: block;
 }
 
 .content_right {

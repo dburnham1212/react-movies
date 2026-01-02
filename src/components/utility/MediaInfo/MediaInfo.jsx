@@ -163,7 +163,6 @@ const MediaInfo = (props) => {
                                     : "/images/NO_IMAGE_FOUND.jpg"
                             }
                             alt={`${mediaData.title} poster`}
-                            width={"360"}
                         />
                     )}
                     {isSeason && (
@@ -174,7 +173,6 @@ const MediaInfo = (props) => {
                                     : "/images/NO_IMAGE_FOUND.jpg"
                             }
                             alt={`${mediaData.title} poster`}
-                            width={"360"}
                         />
                     )}
                     {isEpisode && (
@@ -185,7 +183,6 @@ const MediaInfo = (props) => {
                                     : "/images/NO_IMAGE_FOUND_WIDE.jpg"
                             }
                             alt={`${mediaData.title} poster`}
-                            width={"360"}
                         />
                     )}
                 </div>
@@ -326,9 +323,13 @@ const MediaInfo = (props) => {
                             {/* Website */}
                             {mediaData.homepage && (
                                 <p className={styles.movie_info_item}>
-                                    Website:{" "}
-                                    <a href={mediaData.homepage} target="_blank" rel="noopener noreferrer">
-                                        {mediaData.homepage}{" "}
+                                    <a
+                                        href={mediaData.homepage}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        title={mediaData.homepage} // shows full URL on hover
+                                    >
+                                        Visit Website
                                     </a>
                                 </p>
                             )}
