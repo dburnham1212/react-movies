@@ -69,4 +69,8 @@
     .medium_card_container {
         min-width: 7.5rem;
     }
+
+    .slider_image_small_clickable {
+        max-height: 75px;
+    }
 }
