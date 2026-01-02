@@ -45,7 +45,7 @@ const ImageCarousel = (props) => {
 
     return (
         <>
-            <div style={{ width: "100%", height: "85%", position: "relative" }}>
+            <div style={{ width: "100%", height: "80%", position: "relative" }}>
                 <div style={{ width: "100%", height: "100%", display: "flex", overflow: "hidden" }}>
                     {images.map((image, index) => {
                         return (
