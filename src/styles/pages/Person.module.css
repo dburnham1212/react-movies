@@ -13,10 +13,19 @@
     flex-shrink: 0;
 }
 
+.info_left img {
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+    display: block;
+    padding: 30px;
+}
+
 .info_right {
     max-width: 100%;
     width: 100%;
     margin-right: 80px;
+    padding: 0 30px;
 }
 
 .aliases,
@@ -39,12 +48,6 @@
     margin: 0;
 }
 
-.img {
-    width: 360px;
-    height: auto;
-    margin: 30px;
-}
-
 .known_for_container {
     display: flex;
     align-items: center;
@@ -52,4 +55,10 @@
 
 .known_for_container h3 {
     margin-right: 10px;
+}
+
+@media only screen and (max-width: 1000px) {
+    .flex_info_container {
+        flex-direction: column;
+    }
 }

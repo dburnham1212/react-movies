@@ -2,6 +2,7 @@ import Skeleton from "@mui/material/Skeleton";
 
 // Style sheet
 import styles from "../../../styles/utility/MediaInfo/MediaInfo.module.css";
+import { Box } from "@mui/material";
 
 const MediaInfoSkeleton = (props) => {
     const { mediaType } = props;
@@ -42,9 +43,16 @@ const MediaInfoSkeleton = (props) => {
                 <div className={styles.content_left}>
                     <Skeleton
                         variant="rectangular"
-                        width={360}
-                        height={isEpisode ? 203 : 540}
-                        sx={{ borderRadius: "0.25rem" }}
+                        component="div"
+                        sx={{
+                            minWidth: "300px",
+                            maxWidth: "360px",
+                            aspectRatio: isEpisode ? "16/9" : "2/3",
+                            height: "100%",
+                            display: "block",
+                            maxHeight: isEpisode ? "200px" : "100%",
+                            objectFit: "cover",
+                        }}
                     />
                 </div>
                 <div className={styles.content_right}>

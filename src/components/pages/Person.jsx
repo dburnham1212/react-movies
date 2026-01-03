@@ -60,7 +60,6 @@ const Person = () => {
                                     : "/images/NO_IMAGE_FOUND.jpg"
                             }
                             alt={`${personData.name} profile`}
-                            width={"360"}
                         />
                     </div>
                     <div className={styles.info_right}>
