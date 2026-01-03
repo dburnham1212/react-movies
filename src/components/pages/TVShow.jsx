@@ -263,7 +263,7 @@ const TVShow = () => {
                         saveRating={saveRating}
                     />
                 )}
-                <div class={styles.seasons_container}>
+                <div className={styles.seasons_container}>
                     <h3>Seasons</h3>
                     <div className={styles.seasons_list}>
                         {tvShowData?.seasons?.map((season) => (
