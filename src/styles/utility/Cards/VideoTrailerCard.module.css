@@ -21,4 +21,8 @@
     .main_image {
         height: 125px;
     }
+
+    .card {
+        max-width: 12rem;
+    }
 }

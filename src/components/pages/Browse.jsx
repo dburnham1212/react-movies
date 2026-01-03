@@ -1,30 +1,14 @@
 import { useState, useEffect } from "react";
 // normally we would use a .env file to secure these values, for now i have put them into a file called constants
-import {
-    BASE_URL,
-    ACTION_MOVIE_VAL,
-    COMEDY_MOVIE_VAL,
-    ADVENTURE_MOVIE_VAL,
-    ANIMATION_TV_VAL,
-    COMEDY_TV_VAL,
-    SCI_FI_FANTASY_VAL,
-} from "../../constants/constants";
+import { BASE_URL } from "../../constants/constants";
 // import functions from the helper files
-import {
-    makeApiCall,
-    refineMovies,
-    refinePeople,
-    refineTVShows,
-    refineSeasons,
-    refineEpisodes,
-} from "../../helper/helperFunctions";
+import { makeApiCall } from "../../helper/helperFunctions";
 
 // import stuff from MUI (Material UI)
 import { FormControl, Select, MenuItem, InputLabel, Stack, Pagination } from "@mui/material";
 
 import styles from "../../styles/pages/Browse.module.css";
 
-import MediaImageRow from "../utility/ImageRows/MediaImageRow";
 import MediaCard from "../utility/Cards/MediaCard";
 
 const Browse = () => {

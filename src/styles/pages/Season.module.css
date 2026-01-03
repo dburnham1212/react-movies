@@ -145,6 +145,7 @@
     border: 1px solid lightgrey;
     padding: 1rem;
     border-radius: 1rem;
+    gap: 1rem;
 }
 
 .episode_content:hover {
@@ -165,4 +166,11 @@
     height: 150px;
     width: auto;
     background-color: #cccccc;
+}
+
+@media only screen and (max-width: 600px) {
+    .episode_content {
+        flex-direction: column;
+        align-items: center;
+    }
 }
