@@ -1,7 +1,3 @@
-.title {
-    color: lightgrey;
-}
-
 .heading_container {
     padding: 1rem;
 }
@@ -19,6 +15,10 @@
 
 .info_left {
     flex-shrink: 0;
+    width: 100%;
+    max-width: 450px;
+    min-width: 300px;
+    padding: 1rem;
 }
 
 .info_left img {
@@ -27,13 +27,21 @@
     min-width: 300px;
     height: auto;
     display: block;
-    padding: 1rem;
 }
 
 .info_right {
     max-width: 100%;
     width: 100%;
     padding: 0 1rem;
+}
+
+.info_right h3 {
+    margin: 0;
+    padding: 0;
+}
+
+.info_right_section {
+    margin-bottom: 1rem;
 }
 
 .aliases,
@@ -46,14 +54,6 @@
 .details p {
     margin: 0;
     padding: 0;
-}
-
-.aliases h3 {
-    margin-bottom: 10px;
-}
-
-.aliases p {
-    margin: 0;
 }
 
 .known_for_container {
