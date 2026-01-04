@@ -126,6 +126,7 @@
 
 .container {
     display: flex;
+    align-items: flex-start;
 }
 
 .content_left {
@@ -135,6 +136,7 @@
     width: 100%;
     max-width: 360px;
     align-items: flex-start;
+    flex-shrink: 0;
 }
 
 .content_left img {

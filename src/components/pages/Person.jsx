@@ -4,98 +4,50 @@ import { useParams } from "react-router-dom";
 import { BASE_IMAGE_URL, BASE_URL } from "../../constants/constants";
 
 import styles from "../../styles/pages/Person.module.css";
-import SocialsList from "../utility/Socials/SocailsList";
 import MediaCreditGrid from "../utility/Grids/MediaCreditGrid";
 import { combineCrewCredits } from "../../helper/helperFunctions";
+import PersonInfo from "../utility/MediaInfo/PersonInfo";
+import PersonInfoSkeleton from "../utility/MediaInfo/PersonInfoSkeleton";
 
 const Person = () => {
     const [personData, setPersonData] = useState({});
     const [movieCredits, setMovieCredits] = useState({});
     const [tvShowCredits, setTvShowCredits] = useState({});
     const [socials, setSocials] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
 
     const { id } = useParams();
 
+    const fetchPersonData = async () => {
+        setIsLoading(true);
+
+        try {
+            const [personResponse, movieCreditsResponse, tvCreditsResponse, socialsResponse] = await Promise.all([
+                makeApiCall(`${BASE_URL}/person/${id}?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/person/${id}/movie_credits?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/person/${id}/tv_credits?api_key=${process.env.REACT_APP_API_KEY}`),
+                makeApiCall(`${BASE_URL}/person/${id}/external_ids?api_key=${process.env.REACT_APP_API_KEY}`),
+            ]);
+
+            setPersonData(personResponse);
+            setMovieCredits(movieCreditsResponse);
+            setTvShowCredits(tvCreditsResponse);
+            setSocials(socialsResponse);
+        } catch (error) {
+            console.error("Failed to fetch person data:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     useEffect(() => {
-        // Tania H
-        makeApiCall(`${BASE_URL}/person/${id}?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
-            console.log("===== PERSON DATA =====");
-            console.log(response);
-            setPersonData(response);
-        });
-
-        makeApiCall(`${BASE_URL}/person/${id}/movie_credits?api_key=${process.env.REACT_APP_API_KEY}`).then(
-            (response) => {
-                console.log("===== MOVIE CREDITS =====");
-                console.log(response);
-                setMovieCredits(response);
-            }
-        );
-
-        makeApiCall(`${BASE_URL}/person/${id}/tv_credits?api_key=${process.env.REACT_APP_API_KEY}`).then((response) => {
-            console.log("===== TV CREDITS =====");
-            console.log(response);
-            setTvShowCredits(response);
-        });
-
-        makeApiCall(`${BASE_URL}/person/${id}/external_ids?api_key=${process.env.REACT_APP_API_KEY}`).then(
-            (response) => {
-                console.log("===== SOCIALS =====");
-                console.log(response);
-                setSocials(response);
-            }
-        );
-    }, [id]);
+        fetchPersonData();
+    }, []);
 
     return (
         <>
             <div className="wrapper">
-                <div className={styles.flex_info_container}>
-                    <div className={styles.info_left}>
-                        <img
-                            className={styles.img}
-                            src={
-                                personData.profile_path
-                                    ? `${BASE_IMAGE_URL}${personData.profile_path}`
-                                    : "/images/NO_IMAGE_FOUND.jpg"
-                            }
-                            alt={`${personData.name} profile`}
-                        />
-                    </div>
-                    <div className={styles.info_right}>
-                        <h1>{personData.name}</h1>
-                        {!personData.name && <h1>{personData.original_name}</h1>}
-
-                        {/* Known Aliases */}
-                        {personData.also_known_as && personData.also_known_as.length > 0 && (
-                            <div className={styles.aliases}>
-                                <h3>Also Known As:</h3>
-                                <p>{personData.also_known_as.join(", ")}</p>
-                            </div>
-                        )}
-
-                        {/*Birth Details*/}
-                        <div className={styles.details}>
-                            <h3>Details:</h3>
-                            <p>Born On: {personData.birthday}</p>
-                            {personData.deathday && <p>Died On: {personData.deathday}</p>}
-                            <p>Place of Birth: {personData.place_of_birth}</p>
-                        </div>
-
-                        {/*Biography */}
-                        <h3>Biography:</h3>
-                        {personData.biography && <p id={styles.biography}>{personData.biography}</p>}
-
-                        {/* Known For*/}
-                        {personData.known_for_department && (
-                            <div className={styles.known_for_container}>
-                                <h3>Known For:</h3>
-                                <p>{personData.known_for_department}</p>
-                            </div>
-                        )}
-                        <SocialsList socials={socials} />
-                    </div>
-                </div>
+                {isLoading ? <PersonInfoSkeleton /> : <PersonInfo personData={personData} socials={socials} />}
 
                 {movieCredits?.cast?.length > 0 && (
                     <MediaCreditGrid
