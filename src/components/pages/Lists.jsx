@@ -20,6 +20,7 @@ const Lists = () => {
     const [customLists, setCustomLists] = useState([]);
 
     const [currentCustomList, setCurrentCustomList] = useState(0);
+    const [currentCustomListInfo, setCurrentCustomListInfo] = useState([]);
 
     useEffect(() => {
         makeApiCall(
@@ -31,6 +32,7 @@ const Lists = () => {
             if (response.results.length > 0) {
                 setCurrentCustomList(response.results[0].id);
             }
+            getCurrentCustomListInfo(response.results[0].id);
         });
     }, []);
 
@@ -100,6 +102,15 @@ const Lists = () => {
         setMediaListDataWithPage(typeFilter, listFilter, 1);
     }, []);
 
+    const getCurrentCustomListInfo = (listId) => {
+        makeApiCall(
+            `${BASE_URL}/list/${listId}?api_key=${process.env.REACT_APP_API_KEY}&session_id=${getSessionId()}`
+        ).then((response) => {
+            console.log(response);
+            setCurrentCustomListInfo(response);
+        });
+    };
+
     const handleTypeFilterChange = (e) => {
         setTypeFilter(e.target.value);
         setListFilter("Favourites");
@@ -112,6 +123,7 @@ const Lists = () => {
             setMediaListDataWithPage(typeFilter, e.target.value, 1);
         } else {
             setCurrentCustomList(e.target.value);
+            getCurrentCustomListInfo(e.target.value);
         }
     };
 
@@ -179,7 +191,16 @@ const Lists = () => {
                         <div className={styles.no_items_container}>
                             <h1>You have nothing added to: </h1>
                             <h2>
-                                {typeFilter} {listFilter}
+                                {typeFilter} - {listFilter}
+                            </h2>
+                            <h3>Add an item to view it here</h3>
+                        </div>
+                    )}
+                    {typeFilter === "Custom" && currentCustomListInfo?.items?.length === 0 && (
+                        <div className={styles.no_items_container}>
+                            <h1>You have nothing added to: </h1>
+                            <h2>
+                                {typeFilter} - {currentCustomListInfo.name}
                             </h2>
                             <h3>Add an item to view it here</h3>
                         </div>
@@ -225,6 +246,39 @@ const Lists = () => {
                                     mediaListData?.results?.map((show, index) => {
                                         return (
                                             <MediaCard key={index} media={show} displayType={false} mediaType={"tv"} />
+                                        );
+                                    })}
+                            </div>
+                            {mediaListData.total_pages > 1 && (
+                                <div className={styles.pagination_box}>
+                                    <Stack spacing={2}>
+                                        <Pagination
+                                            count={mediaListData.total_pages > 500 ? 500 : mediaListData.total_pages}
+                                            page={currentPage}
+                                            onChange={handleMediaPageChange}
+                                            variant="outlined"
+                                            shape="rounded"
+                                            showFirstButton
+                                            showLastButton
+                                        />
+                                    </Stack>
+                                </div>
+                            )}
+                        </>
+                    )}
+                    {typeFilter === "Custom" && (
+                        <>
+                            <div className={styles.card_container}>
+                                {/* Get Movies By Selected Genre*/}
+                                {currentCustomListInfo?.items?.length &&
+                                    currentCustomListInfo?.items?.map((show, index) => {
+                                        return (
+                                            <MediaCard
+                                                key={index}
+                                                media={show}
+                                                displayType={false}
+                                                mediaType={"movie"}
+                                            />
                                         );
                                     })}
                             </div>

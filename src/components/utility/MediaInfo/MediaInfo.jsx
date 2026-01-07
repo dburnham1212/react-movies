@@ -8,11 +8,13 @@ import DesktopWindowsIcon from "@mui/icons-material/DesktopWindows";
 import TvIcon from "@mui/icons-material/Tv";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import AddIcon from "@mui/icons-material/Add";
 
 // Style sheet
 import styles from "../../../styles/utility/MediaInfo/MediaInfo.module.css";
 import AlertMessage from "../Alerts/AlertMessage";
 import RatingModal from "../Modals/RatingModal";
+import ListsModal from "../Modals/ListsModal";
 
 const MediaInfo = (props) => {
     const {
@@ -26,6 +28,7 @@ const MediaInfo = (props) => {
         toggleFavourite,
         toggleWatchlist,
         accountStateChangeAlert,
+        // Rating fields used in multiple components
         ratingModalOpen,
         openRatingModal,
         closeRatingModal,
@@ -33,6 +36,14 @@ const MediaInfo = (props) => {
         setRatingValue,
         deleteRating,
         saveRating,
+        // Lists fields only used for movies right now to add movies to lists
+        listsModalOpen,
+        openListsModal,
+        closeListsModal,
+        accountLists,
+        currentCustomList,
+        handleListChange,
+        addItemToCurrentList,
     } = props;
 
     const isMovie = mediaType === "movie";
@@ -256,7 +267,19 @@ const MediaInfo = (props) => {
                                     {accountStates?.rated?.value ? <StarIcon /> : <StarBorderIcon />}
                                 </IconButton>
                             </Tooltip>
-                            <AlertMessage controlState={accountStates} alertMessage={accountStateChangeAlert} />
+
+                            {isMovie && (
+                                <Tooltip title="Add to custom list">
+                                    <IconButton
+                                        sx={{ backgroundColor: "#555555" }}
+                                        size="large"
+                                        color="warning"
+                                        onClick={openListsModal}
+                                    >
+                                        <AddIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            )}
                             <RatingModal
                                 open={ratingModalOpen}
                                 handleClose={closeRatingModal}
@@ -266,6 +289,17 @@ const MediaInfo = (props) => {
                                 deleteRating={deleteRating}
                                 saveRating={saveRating}
                             />
+                            {isMovie && (
+                                <ListsModal
+                                    open={listsModalOpen}
+                                    handleClose={closeListsModal}
+                                    currentCustomList={currentCustomList}
+                                    handleListChange={handleListChange}
+                                    accountLists={accountLists}
+                                    addItemToCurrentList={addItemToCurrentList}
+                                />
+                            )}
+                            <AlertMessage controlState={accountStates} alertMessage={accountStateChangeAlert} />
                         </div>
                     )}
 

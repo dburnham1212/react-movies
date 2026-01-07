@@ -42,29 +42,14 @@ const Person = () => {
         setIsLoading(true);
 
         try {
-            const [
-                personResponse,
-                movieCreditsResponse,
-                tvCreditsResponse,
-                socialsResponse,
-                imagesResponse,
-            ] = await Promise.all([
-                makeApiCall(
-                    `${BASE_URL}/person/${id}?api_key=${process.env.REACT_APP_API_KEY}`
-                ),
-                makeApiCall(
-                    `${BASE_URL}/person/${id}/movie_credits?api_key=${process.env.REACT_APP_API_KEY}`
-                ),
-                makeApiCall(
-                    `${BASE_URL}/person/${id}/tv_credits?api_key=${process.env.REACT_APP_API_KEY}`
-                ),
-                makeApiCall(
-                    `${BASE_URL}/person/${id}/external_ids?api_key=${process.env.REACT_APP_API_KEY}`
-                ),
-                makeApiCall(
-                    `${BASE_URL}/person/${id}/images?api_key=${process.env.REACT_APP_API_KEY}`
-                ),
-            ]);
+            const [personResponse, movieCreditsResponse, tvCreditsResponse, socialsResponse, imagesResponse] =
+                await Promise.all([
+                    makeApiCall(`${BASE_URL}/person/${id}?api_key=${process.env.REACT_APP_API_KEY}`),
+                    makeApiCall(`${BASE_URL}/person/${id}/movie_credits?api_key=${process.env.REACT_APP_API_KEY}`),
+                    makeApiCall(`${BASE_URL}/person/${id}/tv_credits?api_key=${process.env.REACT_APP_API_KEY}`),
+                    makeApiCall(`${BASE_URL}/person/${id}/external_ids?api_key=${process.env.REACT_APP_API_KEY}`),
+                    makeApiCall(`${BASE_URL}/person/${id}/images?api_key=${process.env.REACT_APP_API_KEY}`),
+                ]);
 
             // Store the API responses in local state
             setPersonData(personResponse);
@@ -98,13 +83,9 @@ const Person = () => {
     const sortCredits = (credits, sortBy, order) => {
         const list = [...credits];
         if (order === "ascending") {
-            list.sort((a, b) =>
-                (a[sortBy] || "") > (b[sortBy] || "") ? 1 : -1
-            );
+            list.sort((a, b) => ((a[sortBy] || "") > (b[sortBy] || "") ? 1 : -1));
         } else if (order === "descending") {
-            list.sort((a, b) =>
-                (a[sortBy] || "") < (b[sortBy] || "") ? 1 : -1
-            );
+            list.sort((a, b) => ((a[sortBy] || "") < (b[sortBy] || "") ? 1 : -1));
         }
         return list;
     };
@@ -113,19 +94,11 @@ const Person = () => {
         <>
             <div className="wrapper">
                 {/* Person Info */}
-                {isLoading ? (
-                    <PersonInfoSkeleton />
-                ) : (
-                    <PersonInfo personData={personData} socials={socials} />
-                )}
+                {isLoading ? <PersonInfoSkeleton /> : <PersonInfo personData={personData} socials={socials} />}
 
                 {/* Persons Photos */}
                 {personImages?.profiles?.length > 0 && (
-                    <IndexedImageRow
-                        title="Photos"
-                        media={personImages.profiles}
-                        setOpen={openImageModalWithIndex}
-                    />
+                    <IndexedImageRow title="Photos" media={personImages.profiles} setOpen={openImageModalWithIndex} />
                 )}
 
                 {personImages?.profiles?.length > 0 && (
@@ -133,14 +106,13 @@ const Person = () => {
                         open={openImageModal}
                         handleClose={closeImageModal}
                         children={
-                            <Box sx={{ width: "100%", aspectRatio: "16 / 9" }}>
-                                <ImageCarousel
-                                    imageIndex={imageModalIndex}
-                                    setImageIndex={setImageModalIndex}
-                                    images={personImages.profiles}
-                                    mediaTitle={personData.name}
-                                />
-                            </Box>
+                            <ImageCarousel
+                                matchHeight={true}
+                                imageIndex={imageModalIndex}
+                                setImageIndex={setImageModalIndex}
+                                images={personImages.profiles}
+                                mediaTitle={personData.name}
+                            />
                         }
                     />
                 )}
@@ -148,11 +120,7 @@ const Person = () => {
                 {/* Movie Credits */}
                 {movieCredits?.cast?.length > 0 && (
                     <MediaCreditGrid
-                        mediaCredits={sortCredits(
-                            movieCredits?.cast || [],
-                            "release_date",
-                            movieSortOrder
-                        )}
+                        mediaCredits={sortCredits(movieCredits?.cast || [], "release_date", movieSortOrder)}
                         title="Movie Casting Credits"
                         mediaType="movie"
                         creditType="CA"
@@ -162,10 +130,7 @@ const Person = () => {
                 {movieCredits?.cast?.length > 0 && (
                     <div style={{ marginBottom: "1rem" }}>
                         <label style={{ color: "#fff" }}>Sort Movies by:</label>
-                        <select
-                            value={movieSortOrder}
-                            onChange={(e) => setMovieSortOrder(e.target.value)}
-                        >
+                        <select value={movieSortOrder} onChange={(e) => setMovieSortOrder(e.target.value)}>
                             <option value="descending">Newest First</option>
                             <option value="ascending">Oldest First</option>
                         </select>
@@ -182,11 +147,7 @@ const Person = () => {
                 {/* TV Credits */}
                 {tvShowCredits?.cast?.length > 0 && (
                     <MediaCreditGrid
-                        mediaCredits={sortCredits(
-                            tvShowCredits?.cast || [],
-                            "first_air_date",
-                            tvSortOrder
-                        )}
+                        mediaCredits={sortCredits(tvShowCredits?.cast || [], "first_air_date", tvSortOrder)}
                         title="TV Casting Credits"
                         mediaType="tv"
                         creditType="CA"
@@ -195,13 +156,8 @@ const Person = () => {
                 {/* TV Credits Sorting Dropdown */}
                 {tvShowCredits?.cast?.length > 0 && (
                     <div style={{ marginBottom: "1rem" }}>
-                        <label style={{ color: "#fff" }}>
-                            Sort TV Shows by:
-                        </label>
-                        <select
-                            value={tvSortOrder}
-                            onChange={(e) => setTvSortOrder(e.target.value)}
-                        >
+                        <label style={{ color: "#fff" }}>Sort TV Shows by:</label>
+                        <select value={tvSortOrder} onChange={(e) => setTvSortOrder(e.target.value)}>
                             <option value="descending">Newest First</option>
                             <option value="ascending">Oldest First</option>
                         </select>
