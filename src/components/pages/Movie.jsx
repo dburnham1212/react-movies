@@ -54,6 +54,12 @@ const Movie = () => {
     const [ratingModalOpen, setRatingModalOpen] = useState(false);
     const [ratingValue, setRatingValue] = useState(2.5);
 
+    // Lists modal states
+    const [accountLists, setAccountLists] = useState();
+    const [listsModalOpen, setListsModalOpen] = useState(false);
+    const [currentCustomList, setCurrentCustomList] = useState("");
+    const [currentCustomListInfo, setCurrentCustomListInfo] = useState({});
+
     // Context providers
     const { isAuthenticated, accountId, getSessionId } = useContext(userContext);
 
@@ -66,6 +72,7 @@ const Movie = () => {
         try {
             const [
                 accountStatesResponse,
+                accountListsResponse,
                 movieDataResponse,
                 watchProvidersResponse,
                 imagesResponse,
@@ -78,6 +85,13 @@ const Movie = () => {
                 isAuthenticated()
                     ? makeApiCall(
                           `${BASE_URL}/movie/${id}/account_states?api_key=${
+                              process.env.REACT_APP_API_KEY
+                          }&session_id=${getSessionId()}`
+                      )
+                    : Promise.resolve(null),
+                isAuthenticated()
+                    ? makeApiCall(
+                          `${BASE_URL}/account/${accountId}/lists?api_key=${
                               process.env.REACT_APP_API_KEY
                           }&session_id=${getSessionId()}`
                       )
@@ -96,6 +110,9 @@ const Movie = () => {
                 setAccountStates(accountStatesResponse);
 
                 if (accountStatesResponse.rated) setRatingValue((accountStatesResponse.rated.value / 2).toFixed(1));
+            }
+            if (accountListsResponse) {
+                setAccountLists(accountListsResponse.results);
             }
 
             setMovieData(movieDataResponse);
@@ -236,6 +253,28 @@ const Movie = () => {
         setOpenVideoModal(false);
     };
 
+    const openListsModal = () => {
+        setListsModalOpen(true);
+    };
+
+    const closeListsModal = () => {
+        setListsModalOpen(false);
+    };
+
+    const handleListChange = (e) => {
+        setCurrentCustomList(e.target.value);
+        setCurrentCustomListInfo(accountLists.find((l) => l.id === e.target.value));
+    };
+
+    const addItemToCurrentList = () => {
+        makePostApiCall(
+            `${BASE_URL}/list/${currentCustomList}/add_item?api_key=${
+                process.env.REACT_APP_API_KEY
+            }&session_id=${getSessionId()}`,
+            { media_type: "movie", media_id: id }
+        );
+    };
+
     return (
         <>
             <div className="wrapper">
@@ -258,6 +297,13 @@ const Movie = () => {
                         setRatingValue={setRatingValue}
                         deleteRating={deleteRating}
                         saveRating={saveRating}
+                        listsModalOpen={listsModalOpen}
+                        openListsModal={openListsModal}
+                        closeListsModal={closeListsModal}
+                        accountLists={accountLists}
+                        currentCustomList={currentCustomList}
+                        handleListChange={handleListChange}
+                        addItemToCurrentList={addItemToCurrentList}
                     />
                 )}
                 {/* Watch provider data */}
