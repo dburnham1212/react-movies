@@ -2,7 +2,7 @@
 import { useState, useEffect, useContext } from "react";
 
 // Third-party libraries
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import YouTube from "react-youtube";
 
 // Context
@@ -30,6 +30,7 @@ import Reviews from "../utility/Reviews/Reviews";
 import MediaInfoSkeleton from "../utility/MediaInfo/MediaInfoSkeleton";
 
 const TVShow = () => {
+    const navigate = useNavigate();
     const [tvShowData, setTvShowData] = useState({});
     const [tvShowCredits, setTvShowCredits] = useState({});
     const [tvShowAggCredits, setTvShowAggCredits] = useState({});
@@ -40,6 +41,11 @@ const TVShow = () => {
     const [watchProviders, setWatchProviders] = useState([]);
     const [reviews, setReviews] = useState({});
     const [isLoading, setIsLoading] = useState(true);
+
+    // API error redirect
+    const redirectToError = (msg = "") => {
+        navigate("/404", { replace: true, state: { msg } });
+    };
 
     // ----- Dynamic states -----
     // Account states if a user is logged in
@@ -95,6 +101,27 @@ const TVShow = () => {
                 makeApiCall(`${BASE_URL}/tv/${id}/reviews?api_key=${process.env.REACT_APP_API_KEY}`),
             ]);
 
+            //catch all for responses
+            const responses = [
+                //if exists, return .___, else return undefined
+                () => tvShowDataResponse?.id, //identifying property from json object
+                () => watchProvidersResponse?.results,
+                () => imagesResponse?.backdrops,
+                () => videosResponse?.results,
+                () => creditsResponse?.cast,
+                () => aggCreditsResponse?.cast,
+                () => similarResponse?.results,
+                () => recommendationsResponse?.results,
+                () => reviewsResponse?.results,
+            ];
+
+            //if any api is null, undefined, or missing data (partial API failures)
+            const missingResponse = responses.some((responseCheck) => !responseCheck()); // if validation for any api call fails (!responseCheck())
+            if (missingResponse) {
+                redirectToError("402 API error (no response)");
+                return;
+            }
+
             if (accountStatesResponse) {
                 setAccountStates(accountStatesResponse);
 
@@ -112,6 +139,8 @@ const TVShow = () => {
             setReviews(reviewsResponse);
         } catch (error) {
             console.log(error);
+            // exceptions, network failures, rejected promises
+            redirectToError("402 API error (exception)");
         } finally {
             setIsLoading(false);
         }
@@ -262,7 +291,7 @@ const TVShow = () => {
                         saveRating={saveRating}
                     />
                 )}
-                <div class={styles.seasons_container}>
+                <div className={styles.seasons_container}>
                     <h3>Seasons</h3>
                     <div className={styles.seasons_list}>
                         {tvShowData?.seasons?.map((season) => (
