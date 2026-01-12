@@ -14,6 +14,7 @@ import Episode from "./components/pages/Episode";
 import Footer from "./components/footer/Footer";
 import Lists from "./components/pages/Lists";
 import ListCreation from "./components/pages/ListCreation";
+import PageNotFound from "./components/pages/PageNotFound";
 
 const darkTheme = createTheme({
     palette: {
@@ -39,6 +40,8 @@ function App() {
                         <Route path="/tv/:showId/season/:seasonNumber/episode/:episodeNumber" element={<Episode />} />
                         <Route path="/lists" element={<Lists />} />
                         <Route path="/lists/create" element={<ListCreation />} />
+                        <Route path="/404" element={<PageNotFound />} />
+                        <Route path="*" element={<PageNotFound />} />
                     </Routes>
                     <Footer />
                 </BrowserRouter>
