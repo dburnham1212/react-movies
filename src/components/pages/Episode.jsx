@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { makeApiCall } from "../../helper/helperFunctions";
 import { BASE_URL } from "../../constants/constants";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import styles from "../../styles/pages/Episode.module.css";
 
 import WatchProviders from "../utility/WatchProviders/WatchProviders";
@@ -19,6 +19,7 @@ import MediaInfoSkeleton from "../utility/MediaInfo/MediaInfoSkeleton";
 import { Box } from "@mui/material";
 
 const Episode = () => {
+    const navigate = useNavigate();
     const [tvShowData, setTvShowData] = useState({});
     const [seasonDetails, setSeasonDetails] = useState({});
     const [episodeData, setEpisodeData] = useState({});
@@ -27,6 +28,11 @@ const Episode = () => {
     const [epsiodeVideos, setEpisodeVideos] = useState([]);
     const [epsiodeCredits, setEpisodeCredits] = useState({});
     const [isLoading, setIsLoading] = useState(true);
+
+    // API error redirect
+    const redirectToError = (msg = "") => {
+        navigate("/404", { replace: true, state: { msg } });
+    };
 
     // Gallery modal states
     const [openArtworkModal, setOpenArtworkModal] = useState(false);
@@ -67,27 +73,41 @@ const Episode = () => {
                     ? makeApiCall(
                           `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/account_states?api_key=${
                               process.env.REACT_APP_API_KEY
-                          }&session_id=${getSessionId()}`
+                          }&session_id=${getSessionId()}`,
                       )
                     : Promise.resolve(null),
                 makeApiCall(`${BASE_URL}/tv/${showId}?api_key=${process.env.REACT_APP_API_KEY}`),
                 makeApiCall(`${BASE_URL}/tv/${showId}/season/${seasonNumber}?api_key=${process.env.REACT_APP_API_KEY}`),
                 makeApiCall(
-                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}?api_key=${process.env.REACT_APP_API_KEY}`
+                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}?api_key=${process.env.REACT_APP_API_KEY}`,
                 ),
                 makeApiCall(
-                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}`
+                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}`,
                 ),
                 makeApiCall(
-                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/images?api_key=${process.env.REACT_APP_API_KEY}`
+                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/images?api_key=${process.env.REACT_APP_API_KEY}`,
                 ),
                 makeApiCall(
-                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/videos?api_key=${process.env.REACT_APP_API_KEY}`
+                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/videos?api_key=${process.env.REACT_APP_API_KEY}`,
                 ),
                 makeApiCall(
-                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/credits?api_key=${process.env.REACT_APP_API_KEY}`
+                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/credits?api_key=${process.env.REACT_APP_API_KEY}`,
                 ),
             ]);
+
+            // catch all for responses
+            const requiredResponses = [
+                () => tvShowDataResponse?.id,
+                () => seasonDataResponse?.id,
+                () => episodeDataResponse?.id,
+            ];
+
+            // if any api is null, undefined, or missing data (partial API failures)
+            const missingResponse = requiredResponses.some((responseCheck) => !responseCheck());
+            if (missingResponse) {
+                redirectToError("402 API error (no response)");
+                return;
+            }
 
             if (accountStatesResponse) {
                 setAccountStates(accountStatesResponse);
@@ -130,7 +150,7 @@ const Episode = () => {
             `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/rating?api_key=${
                 process.env.REACT_APP_API_KEY
             }&session_id=${getSessionId()}`,
-            { value: ratingValue * 2 }
+            { value: ratingValue * 2 },
         );
         // update locally
         setAccountStates({ ...accountStates, rated: { value: ratingValue * 2 } });
@@ -145,7 +165,7 @@ const Episode = () => {
         makeDeleteApiCall(
             `${BASE_URL}/tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/rating?api_key=${
                 process.env.REACT_APP_API_KEY
-            }&session_id=${getSessionId()}`
+            }&session_id=${getSessionId()}`,
         );
         // update locally
         setAccountStates({ ...accountStates, rated: false });

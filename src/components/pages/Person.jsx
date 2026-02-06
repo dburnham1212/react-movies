@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { makeApiCall } from "../../helper/helperFunctions";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { BASE_IMAGE_URL, BASE_URL } from "../../constants/constants";
 import { Box } from "@mui/material";
 
@@ -18,12 +18,18 @@ import ImageCarousel from "../utility/Carousels/ImageCarousel";
 
 const Person = () => {
     // ----- Static States -----
+    const navigate = useNavigate();
     const [personData, setPersonData] = useState({});
     const [movieCredits, setMovieCredits] = useState({});
     const [tvShowCredits, setTvShowCredits] = useState({});
     const [socials, setSocials] = useState({});
     const [personImages, setPersonImages] = useState({});
     const [isLoading, setIsLoading] = useState(true);
+
+    // API error redirect
+    const redirectToError = (msg = "") => {
+        navigate("/404", { replace: true, state: { msg } });
+    };
 
     // ----- Dynamic States -----
     // Gallery modal states
@@ -50,6 +56,14 @@ const Person = () => {
                     makeApiCall(`${BASE_URL}/person/${id}/external_ids?api_key=${process.env.REACT_APP_API_KEY}`),
                     makeApiCall(`${BASE_URL}/person/${id}/images?api_key=${process.env.REACT_APP_API_KEY}`),
                 ]);
+
+            const requiredResponses = [() => personResponse?.id];
+
+            const missingResponse = requiredResponses.some((responseCheck) => !responseCheck());
+            if (missingResponse) {
+                redirectToError("402 API error (no response)");
+                return;
+            }
 
             // Store the API responses in local state
             setPersonData(personResponse);
