@@ -122,14 +122,14 @@ const TVShow = () => {
             }
 
             setTvShowData(tvShowDataResponse);
-            setWatchProviders(watchProvidersResponse.results);
-            setTvShowImages(imagesResponse);
-            setTvShowVideos(videosResponse.results.filter((video) => video.site === "YouTube"));
-            setTvShowCredits(creditsResponse);
-            setTvShowAggCredits(aggCreditsResponse);
-            setSimilarTv(similarResponse.results);
-            setRecommendedTv(recommendationsResponse.results);
-            setReviews(reviewsResponse);
+            setWatchProviders(watchProvidersResponse?.results ?? {});
+            setTvShowImages(imagesResponse ?? {});
+            setTvShowVideos((videosResponse.results ?? []).filter((video) => video.site === "YouTube"));
+            setTvShowCredits(creditsResponse ?? { cast: [], crew: [] });
+            setTvShowAggCredits(aggCreditsResponse ?? { cast: [], crew: [] });
+            setSimilarTv(similarResponse?.results ?? []);
+            setRecommendedTv(recommendationsResponse?.results ?? []);
+            setReviews(reviewsResponse?.results ?? []);
         } catch (error) {
             console.log(error);
             // exceptions, network failures, rejected promises

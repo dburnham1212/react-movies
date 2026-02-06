@@ -118,10 +118,10 @@ const Episode = () => {
             setTvShowData(tvShowDataResponse);
             setSeasonDetails(seasonDataResponse);
             setEpisodeData(episodeDataResponse);
-            setWatchProviders(watchProvidersResponse.results);
-            setEpsiodeImages(imagesResponse);
-            setEpisodeVideos(videosResponse.results.filter((video) => video.site === "YouTube"));
-            setEpisodeCredits(creditsResponse);
+            setWatchProviders(watchProvidersResponse?.results ?? {});
+            setEpsiodeImages(imagesResponse ?? {});
+            setEpisodeVideos((videosResponse?.results ?? []).filter((video) => video.site === "YouTube"));
+            setEpisodeCredits(creditsResponse ?? {});
         } catch (error) {
             console.log(error);
         } finally {

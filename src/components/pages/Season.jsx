@@ -83,10 +83,10 @@ const Season = () => {
 
             setTvShowData(tvShowDataResponse);
             setSeasonDetails(seasonDataResponse);
-            setWatchProviders(watchProvidersResponse.results);
-            setSeasonImages(imagesResponse);
-            setSeasonVideos(videosResponse.results.filter((video) => video.site === "YouTube"));
-            setSeasonCredits(creditsResponse);
+            setWatchProviders(watchProvidersResponse?.results ?? {});
+            setSeasonImages(imagesResponse ?? {});
+            setSeasonVideos((videosResponse?.results ?? []).filter((video) => video.site === "YouTube"));
+            setSeasonCredits(creditsResponse ?? { cast: [], crew: [] });
         } catch (error) {
             console.log(error);
         } finally {

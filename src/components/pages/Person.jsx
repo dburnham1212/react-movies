@@ -67,10 +67,10 @@ const Person = () => {
 
             // Store the API responses in local state
             setPersonData(personResponse);
-            setMovieCredits(movieCreditsResponse);
-            setTvShowCredits(tvCreditsResponse);
-            setSocials(socialsResponse);
-            setPersonImages(imagesResponse);
+            setMovieCredits(movieCreditsResponse ?? { cast: [], crew: [] });
+            setTvShowCredits(tvCreditsResponse ?? { cast: [], crew: [] });
+            setSocials(socialsResponse ?? {});
+            setPersonImages(imagesResponse ?? { profiles: [] });
         } catch (error) {
             // Error Message
             console.error("Failed to fetch person data:", error);

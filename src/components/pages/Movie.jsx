@@ -134,13 +134,13 @@ const Movie = () => {
             }
 
             setMovieData(movieDataResponse);
-            setWatchProviders(watchProvidersResponse.results);
-            setMovieImages(imagesResponse);
-            setMovieVideos(videosResponse.results.filter((video) => video.site === "YouTube"));
-            setMovieCredits(creditsResponse);
-            setSimilarMovies(similarResponse.results);
-            setRecommendedMovies(recommendationsResponse.results);
-            setReviews(reviewsResponse);
+            setWatchProviders(watchProvidersResponse?.results ?? {});
+            setMovieImages(imagesResponse ?? {});
+            setMovieVideos((videosResponse?.results ?? []).filter((video) => video.site === "YouTube"));
+            setMovieCredits(creditsResponse ?? {});
+            setSimilarMovies(similarResponse?.results ?? []);
+            setRecommendedMovies(recommendationsResponse?.results ?? []);
+            setReviews(reviewsResponse?.results ?? []);
         } catch (error) {
             console.log(error);
         } finally {
