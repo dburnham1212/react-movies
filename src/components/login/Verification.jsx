@@ -6,14 +6,14 @@ import { userContext } from "../context/UserContext";
 const Verification = () => {
     const { setUserName, setSessionId, setAccountId } = useContext(userContext);
 
-    //const searchParams = new URLSearchParams(document.location.search);
-    const searchParams = new URLSearchParams(
-        window.location.hash.includes("?")
-            ? window.location.hash.split("?")[1] // take everything after "?" in the hash
-            : window.location.search,
-    );
-
     useEffect(() => {
+        //const searchParams = new URLSearchParams(document.location.search);
+        const searchParams = new URLSearchParams(
+            window.location.hash.includes("?")
+                ? window.location.hash.split("?")[1] // take everything after "?" in the hash
+                : window.location.search,
+        );
+
         const request_token = searchParams.get("request_token");
 
         const url = `${BASE_URL}/authentication/session/new?api_key=${process.env.REACT_APP_API_KEY}`;
