@@ -1,6 +1,7 @@
 import { Card } from "@mui/material";
 import { BASE_IMAGE_URL } from "../../../constants/constants";
 import styles from "../../../styles/utility/Cards/MediaCreditCard.module.css";
+import { Link } from "react-router-dom";
 
 const MediaCreditCard = (props) => {
     const { media, mediaType, creditType } = props;
@@ -18,7 +19,7 @@ const MediaCreditCard = (props) => {
                 />
                 <h4>{media.title}</h4>
                 <div className={styles.card_hidden}>
-                    <a className={styles.hidden_link} href={`/${mediaType}/${media.id}`}>
+                    <Link className={styles.hidden_link} to={`/${mediaType}/${media.id}`}>
                         <div className={styles.hidden_overlay}>
                             <h4>Title:</h4>
                             <p>{media.title || media.name}</p>
@@ -42,7 +43,7 @@ const MediaCreditCard = (props) => {
                             }`}
                             alt={media.title || media.name}
                         />
-                    </a>
+                    </Link>
                 </div>
             </Card>
         </>

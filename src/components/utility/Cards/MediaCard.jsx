@@ -2,6 +2,7 @@ import { BASE_IMAGE_URL } from "../../../constants/constants";
 import styles from "../../../styles/utility/Cards/MediaCard.module.css";
 import { Card } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
+import { Link } from "react-router-dom";
 
 const MediaCard = (props) => {
     const { media, displayType, mediaType } = props;
@@ -9,7 +10,7 @@ const MediaCard = (props) => {
         <>
             <Card className={styles.card}>
                 <div className={styles.card_hidden}>
-                    <a className={styles.hidden_link} href={`/${media.media_type || mediaType}/${media.id}`}>
+                    <Link className={styles.hidden_link} to={`/${media.media_type || mediaType}/${media.id}`}>
                         <div className={styles.hidden_overlay}>
                             {media.media_type && media.media_type === "person" ? (
                                 <>
@@ -56,7 +57,7 @@ const MediaCard = (props) => {
                             }`}
                             alt={media.title || media.name}
                         />
-                    </a>
+                    </Link>
                 </div>
                 <img
                     className={styles.main_image}

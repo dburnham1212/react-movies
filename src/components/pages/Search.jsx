@@ -11,7 +11,7 @@ import {
     Stack,
 } from "@mui/material";
 import styles from "../../styles/pages/Search.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { makeApiCall } from "../../helper/helperFunctions";
 import { BASE_URL } from "../../constants/constants";
 import MediaCard from "../utility/Cards/MediaCard";
@@ -25,11 +25,15 @@ const Search = () => {
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const searchUsingTerm = (pageNumber) => {
         setHasSearched(true);
         if (searchFilter === "All") {
             makeApiCall(
-                `${BASE_URL}/search/multi?api_key=${process.env.REACT_APP_API_KEY}&query=${searchTerm}&page=${pageNumber}`
+                `${BASE_URL}/search/multi?api_key=${process.env.REACT_APP_API_KEY}&query=${searchTerm}&page=${pageNumber}`,
             ).then((response) => {
                 setSearchData(response.results);
                 setTotalPages(response.total_pages);
@@ -37,34 +41,34 @@ const Search = () => {
             });
         } else if (searchFilter === "Movies") {
             makeApiCall(
-                `${BASE_URL}/search/movie?api_key=${process.env.REACT_APP_API_KEY}&query=${searchTerm}&page=${pageNumber}`
+                `${BASE_URL}/search/movie?api_key=${process.env.REACT_APP_API_KEY}&query=${searchTerm}&page=${pageNumber}`,
             ).then((response) => {
                 setSearchData(
                     response.results.map((item) => {
                         return { ...item, media_type: "movie" };
-                    })
+                    }),
                 );
                 setTotalPages(response.total_pages);
             });
         } else if (searchFilter === "TV") {
             makeApiCall(
-                `${BASE_URL}/search/tv?api_key=${process.env.REACT_APP_API_KEY}&query=${searchTerm}&page=${pageNumber}`
+                `${BASE_URL}/search/tv?api_key=${process.env.REACT_APP_API_KEY}&query=${searchTerm}&page=${pageNumber}`,
             ).then((response) => {
                 setSearchData(
                     response.results.map((item) => {
                         return { ...item, media_type: "tv" };
-                    })
+                    }),
                 );
                 setTotalPages(response.total_pages);
             });
         } else {
             makeApiCall(
-                `${BASE_URL}/search/person?api_key=${process.env.REACT_APP_API_KEY}&query=${searchTerm}&page=${pageNumber}`
+                `${BASE_URL}/search/person?api_key=${process.env.REACT_APP_API_KEY}&query=${searchTerm}&page=${pageNumber}`,
             ).then((response) => {
                 setSearchData(
                     response.results.map((item) => {
                         return { ...item, media_type: "person" };
-                    })
+                    }),
                 );
                 setTotalPages(response.total_pages);
             });

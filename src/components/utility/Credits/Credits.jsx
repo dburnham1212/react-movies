@@ -10,6 +10,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { Link } from "react-router-dom";
 
 const Credits = (props) => {
     const { credits, title } = props;
@@ -89,7 +90,7 @@ const Credits = (props) => {
                     {sorted
                         ?.filter((_, index) => index < Count)
                         .map((cast, index) => (
-                            <a key={index} id={styles.card_link} href={`/person/${cast?.id}`}>
+                            <Link key={index} id={styles.card_link} to={`/person/${cast?.id}`}>
                                 <Card id={styles.card}>
                                     {" "}
                                     {/*cast-card */}
@@ -128,8 +129,8 @@ const Credits = (props) => {
                                                         {cast?.character
                                                             ? cast?.character
                                                             : cast?.roles
-                                                            ? cast?.roles[0].character
-                                                            : "None"}
+                                                              ? cast?.roles[0].character
+                                                              : "None"}
                                                     </span>
                                                 </h4>
                                             ) : (
@@ -154,7 +155,7 @@ const Credits = (props) => {
                                     />
                                     <h4 id={styles.card_name}>{cast?.name}</h4> {/*Cast name display*/}
                                 </Card>
-                            </a>
+                            </Link>
                         ))}
                 </div>
             </div>

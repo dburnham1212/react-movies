@@ -23,10 +23,12 @@ const Lists = () => {
     const [currentCustomListInfo, setCurrentCustomListInfo] = useState([]);
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+
         makeApiCall(
             `${BASE_URL}/account/${accountId}/lists?api_key=${
                 process.env.REACT_APP_API_KEY
-            }&session_id=${getSessionId()}`
+            }&session_id=${getSessionId()}`,
         ).then((response) => {
             setCustomLists(response.results);
             if (response.results.length > 0) {
@@ -42,7 +44,7 @@ const Lists = () => {
                 makeApiCall(
                     `${BASE_URL}/account/${accountId}/favorite/movies?api_key=${
                         process.env.REACT_APP_API_KEY
-                    }&session_id=${getSessionId()}&page=${pageNumber}`
+                    }&session_id=${getSessionId()}&page=${pageNumber}`,
                 ).then((response) => {
                     console.log(response);
                     setMediaListData(response);
@@ -51,7 +53,7 @@ const Lists = () => {
                 makeApiCall(
                     `${BASE_URL}/account/${accountId}/rated/movies?api_key=${
                         process.env.REACT_APP_API_KEY
-                    }&session_id=${getSessionId()}&page=${pageNumber}`
+                    }&session_id=${getSessionId()}&page=${pageNumber}`,
                 ).then((response) => {
                     console.log(response);
                     setMediaListData(response);
@@ -60,7 +62,7 @@ const Lists = () => {
                 makeApiCall(
                     `${BASE_URL}/account/${accountId}/watchlist/movies?api_key=${
                         process.env.REACT_APP_API_KEY
-                    }&session_id=${getSessionId()}&page=${pageNumber}`
+                    }&session_id=${getSessionId()}&page=${pageNumber}`,
                 ).then((response) => {
                     console.log(response);
                     setMediaListData(response);
@@ -71,7 +73,7 @@ const Lists = () => {
                 makeApiCall(
                     `${BASE_URL}/account/${accountId}/favorite/tv?api_key=${
                         process.env.REACT_APP_API_KEY
-                    }&session_id=${getSessionId()}&page=${pageNumber}`
+                    }&session_id=${getSessionId()}&page=${pageNumber}`,
                 ).then((response) => {
                     console.log(response);
                     setMediaListData(response);
@@ -80,7 +82,7 @@ const Lists = () => {
                 makeApiCall(
                     `${BASE_URL}/account/${accountId}/rated/tv?api_key=${
                         process.env.REACT_APP_API_KEY
-                    }&session_id=${getSessionId()}&page=${pageNumber}`
+                    }&session_id=${getSessionId()}&page=${pageNumber}`,
                 ).then((response) => {
                     console.log(response);
                     setMediaListData(response);
@@ -89,7 +91,7 @@ const Lists = () => {
                 makeApiCall(
                     `${BASE_URL}/account/${accountId}/watchlist/tv?api_key=${
                         process.env.REACT_APP_API_KEY
-                    }&session_id=${getSessionId()}&page=${pageNumber}`
+                    }&session_id=${getSessionId()}&page=${pageNumber}`,
                 ).then((response) => {
                     console.log(response);
                     setMediaListData(response);
@@ -104,7 +106,7 @@ const Lists = () => {
 
     const getCurrentCustomListInfo = (listId) => {
         makeApiCall(
-            `${BASE_URL}/list/${listId}?api_key=${process.env.REACT_APP_API_KEY}&session_id=${getSessionId()}`
+            `${BASE_URL}/list/${listId}?api_key=${process.env.REACT_APP_API_KEY}&session_id=${getSessionId()}`,
         ).then((response) => {
             console.log(response);
             setCurrentCustomListInfo(response);

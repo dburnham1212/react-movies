@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { makeApiCall } from "../../helper/helperFunctions";
 import { BASE_URL, BASE_IMAGE_URL } from "../../constants/constants";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 
 import styles from "../../styles/pages/Season.module.css";
 
@@ -95,6 +95,8 @@ const Season = () => {
     };
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+
         fetchSeasonData();
     }, []);
 
@@ -137,9 +139,9 @@ const Season = () => {
                     <h3>Episodes</h3>
                     <div className={styles.episode_list}>
                         {seasonDetails?.episodes?.map((episode) => (
-                            <a
+                            <Link
                                 key={episode.id}
-                                href={`/tv/${tvShowData.id}/season/${seasonDetails.season_number}/episode/${episode.episode_number}`}
+                                to={`/tv/${tvShowData.id}/season/${seasonDetails.season_number}/episode/${episode.episode_number}`}
                             >
                                 <div className={styles.episode_content}>
                                     {episode.still_path ? (
@@ -161,7 +163,7 @@ const Season = () => {
                                         <p>{episode.overview}</p>
                                     </div>
                                 </div>
-                            </a>
+                            </Link>
                         ))}
                     </div>
                 </div>

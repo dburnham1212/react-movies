@@ -15,13 +15,15 @@ const ListCreation = () => {
         language: "en",
     });
 
-    useEffect(() => {});
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    });
 
     const handleSubmit = (e) => {
         e.preventDefault();
         makePostApiCall(
             `${BASE_URL}/list?api_key=${process.env.REACT_APP_API_KEY}&session_id=${getSessionId()}`,
-            listData
+            listData,
         );
         setListCreated(true);
     };

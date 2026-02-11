@@ -130,6 +130,8 @@ const Episode = () => {
     };
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+
         fetchEpisodeData();
     }, []);
 

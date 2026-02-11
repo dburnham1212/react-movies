@@ -1,6 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 const PageNotFound = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     //displaying error codes
     const location = useLocation();
     const errorMsg = location.state?.msg || "404 Page Not Found 🦖";

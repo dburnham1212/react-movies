@@ -2,6 +2,8 @@ import { BASE_IMAGE_URL } from "../../../constants/constants";
 
 import styles from "../../../styles/utility/ImageRow/ImageRow.module.css";
 
+import { Link } from "react-router-dom";
+
 const MediaImageRow = (props) => {
     const { title, media, basePath } = props;
 
@@ -10,7 +12,11 @@ const MediaImageRow = (props) => {
             <h4 className={styles.title}>{title}</h4>
             <div className={styles.container}>
                 {media.map((mediaInfo, index) => (
-                    <a key={`${index}-${mediaInfo.title}`} href={`${basePath}/${mediaInfo.id}`} className={styles.link}>
+                    <Link
+                        key={`${index}-${mediaInfo.title}`}
+                        to={`${basePath}/${mediaInfo.id}`}
+                        className={styles.link}
+                    >
                         {mediaInfo.poster ? (
                             <img
                                 className={styles.slider_image}
@@ -22,7 +28,7 @@ const MediaImageRow = (props) => {
                                 <h5>{mediaInfo.title}</h5>
                             </div>
                         )}
-                    </a>
+                    </Link>
                 ))}
             </div>
         </div>

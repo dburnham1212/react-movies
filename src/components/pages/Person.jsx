@@ -80,6 +80,8 @@ const Person = () => {
     };
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+
         fetchPersonData();
     }, []);
 

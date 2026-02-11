@@ -2,7 +2,7 @@
 import { useState, useEffect, useContext } from "react";
 
 // Third-party libraries
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import YouTube from "react-youtube";
 
 // Context
@@ -141,6 +141,8 @@ const TVShow = () => {
 
     //Function to get api data from db
     useEffect(() => {
+        window.scrollTo(0, 0);
+
         fetchTvData();
     }, []);
 
@@ -288,7 +290,7 @@ const TVShow = () => {
                     <h3>Seasons</h3>
                     <div className={styles.seasons_list}>
                         {tvShowData?.seasons?.map((season) => (
-                            <a key={season.id} href={`/tv/${tvShowData.id}/season/${season.season_number}`}>
+                            <Link key={season.id} to={`/tv/${tvShowData.id}/season/${season.season_number}`}>
                                 <div className={styles.season_content}>
                                     {season.poster_path ? (
                                         <img
@@ -304,7 +306,7 @@ const TVShow = () => {
                                         <p>{season.overview}</p>
                                     </div>
                                 </div>
-                            </a>
+                            </Link>
                         ))}
                     </div>
                 </div>

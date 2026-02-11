@@ -38,7 +38,7 @@ const Browse = () => {
 
     const getMoviesForGenre = (genreId, currentPage) => {
         makeApiCall(
-            `${BASE_URL}/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&with_genres=${genreId}&page=${currentPage}`
+            `${BASE_URL}/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&with_genres=${genreId}&page=${currentPage}`,
         ).then((response) => {
             console.log(response);
             setSelectedGenreMovies(response);
@@ -47,7 +47,7 @@ const Browse = () => {
 
     const getTvForGenre = (genreId, currentPage) => {
         makeApiCall(
-            `${BASE_URL}/discover/tv?api_key=${process.env.REACT_APP_API_KEY}&with_genres=${genreId}&page=${currentPage}`
+            `${BASE_URL}/discover/tv?api_key=${process.env.REACT_APP_API_KEY}&with_genres=${genreId}&page=${currentPage}`,
         ).then((response) => {
             console.log(response);
             setSelectedGenreTv(response);
@@ -56,7 +56,7 @@ const Browse = () => {
 
     const getPeopleByPage = (currentPage) => {
         makeApiCall(
-            `${BASE_URL}/trending/person/week?api_key=${process.env.REACT_APP_API_KEY}&page=${currentPage}`
+            `${BASE_URL}/trending/person/week?api_key=${process.env.REACT_APP_API_KEY}&page=${currentPage}`,
         ).then((response) => {
             console.log(response);
             setTrendingPeople(response);
@@ -64,6 +64,8 @@ const Browse = () => {
     };
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+
         // This is an example of the use effect hook!
         // We can use the use effect hook to create api calls
         // use effect will happen after the page renders for the first time

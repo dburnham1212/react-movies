@@ -16,6 +16,8 @@ import AlertMessage from "../Alerts/AlertMessage";
 import RatingModal from "../Modals/RatingModal";
 import ListsModal from "../Modals/ListsModal";
 
+import { Link } from "react-router-dom";
+
 const MediaInfo = (props) => {
     const {
         mediaData,
@@ -74,20 +76,20 @@ const MediaInfo = (props) => {
                     {isSeason && (
                         <>
                             <h1>{mediaSeasonData?.name}</h1>
-                            <a href={`/tv/${mediaData.id}`}>
+                            <Link to={`/tv/${mediaData.id}`}>
                                 {mediaData.name ? <h3>{mediaData.name}</h3> : <h3>{mediaData.original_name}</h3>}
-                            </a>
+                            </Link>
                         </>
                     )}
                     {isEpisode && (
                         <>
                             <h1>{mediaEpisodeData?.name}</h1>
-                            <a href={`/tv/${mediaData.id}`}>
+                            <Link to={`/tv/${mediaData.id}`}>
                                 {mediaData.name ? <h3>{mediaData.name}</h3> : <h3>{mediaData.original_name}</h3>}
-                            </a>
-                            <a href={`/tv/${mediaData.id}/season/${mediaSeasonData.season_number}`}>
+                            </Link>
+                            <Link to={`/tv/${mediaData.id}/season/${mediaSeasonData.season_number}`}>
                                 <h4>{mediaSeasonData?.name}</h4>
-                            </a>
+                            </Link>
                         </>
                     )}
                 </div>
@@ -402,7 +404,7 @@ const MediaInfo = (props) => {
                                             ?.map((lang) =>
                                                 lang.name !== lang.english_name
                                                     ? lang.name + "/" + lang.english_name
-                                                    : lang.english_name
+                                                    : lang.english_name,
                                             )
                                             .join(", ")}
                                     </span>
