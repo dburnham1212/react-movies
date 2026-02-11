@@ -13,6 +13,12 @@ const UserProvider = (props) => {
     const [userName, setUserName] = useState(Cookies.get("username"));
     const [accountId, setAccountId] = useState(Cookies.get("account_id"));
 
+    const base = window.location.origin + process.env.PUBLIC_URL;
+    const route =
+        process.env.NODE_ENV === "production"
+            ? "/#/verification" // HashRouter (GitHub Pages)
+            : "/verification"; // BrowserRouter (local)
+
     const login = () => {
         const url = `${BASE_URL}/authentication/token/new?api_key=${process.env.REACT_APP_API_KEY}`;
         const options = {
@@ -28,7 +34,7 @@ const UserProvider = (props) => {
             .then((res) => res.json())
             .then((json) => {
                 console.log(json);
-                const redirectString = `https://www.themoviedb.org/authenticate/${json.request_token}?redirect_to=http://localhost:3000/verification`;
+                const redirectString = `https://www.themoviedb.org/authenticate/${json.request_token}?redirect_to=${base}${route}`;
                 window.open(redirectString);
             })
             .catch((err) => console.error(err));
