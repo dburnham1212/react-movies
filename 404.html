@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <script>
+            // Redirect all 404s to index.html with hash routing
+            var path = window.location.pathname;
+            var repo = "/react-movies";
+
+            if (path.startsWith(repo)) {
+                path = path.replace(repo, "");
+            }
+
+            window.location.replace(repo + "/#" + path + window.location.search);
+        </script>
+    </head>
+    <body></body>
+</html>
