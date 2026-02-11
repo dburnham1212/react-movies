@@ -41,7 +41,11 @@ const Verification = () => {
                         Cookies.set("username", json.username);
                         setAccountId(json.id);
                         Cookies.set("account_id", json.id);
-                        window.location = "/";
+                        // Redirect to home (handle HashRouter in production)
+                        window.location.href =
+                            process.env.NODE_ENV === "production"
+                                ? `${window.location.origin + process.env.PUBLIC_URL}/#/`
+                                : "/";
                     })
                     .catch((err) => console.error(err));
             })

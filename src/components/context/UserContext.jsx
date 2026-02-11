@@ -20,22 +20,30 @@ const UserProvider = (props) => {
             : "/verification"; // BrowserRouter (local)
 
     const login = () => {
-        const url = `${BASE_URL}/authentication/token/new?api_key=${process.env.REACT_APP_API_KEY}`;
-        const options = {
+        fetch(`${BASE_URL}/authentication/token/new?api_key=${process.env.REACT_APP_API_KEY}`, {
             method: "GET",
             headers: {
                 accept: "application/json",
-                Authorization:
-                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNjczNGVlZDYzODNhNDRlNjc2NzdkYjNkNDgwMmZlZSIsIm5iZiI6MTcwOTY3NTM5OC4zOTYsInN1YiI6IjY1ZTc5Mzg2Y2U5ZTkxMDE2MjNlMDU5NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.N78N6TjYyMSSA_4JSxlSr0KEMRHYG7U8oOjeVm3GPOM",
+                Authorization: "Bearer YOUR_V4_ACCESS_TOKEN",
             },
-        };
-
-        fetch(url, options)
+        })
             .then((res) => res.json())
             .then((json) => {
                 console.log(json);
-                const redirectString = `https://www.themoviedb.org/authenticate/${json.request_token}?redirect_to=${base}${route}`;
-                window.open(redirectString);
+
+                // Build redirect URL
+                const redirectUrl =
+                    process.env.NODE_ENV === "production"
+                        ? `${window.location.origin + process.env.PUBLIC_URL}/#/verification`
+                        : `${window.location.origin}/verification`;
+
+                // TMDB requires URL encoding
+                const tmdbUrl = `https://www.themoviedb.org/authenticate/${json.request_token}?redirect_to=${encodeURIComponent(
+                    redirectUrl,
+                )}`;
+
+                // Redirect in the same tab
+                window.location.href = tmdbUrl;
             })
             .catch((err) => console.error(err));
     };
