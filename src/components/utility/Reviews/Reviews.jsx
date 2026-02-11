@@ -24,7 +24,7 @@ const Reviews = (props) => {
                                     ) : (
                                         <img
                                             className={styles.avatar_image}
-                                            src={"/images/NO_IMAGE_FOUND.jpg"}
+                                            src={process.env.PUBLIC_URL + "/images/NO_IMAGE_FOUND.jpg"}
                                             alt={`${review.author_details.username} has no profile`}
                                         />
                                     )}

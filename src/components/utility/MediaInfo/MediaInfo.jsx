@@ -173,7 +173,7 @@ const MediaInfo = (props) => {
                             src={
                                 mediaData.poster_path
                                     ? `${BASE_IMAGE_URL}${mediaData.poster_path}`
-                                    : "/images/NO_IMAGE_FOUND.jpg"
+                                    : process.env.PUBLIC_URL + "/images/NO_IMAGE_FOUND.jpg"
                             }
                             alt={`${mediaData.title} poster`}
                         />
@@ -183,7 +183,7 @@ const MediaInfo = (props) => {
                             src={
                                 mediaSeasonData.poster_path
                                     ? `${BASE_IMAGE_URL}${mediaSeasonData.poster_path}`
-                                    : "/images/NO_IMAGE_FOUND.jpg"
+                                    : process.env.PUBLIC_URL + "/images/NO_IMAGE_FOUND.jpg"
                             }
                             alt={`${mediaData.title} poster`}
                         />
@@ -193,7 +193,7 @@ const MediaInfo = (props) => {
                             src={
                                 mediaEpisodeData.still_path
                                     ? `${BASE_IMAGE_URL}${mediaEpisodeData.still_path}`
-                                    : "/images/NO_IMAGE_FOUND_WIDE.jpg"
+                                    : process.env.PUBLIC_URL + "/images/NO_IMAGE_FOUND_WIDE.jpg"
                             }
                             alt={`${mediaData.title} poster`}
                         />

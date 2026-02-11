@@ -53,7 +53,7 @@ const MediaCard = (props) => {
                             src={`${
                                 media.poster_path || media.profile_path
                                     ? BASE_IMAGE_URL + (media.poster_path || media.profile_path)
-                                    : "/images/NO_IMAGE_FOUND.jpg"
+                                    : process.env.PUBLIC_URL + "/images/NO_IMAGE_FOUND.jpg"
                             }`}
                             alt={media.title || media.name}
                         />
@@ -64,7 +64,7 @@ const MediaCard = (props) => {
                     src={`${
                         media.poster_path || media.profile_path
                             ? BASE_IMAGE_URL + (media.poster_path || media.profile_path)
-                            : "/images/NO_IMAGE_FOUND.jpg"
+                            : process.env.PUBLIC_URL + "/images/NO_IMAGE_FOUND.jpg"
                     }`}
                     alt={media.title || media.name}
                 />

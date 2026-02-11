@@ -29,7 +29,7 @@ const Navbar = () => {
         <nav className={styles.navbar}>
             <div className={styles.left}>
                 <Link className={styles.nav_link} to="/">
-                    <img src="/images/ReactMoviesLogo.png" alt="React Movies Logo" />
+                    <img src={process.env.PUBLIC_URL + "/images/ReactMoviesLogo.png"} alt="React Movies Logo" />
                 </Link>
                 <div className={styles.desktop_links}>
                     <Link className={styles.nav_link} to="/">
