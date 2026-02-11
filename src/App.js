@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, HashRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 import Home from "./components/pages/Home";
@@ -22,11 +22,13 @@ const darkTheme = createTheme({
     },
 });
 
+const Router = process.env.NODE_ENV === "production" ? HashRouter : BrowserRouter;
+
 function App() {
     return (
         <div>
             <ThemeProvider theme={darkTheme}>
-                <BrowserRouter>
+                <Router>
                     <Navbar />
                     <Routes>
                         <Route path="/" element={<Home />} />
@@ -44,7 +46,7 @@ function App() {
                         <Route path="*" element={<PageNotFound />} />
                     </Routes>
                     <Footer />
-                </BrowserRouter>
+                </Router>
             </ThemeProvider>
         </div>
     );
