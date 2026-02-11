@@ -6,7 +6,12 @@ import { userContext } from "../context/UserContext";
 const Verification = () => {
     const { setUserName, setSessionId, setAccountId } = useContext(userContext);
 
-    const searchParams = new URLSearchParams(document.location.search);
+    //const searchParams = new URLSearchParams(document.location.search);
+    const searchParams = new URLSearchParams(
+        window.location.hash.includes("?")
+            ? window.location.hash.split("?")[1] // take everything after "?" in the hash
+            : window.location.search,
+    );
 
     useEffect(() => {
         const request_token = searchParams.get("request_token");
