@@ -7,7 +7,16 @@ const PageNotFound = () => {
 
     return (
         <>
-            <div>
+            <div
+                style={{
+                    height: "100vh",
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection: "column",
+                }}
+            >
                 <h1>{errorMsg}</h1>
                 <Link to="/">Back to Home</Link>
             </div>
