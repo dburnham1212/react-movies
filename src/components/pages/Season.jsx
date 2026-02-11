@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { makeApiCall } from "../../helper/helperFunctions";
 import { BASE_URL, BASE_IMAGE_URL } from "../../constants/constants";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import styles from "../../styles/pages/Season.module.css";
 
@@ -20,6 +20,7 @@ import MediaInfoSkeleton from "../utility/MediaInfo/MediaInfoSkeleton";
 import { Box } from "@mui/material";
 
 const Season = () => {
+    const navigate = useNavigate();
     const [seasonDetails, setSeasonDetails] = useState({});
     const [tvShowData, setTvShowData] = useState({});
     const [seasonImages, setSeasonImages] = useState({});
@@ -27,6 +28,11 @@ const Season = () => {
     const [seasonCredits, setSeasonCredits] = useState({});
     const [watchProviders, setWatchProviders] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+
+    // API error redirect
+    const redirectToError = (msg = "") => {
+        navigate("/404", { replace: true, state: { msg } });
+    };
 
     // Gallery modal states
     const [openArtworkModal, setOpenArtworkModal] = useState(false);
@@ -53,25 +59,34 @@ const Season = () => {
                 makeApiCall(`${BASE_URL}/tv/${showId}?api_key=${process.env.REACT_APP_API_KEY}`),
                 makeApiCall(`${BASE_URL}/tv/${showId}/season/${seasonNumber}?api_key=${process.env.REACT_APP_API_KEY}`),
                 makeApiCall(
-                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}`
+                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}`,
                 ),
                 makeApiCall(
-                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/images?api_key=${process.env.REACT_APP_API_KEY}`
+                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/images?api_key=${process.env.REACT_APP_API_KEY}`,
                 ),
                 makeApiCall(
-                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/videos?api_key=${process.env.REACT_APP_API_KEY}`
+                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/videos?api_key=${process.env.REACT_APP_API_KEY}`,
                 ),
                 makeApiCall(
-                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/credits?api_key=${process.env.REACT_APP_API_KEY}`
+                    `${BASE_URL}/tv/${showId}/season/${seasonNumber}/credits?api_key=${process.env.REACT_APP_API_KEY}`,
                 ),
             ]);
 
+            //catch responses
+            const requiredResponses = [() => tvShowDataResponse?.id, () => seasonDataResponse?.id];
+
+            const missingResponse = requiredResponses.some((responseCheck) => !responseCheck());
+            if (missingResponse) {
+                redirectToError("402 API error (no response)");
+                return;
+            }
+
             setTvShowData(tvShowDataResponse);
             setSeasonDetails(seasonDataResponse);
-            setWatchProviders(watchProvidersResponse.results);
-            setSeasonImages(imagesResponse);
-            setSeasonVideos(videosResponse.results.filter((video) => video.site === "YouTube"));
-            setSeasonCredits(creditsResponse);
+            setWatchProviders(watchProvidersResponse?.results ?? {});
+            setSeasonImages(imagesResponse ?? {});
+            setSeasonVideos((videosResponse?.results ?? []).filter((video) => video.site === "YouTube"));
+            setSeasonCredits(creditsResponse ?? { cast: [], crew: [] });
         } catch (error) {
             console.log(error);
         } finally {

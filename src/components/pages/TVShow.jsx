@@ -88,7 +88,7 @@ const TVShow = () => {
                     ? makeApiCall(
                           `${BASE_URL}/tv/${id}/account_states?api_key=${
                               process.env.REACT_APP_API_KEY
-                          }&session_id=${getSessionId()}`
+                          }&session_id=${getSessionId()}`,
                       )
                     : Promise.resolve(null),
                 makeApiCall(`${BASE_URL}/tv/${id}?api_key=${process.env.REACT_APP_API_KEY}`),
@@ -103,21 +103,13 @@ const TVShow = () => {
             ]);
 
             //catch all for responses
-            const responses = [
+            const requiredResponses = [
                 //if exists, return .___, else return undefined
                 () => tvShowDataResponse?.id, //identifying property from json object
-                () => watchProvidersResponse?.results,
-                () => imagesResponse?.backdrops,
-                () => videosResponse?.results,
-                () => creditsResponse?.cast,
-                () => aggCreditsResponse?.cast,
-                () => similarResponse?.results,
-                () => recommendationsResponse?.results,
-                () => reviewsResponse?.results,
             ];
 
             //if any api is null, undefined, or missing data (partial API failures)
-            const missingResponse = responses.some((responseCheck) => !responseCheck()); // if validation for any api call fails (!responseCheck())
+            const missingResponse = requiredResponses.some((responseCheck) => !responseCheck()); // if validation for any api call fails (!responseCheck())
             if (missingResponse) {
                 redirectToError("402 API error (no response)");
                 return;
@@ -130,14 +122,14 @@ const TVShow = () => {
             }
 
             setTvShowData(tvShowDataResponse);
-            setWatchProviders(watchProvidersResponse.results);
-            setTvShowImages(imagesResponse);
-            setTvShowVideos(videosResponse.results.filter((video) => video.site === "YouTube"));
-            setTvShowCredits(creditsResponse);
-            setTvShowAggCredits(aggCreditsResponse);
-            setSimilarTv(similarResponse.results);
-            setRecommendedTv(recommendationsResponse.results);
-            setReviews(reviewsResponse);
+            setWatchProviders(watchProvidersResponse?.results ?? {});
+            setTvShowImages(imagesResponse ?? {});
+            setTvShowVideos((videosResponse.results ?? []).filter((video) => video.site === "YouTube"));
+            setTvShowCredits(creditsResponse ?? { cast: [], crew: [] });
+            setTvShowAggCredits(aggCreditsResponse ?? { cast: [], crew: [] });
+            setSimilarTv(similarResponse?.results ?? []);
+            setRecommendedTv(recommendationsResponse?.results ?? []);
+            setReviews(reviewsResponse?.results ?? []);
         } catch (error) {
             console.log(error);
             // exceptions, network failures, rejected promises
@@ -162,7 +154,7 @@ const TVShow = () => {
                 `${BASE_URL}/account/${accountId}/favorite?api_key=${
                     process.env.REACT_APP_API_KEY
                 }&session_id=${getSessionId()}`,
-                { media_type: "tv", media_id: id, favorite: false }
+                { media_type: "tv", media_id: id, favorite: false },
             );
             // Show appropriate alert message
             setAccountStateChangeAlert("Removed from favourites");
@@ -174,7 +166,7 @@ const TVShow = () => {
                 `${BASE_URL}/account/${accountId}/favorite?api_key=${
                     process.env.REACT_APP_API_KEY
                 }&session_id=${getSessionId()}`,
-                { media_type: "tv", media_id: id, favorite: true }
+                { media_type: "tv", media_id: id, favorite: true },
             );
             // Show appropriate alert message
             setAccountStateChangeAlert("Added to favourites");
@@ -191,7 +183,7 @@ const TVShow = () => {
                 `${BASE_URL}/account/${accountId}/watchlist?api_key=${
                     process.env.REACT_APP_API_KEY
                 }&session_id=${getSessionId()}`,
-                { media_type: "tv", media_id: id, watchlist: false }
+                { media_type: "tv", media_id: id, watchlist: false },
             );
             // Show appropriate alert message
             setAccountStateChangeAlert("Removed from watchlist");
@@ -203,7 +195,7 @@ const TVShow = () => {
                 `${BASE_URL}/account/${accountId}/watchlist?api_key=${
                     process.env.REACT_APP_API_KEY
                 }&session_id=${getSessionId()}`,
-                { media_type: "tv", media_id: id, watchlist: true }
+                { media_type: "tv", media_id: id, watchlist: true },
             );
             // Show appropriate alert message
             setAccountStateChangeAlert("Added to watchlist");
@@ -225,7 +217,7 @@ const TVShow = () => {
         // send the rating to the db
         makePostApiCall(
             `${BASE_URL}/tv/${id}/rating?api_key=${process.env.REACT_APP_API_KEY}&session_id=${getSessionId()}`,
-            { value: ratingValue * 2 }
+            { value: ratingValue * 2 },
         );
         // update locally
         setAccountStates({ ...accountStates, rated: { value: ratingValue * 2 } });
@@ -238,7 +230,7 @@ const TVShow = () => {
     const deleteRating = () => {
         // delete rating from db
         makeDeleteApiCall(
-            `${BASE_URL}/tv/${id}/rating?api_key=${process.env.REACT_APP_API_KEY}&session_id=${getSessionId()}`
+            `${BASE_URL}/tv/${id}/rating?api_key=${process.env.REACT_APP_API_KEY}&session_id=${getSessionId()}`,
         );
         // update locally
         setAccountStates({ ...accountStates, rated: false });

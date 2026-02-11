@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { makeApiCall, makeDeleteApiCall, makePostApiCall } from "../../helper/helperFunctions";
 import { BASE_URL } from "../../constants/constants";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Box } from "@mui/material";
 
 // Style sheet
@@ -27,6 +27,7 @@ import MediaInfoSkeleton from "../utility/MediaInfo/MediaInfoSkeleton";
 
 const Movie = () => {
     // ----- Static states -----
+    const navigate = useNavigate();
     const [movieData, setMovieData] = useState({});
     const [movieImages, setMovieImages] = useState({});
     const [movieVideos, setMovieVideos] = useState([]);
@@ -36,6 +37,11 @@ const Movie = () => {
     const [reviews, setReviews] = useState([]);
     const [watchProviders, setWatchProviders] = useState({});
     const [isLoading, setIsLoading] = useState(true);
+
+    // API error redirect
+    const redirectToError = (msg = "") => {
+        navigate("/404", { replace: true, state: { msg } });
+    };
 
     // ----- Dynamic states -----
     // Account states if a user is logged in
@@ -86,7 +92,14 @@ const Movie = () => {
                     ? makeApiCall(
                           `${BASE_URL}/movie/${id}/account_states?api_key=${
                               process.env.REACT_APP_API_KEY
-                          }&session_id=${getSessionId()}`
+                          }&session_id=${getSessionId()}`,
+                      )
+                    : Promise.resolve(null),
+                isAuthenticated()
+                    ? makeApiCall(
+                          `${BASE_URL}/account/${accountId}/lists?api_key=${
+                              process.env.REACT_APP_API_KEY
+                          }&session_id=${getSessionId()}`,
                       )
                     : Promise.resolve(null),
                 isAuthenticated()
@@ -106,6 +119,18 @@ const Movie = () => {
                 makeApiCall(`${BASE_URL}/movie/${id}/reviews?api_key=${process.env.REACT_APP_API_KEY}`),
             ]);
 
+            //catch all for responses
+            const requiredResponses = [
+                //if exists, return .___, else return undefined
+                () => movieDataResponse?.id,
+            ];
+
+            const missingResponse = requiredResponses.some((responseCheck) => !responseCheck());
+            if (missingResponse) {
+                redirectToError("402 API error (no response)");
+                return;
+            }
+
             if (accountStatesResponse) {
                 setAccountStates(accountStatesResponse);
 
@@ -116,13 +141,13 @@ const Movie = () => {
             }
 
             setMovieData(movieDataResponse);
-            setWatchProviders(watchProvidersResponse.results);
-            setMovieImages(imagesResponse);
-            setMovieVideos(videosResponse.results.filter((video) => video.site === "YouTube"));
-            setMovieCredits(creditsResponse);
-            setSimilarMovies(similarResponse.results);
-            setRecommendedMovies(recommendationsResponse.results);
-            setReviews(reviewsResponse);
+            setWatchProviders(watchProvidersResponse?.results ?? {});
+            setMovieImages(imagesResponse ?? {});
+            setMovieVideos((videosResponse?.results ?? []).filter((video) => video.site === "YouTube"));
+            setMovieCredits(creditsResponse ?? {});
+            setSimilarMovies(similarResponse?.results ?? []);
+            setRecommendedMovies(recommendationsResponse?.results ?? []);
+            setReviews(reviewsResponse?.results ?? []);
         } catch (error) {
             console.log(error);
         } finally {
@@ -144,7 +169,7 @@ const Movie = () => {
                 `${BASE_URL}/account/${accountId}/favorite?api_key=${
                     process.env.REACT_APP_API_KEY
                 }&session_id=${getSessionId()}`,
-                { media_type: "movie", media_id: id, favorite: false }
+                { media_type: "movie", media_id: id, favorite: false },
             );
             // Show appropriate alert message
             setAccountStateChangeAlert("Removed from favourites");
@@ -156,7 +181,7 @@ const Movie = () => {
                 `${BASE_URL}/account/${accountId}/favorite?api_key=${
                     process.env.REACT_APP_API_KEY
                 }&session_id=${getSessionId()}`,
-                { media_type: "movie", media_id: id, favorite: true }
+                { media_type: "movie", media_id: id, favorite: true },
             );
             // Show appropriate alert message
             setAccountStateChangeAlert("Added to favourites");
@@ -173,7 +198,7 @@ const Movie = () => {
                 `${BASE_URL}/account/${accountId}/watchlist?api_key=${
                     process.env.REACT_APP_API_KEY
                 }&session_id=${getSessionId()}`,
-                { media_type: "movie", media_id: id, watchlist: false }
+                { media_type: "movie", media_id: id, watchlist: false },
             );
             // Show appropriate alert message
             setAccountStateChangeAlert("Removed from watchlist");
@@ -185,7 +210,7 @@ const Movie = () => {
                 `${BASE_URL}/account/${accountId}/watchlist?api_key=${
                     process.env.REACT_APP_API_KEY
                 }&session_id=${getSessionId()}`,
-                { media_type: "movie", media_id: id, watchlist: true }
+                { media_type: "movie", media_id: id, watchlist: true },
             );
             // Show appropriate alert message
             setAccountStateChangeAlert("Added to watchlist");
@@ -207,7 +232,7 @@ const Movie = () => {
         // send the rating to the db
         makePostApiCall(
             `${BASE_URL}/movie/${id}/rating?api_key=${process.env.REACT_APP_API_KEY}&session_id=${getSessionId()}`,
-            { value: ratingValue * 2 }
+            { value: ratingValue * 2 },
         );
         // update locally
         setAccountStates({ ...accountStates, rated: { value: ratingValue * 2 } });
@@ -220,7 +245,7 @@ const Movie = () => {
     const deleteRating = () => {
         // delete rating from db
         makeDeleteApiCall(
-            `${BASE_URL}/movie/${id}/rating?api_key=${process.env.REACT_APP_API_KEY}&session_id=${getSessionId()}`
+            `${BASE_URL}/movie/${id}/rating?api_key=${process.env.REACT_APP_API_KEY}&session_id=${getSessionId()}`,
         );
         // update locally
         setAccountStates({ ...accountStates, rated: false });
@@ -271,7 +296,7 @@ const Movie = () => {
             `${BASE_URL}/list/${currentCustomList}/add_item?api_key=${
                 process.env.REACT_APP_API_KEY
             }&session_id=${getSessionId()}`,
-            { media_type: "movie", media_id: id }
+            { media_type: "movie", media_id: id },
         );
     };
 
