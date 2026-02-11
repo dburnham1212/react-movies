@@ -102,6 +102,13 @@ const Movie = () => {
                           }&session_id=${getSessionId()}`,
                       )
                     : Promise.resolve(null),
+                isAuthenticated()
+                    ? makeApiCall(
+                          `${BASE_URL}/account/${accountId}/lists?api_key=${
+                              process.env.REACT_APP_API_KEY
+                          }&session_id=${getSessionId()}`
+                      )
+                    : Promise.resolve(null),
                 makeApiCall(`${BASE_URL}/movie/${id}?api_key=${process.env.REACT_APP_API_KEY}`),
                 makeApiCall(`${BASE_URL}/movie/${id}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}`),
                 makeApiCall(`${BASE_URL}/movie/${id}/images?api_key=${process.env.REACT_APP_API_KEY}`),
