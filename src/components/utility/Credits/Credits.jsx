@@ -149,7 +149,7 @@ const Credits = (props) => {
                                         image={
                                             cast?.profile_path
                                                 ? `${BASE_IMAGE_URL}${cast?.profile_path}`
-                                                : "/images/NO_IMAGE_FOUND.jpg"
+                                                : process.env.PUBLIC_URL + "/images/NO_IMAGE_FOUND.jpg"
                                         }
                                         title={cast?.name}
                                     />

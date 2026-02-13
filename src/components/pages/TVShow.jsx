@@ -299,7 +299,11 @@ const TVShow = () => {
                                             height={"250px"}
                                         />
                                     ) : (
-                                        <img src={"/images/NO_IMAGE_FOUND.jpg"} alt={season.name} height={"250px"} />
+                                        <img
+                                            src={process.env.PUBLIC_URL + "/images/NO_IMAGE_FOUND.jpg"}
+                                            alt={season.name}
+                                            height={"250px"}
+                                        />
                                     )}
                                     <div className={styles.season_info}>
                                         <h3>{season.name}</h3>

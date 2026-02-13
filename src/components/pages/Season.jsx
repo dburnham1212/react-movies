@@ -154,7 +154,7 @@ const Season = () => {
                                     ) : (
                                         <img
                                             className={styles.no_episode_image}
-                                            src={"/images/NO_IMAGE_FOUND_WIDE.jpg"}
+                                            src={process.env.PUBLIC_URL + "/images/NO_IMAGE_FOUND_WIDE.jpg"}
                                             alt={`${tvShowData.name} no poster `}
                                         />
                                     )}
