@@ -83,7 +83,7 @@ const UserProvider = (props) => {
                 Object.keys(Cookies.get()).forEach((cookie) => {
                     Cookies.remove(cookie);
                 });
-                window.location = "/";
+                window.location = process.env.PUBLIC_URL || "/";
             })
             .catch((err) => console.error(err));
     };
